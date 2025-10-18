@@ -1,3 +1,8 @@
+# i don't use wifi myself on this machine, but
+# fedora does have the iw command and doesn't
+# seem to do anything with this file, so i'll
+# let keep this file enabled JIC
+
 # First check that wireless-regdb is there
 if [ -f "/etc/conf.d/wireless-regdom" ]; then
   unset WIRELESS_REGDOM

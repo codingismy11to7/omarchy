@@ -1,4 +1,4 @@
 # Changes require a restart to take effect.
 
-export TERMINAL=alacritty
+export TERMINAL=ghostty
 export EDITOR=nvim

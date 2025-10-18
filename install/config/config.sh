@@ -2,5 +2,7 @@
 mkdir -p ~/.config
 cp -R ~/.local/share/omarchy/config/* ~/.config/
 
+# included this file in chezmoi
+
 # Use default bashrc from Omarchy
-cp ~/.local/share/omarchy/default/bashrc ~/.bashrc
+# cp ~/.local/share/omarchy/default/bashrc ~/.bashrc
