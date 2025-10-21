@@ -35,7 +35,7 @@ echo "Setting up Neovim configuration..."
 rm -rf $DATA_DIR $CACHE_DIR $STATE_DIR
 
 # Create directories if needed
-mkdir -p "$(dirname "$CONFIG_DIR")"
+echo mkdir -p "$(dirname "$CONFIG_DIR")"
 mkdir -p "$(dirname "$DATA_DIR")"
 mkdir -p "$(dirname "$CACHE_DIR")"
 
