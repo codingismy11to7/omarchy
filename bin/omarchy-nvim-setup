@@ -11,10 +11,10 @@ STATE_DIR="${HOME}/.local/state/nvim"
 CACHE_DIR="${HOME}/.cache/nvim"
 
 # Check if package is installed
-if [[ ! -d "$PACKAGE_DIR" ]]; then
-  echo "Error: omarchy-nvim package not installed"
-  exit 1
-fi
+# if [[ ! -d "$PACKAGE_DIR" ]]; then
+#   echo "Error: omarchy-nvim package not installed"
+#   exit 1
+# fi
 
 # Check if nvim config already exists
 if [[ -d "$CONFIG_DIR" ]]; then
@@ -40,9 +40,9 @@ mkdir -p "$(dirname "$DATA_DIR")"
 mkdir -p "$(dirname "$CACHE_DIR")"
 
 # Copy files
-cp -r "$PACKAGE_DIR/config" "$CONFIG_DIR"
-cp -r "$PACKAGE_DIR/data" "$DATA_DIR"
-cp -r "$PACKAGE_DIR/cache" "$CACHE_DIR"
+# cp -r "$PACKAGE_DIR/config" "$CONFIG_DIR"
+# cp -r "$PACKAGE_DIR/data" "$DATA_DIR"
+# cp -r "$PACKAGE_DIR/cache" "$CACHE_DIR"
 
 # Ensure proper ownership of all nvim directories
 chown -R "${USER}:${USER}" "$CONFIG_DIR"
