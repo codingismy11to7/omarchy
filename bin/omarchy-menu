@@ -74,12 +74,12 @@ aur_install_and_launch() {
 }
 
 show_learn_menu() {
-  case $(menu "Learn" "  Keybindings\n  Omarchy\n  Hyprland\n󰣇  Arch\n  Neovim\n󱆃  Bash") in
+  case $(menu "Learn" "  Keybindings\n  Omarchy\n  Hyprland\n  Nix\n  Neovim\n󱆃  Fish") in
   *Keybindings*) omarchy-menu-keybindings ;;
   *Omarchy*) omarchy-launch-webapp "https://learn.omacom.io/2/the-omarchy-manual" ;;
   *Hyprland*) omarchy-launch-webapp "https://wiki.hypr.land/" ;;
-  *Arch*) omarchy-launch-webapp "https://wiki.archlinux.org/title/Main_page" ;;
-  *Bash*) omarchy-launch-webapp "https://devhints.io/bash" ;;
+  *Nix*) omarchy-launch-webapp "https://nixos.org/learn/" ;;
+  *Fish*) omarchy-launch-webapp "https://fishshell.com/" ;;
   *Neovim*) omarchy-launch-webapp "https://www.lazyvim.org/keymaps" ;;
   *) show_main_menu ;;
   esac
@@ -98,7 +98,7 @@ show_capture_menu() {
   case $(menu "Capture" "  Screenshot\n  Screenrecord\n󰃉  Color") in
   *Screenshot*) show_screenshot_menu ;;
   *Screenrecord*) show_screenrecord_menu ;;
-  *Color*) pkill hyprpicker || hyprpicker -a ;;
+  *Color*) pkill hyprpicker || @hyprpicker@/bin/hyprpicker -a ;;
   *) show_trigger_menu ;;
   esac
 }
@@ -125,8 +125,8 @@ show_screenrecord_menu() {
 show_share_menu() {
   case $(menu "Share" "  Clipboard\n  File \n  Folder") in
   *Clipboard*) omarchy-cmd-share clipboard ;;
-  *File*) terminal bash -c "omarchy-cmd-share file" ;;
-  *Folder*) terminal bash -c "omarchy-cmd-share folder" ;;
+  *File*) terminal @bash@/bin/bash -c "omarchy-cmd-share file" ;;
+  *Folder*) terminal @bash@/bin/bash -c "omarchy-cmd-share folder" ;;
   *) back_to show_trigger_menu ;;
   esac
 }
