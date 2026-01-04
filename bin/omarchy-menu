@@ -37,7 +37,7 @@ menu() {
 }
 
 terminal() {
-  xdg-terminal-exec --app-id=org.omarchy.terminal "$@"
+  @xdg-terminal-exec@/bin/xdg-terminal-exec --app-id=org.omarchy.terminal "$@"
 }
 
 present_terminal() {
