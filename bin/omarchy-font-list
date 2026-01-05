@@ -1,3 +1,3 @@
-#!/bin/bash
+#!@bash@/bin/bash
 
-fc-list :spacing=100 -f "%{family[0]}\n" | grep -v -i -E 'emoji|signwriting|omarchy' | sort -u
+@fontconfig@/bin/fc-list :spacing=100 -f "%{family[0]}\n" | @gnugrep@/bin/grep -v -i -E 'emoji|signwriting|omarchy' | sort -u

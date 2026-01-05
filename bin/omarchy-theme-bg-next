@@ -1,4 +1,4 @@
-#!/bin/bash
+#!@bash@/bin/bash
 
 # Cycles through the background images available
 
@@ -9,9 +9,9 @@ mapfile -d '' -t BACKGROUNDS < <(find -L "$BACKGROUNDS_DIR" -type f -print0 | so
 TOTAL=${#BACKGROUNDS[@]}
 
 if [[ $TOTAL -eq 0 ]]; then
-  notify-send "No background was found for theme" -t 2000
+  @libnotify@/bin/notify-send "No background was found for theme" -t 2000
   pkill -x swaybg
-  setsid uwsm-app -- swaybg --color '#000000' >/dev/null 2>&1 &
+  setsid @uwsm@/bin/uwsm-app -- @swaybg@/bin/swaybg --color '#000000' >/dev/null 2>&1 &
 else
   # Get current background from symlink
   if [[ -L "$CURRENT_BACKGROUND_LINK" ]]; then
@@ -44,5 +44,5 @@ else
 
   # Relaunch swaybg
   pkill -x swaybg
-  setsid uwsm-app -- swaybg -i "$CURRENT_BACKGROUND_LINK" -m fill >/dev/null 2>&1 &
+  setsid @uwsm@/bin/uwsm-app -- @swaybg@/bin/swaybg -i "$CURRENT_BACKGROUND_LINK" -m fill >/dev/null 2>&1 &
 fi
