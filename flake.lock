@@ -1,0 +1,121 @@
+{
+  "nodes": {
+    "elephant": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "systems": [
+          "systems"
+        ]
+      },
+      "locked": {
+        "lastModified": 1765715259,
+        "narHash": "sha256-fqj1c3RVPrwOdJgg5AiH69LBiFozHsCu3mOnxUevG6g=",
+        "owner": "abenz1267",
+        "repo": "elephant",
+        "rev": "3cd81164d20b266288d3febcd0390b2e21f30c48",
+        "type": "github"
+      },
+      "original": {
+        "owner": "abenz1267",
+        "ref": "2.0.0",
+        "repo": "elephant",
+        "type": "github"
+      }
+    },
+    "nixpkgs": {
+      "locked": {
+        "lastModified": 1767640445,
+        "narHash": "sha256-UWYqmD7JFBEDBHWYcqE6s6c77pWdcU/i+bwD6XxMb8A=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "9f0c42f8bc7151b8e7e5840fb3bd454ad850d8c5",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "root": {
+      "inputs": {
+        "elephant": "elephant",
+        "nixpkgs": "nixpkgs",
+        "systems": "systems",
+        "terminaltexteffects": "terminaltexteffects",
+        "walker": "walker"
+      }
+    },
+    "systems": {
+      "locked": {
+        "lastModified": 1689347949,
+        "narHash": "sha256-12tWmuL2zgBgZkdoB6qXZsgJEH9LR3oUgpaQq2RbI80=",
+        "owner": "nix-systems",
+        "repo": "default-linux",
+        "rev": "31732fcf5e8fea42e59c2488ad31a0e651500f68",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-systems",
+        "repo": "default-linux",
+        "type": "github"
+      }
+    },
+    "terminaltexteffects": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "systems": [
+          "systems"
+        ]
+      },
+      "locked": {
+        "lastModified": 1767743998,
+        "narHash": "sha256-kzgfWi7iWwSEqWR5m0GOX7qEmr3rHb6/TeXn2zr1E1A=",
+        "owner": "codingismy11to7",
+        "repo": "terminaltexteffects",
+        "rev": "1fbab723faea59b0d8ee25fc1b7426e638813c84",
+        "type": "github"
+      },
+      "original": {
+        "owner": "codingismy11to7",
+        "ref": "fix_nix_build",
+        "repo": "terminaltexteffects",
+        "type": "github"
+      }
+    },
+    "walker": {
+      "inputs": {
+        "elephant": [
+          "elephant"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "systems": [
+          "systems"
+        ]
+      },
+      "locked": {
+        "lastModified": 1766324177,
+        "narHash": "sha256-7Y8Pqn12ovZ2nH1y+rxMbliUPhY4cu/iB0cwSNHTMZY=",
+        "owner": "abenz1267",
+        "repo": "walker",
+        "rev": "fb6152710c450a4b81342db42857de4aea049716",
+        "type": "github"
+      },
+      "original": {
+        "owner": "abenz1267",
+        "ref": "2.0.0",
+        "repo": "walker",
+        "type": "github"
+      }
+    }
+  },
+  "root": "root",
+  "version": 7
+}
