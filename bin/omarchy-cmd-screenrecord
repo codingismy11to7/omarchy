@@ -23,7 +23,7 @@ for arg in "$@"; do
 done
 
 cleanup_webcam() {
-  @procps@/bin/pkill -f "WebcamOverlay" 2>/dev/null
+  pkill -f "WebcamOverlay" 2>/dev/null
 }
 
 start_webcam_overlay() {

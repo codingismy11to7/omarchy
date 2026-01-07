@@ -1,4 +1,4 @@
-#!/bin/bash
+#!@bash@/bin/bash
 
 export PATH="$HOME/.local/share/omarchy/bin:$PATH"
 
@@ -45,7 +45,7 @@ present_terminal() {
 }
 
 open_in_editor() {
-  notify-send "Editing config file" "$1"
+  @libnotify@/bin/notify-send "Editing config file" "$1"
   omarchy-launch-editor "$1"
 }
 
@@ -79,7 +79,7 @@ show_learn_menu() {
   *Omarchy*) omarchy-launch-webapp "https://learn.omacom.io/2/the-omarchy-manual" ;;
   *Hyprland*) omarchy-launch-webapp "https://wiki.hypr.land/" ;;
   *Nix*) omarchy-launch-webapp "https://nixos.org/learn/" ;;
-  *Fish*) omarchy-launch-webapp "https://fishshell.com/" ;;
+  *Fish*) omarchy-launch-webapp "https://fishshell.com/docs/current" ;;
   *Neovim*) omarchy-launch-webapp "https://www.lazyvim.org/keymaps" ;;
   *) show_main_menu ;;
   esac
