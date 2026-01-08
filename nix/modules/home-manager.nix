@@ -37,6 +37,7 @@ in
     inputs.walker.homeManagerModules.default
     ./home/alacritty.nix
     ./home/ghostty.nix
+    ./home/hyprsunset.nix
     ./home/kitty.nix
     ./home/walker.nix
     ./home/waybar.nix
