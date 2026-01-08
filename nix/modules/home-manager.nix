@@ -18,7 +18,9 @@ let
     nullOr
     bool
     enum
+    lines
     str
+    submodule
     ;
   inherit (lib)
     optional
@@ -38,6 +40,7 @@ in
     ./home/alacritty.nix
     ./home/btop.nix
     ./home/ghostty.nix
+    ./home/hyprland.nix
     ./home/hyprland-preview-share-picker.nix
     ./home/hyprlock.nix
     ./home/hyprsunset.nix
@@ -58,16 +61,69 @@ in
         description = "The chromium-based web browser to use for launching webapps.";
       };
 
-      font = {
-        package = mkPackageOption pkgs.nerd-fonts "font" {
-          default = "jetbrains-mono";
-          example = "fira-code";
-          pkgsText = "pkgs.nerd-fonts";
+      font = mkOption {
+        default = { };
+        type = submodule {
+          options = {
+            package = mkPackageOption pkgs.nerd-fonts "font" {
+              default = "jetbrains-mono";
+              example = "fira-code";
+              pkgsText = "pkgs.nerd-fonts";
+            };
+            name = mkOption {
+              type = str;
+              default = "JetBrainsMono Nerd Font";
+              example = "FiraCode Nerd Font";
+            };
+          };
         };
-        name = mkOption {
-          type = str;
-          default = "JetBrainsMono Nerd Font";
-          example = "FiraCode Nerd Font";
+      };
+
+      keyboard = mkOption {
+        default = { };
+        type = submodule {
+          options = {
+            layout = mkOption {
+              type = str;
+              default = "us";
+            };
+            variant = mkOption {
+              type = nullOr str;
+              default = null;
+              example = "dvorak";
+            };
+            options = mkOption {
+              type = nullOr str;
+              default = "compose:caps";
+              example = "compose:ralt";
+            };
+          };
+        };
+      };
+
+      hyprland = mkOption {
+        default = { };
+        type = submodule {
+          options = {
+            monitorConfig = mkOption {
+              type = nullOr lines;
+              default = null;
+              example = ''
+                env = GDK_SCALE,1
+                monitor=LG Electronics LG ULTRAGEAR+,preferred,auto,auto,bitdepth,10
+              '';
+            };
+
+            roundWindowCorners = mkEnableOption "Enable rounded window corners";
+
+            dwindleExtra = mkOption {
+              type = nullOr lines;
+              default = null;
+              example = ''
+                single_window_aspect_ratio = 16 9
+              '';
+            };
+          };
         };
       };
 
