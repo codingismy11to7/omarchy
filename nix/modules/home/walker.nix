@@ -4,7 +4,10 @@
   pkgs,
   ...
 }:
-lib.mkIf config.omarchy.enable {
+let
+  cfg = config.omarchy;
+in
+lib.mkIf cfg.enable {
   programs.walker = {
     enable = true;
     runAsService = true;
@@ -24,9 +27,7 @@ lib.mkIf config.omarchy.enable {
 
     dataFile."omarchy/default/walker/themes/omarchy-default/style.css".source =
       pkgs.replaceVars ../../../default/walker/themes/omarchy-default/style.css
-        {
-          styleImport = ../../../themes/ethereal/walker.css;
-        };
+        { styleImport = ../../../themes/${cfg.theme}/walker.css; };
 
     configFile = {
       "walker/config.toml".source = ../../../config/walker/config.toml;
