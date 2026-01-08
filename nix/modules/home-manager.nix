@@ -31,11 +31,13 @@ let
     ;
 
   cfg = config.omarchy;
-
 in
 {
   imports = [
     inputs.walker.homeManagerModules.default
+    ./home/alacritty.nix
+    ./home/ghostty.nix
+    ./home/kitty.nix
     ./home/walker.nix
     ./home/waybar.nix
   ];
@@ -47,6 +49,15 @@ in
       browser = mkOption {
         type = str;
         description = "The chromium-based web browser to use for launching webapps.";
+      };
+
+      terminal = mkOption {
+        type = enum [
+          "ghostty"
+          "kitty"
+          "alacritty"
+        ];
+        default = "ghostty";
       };
 
       theme = mkOption {
