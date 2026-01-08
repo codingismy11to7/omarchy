@@ -1,8 +1,11 @@
 # Dynamic theme colors
 config-file = ?"~/.config/omarchy/current/theme/ghostty.conf"
 
+custom-shader = @shaderFile@
+custom-shader-animation = always
+
 # Font
-font-family = "JetBrainsMono Nerd Font"
+font-family = "FiraCode Nerd Font"
 font-style = Regular
 font-size = 9
 
