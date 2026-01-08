@@ -51,6 +51,19 @@ in
         description = "The chromium-based web browser to use for launching webapps.";
       };
 
+      font = {
+        package = mkPackageOption pkgs.nerd-fonts "font" {
+          default = "jetbrains-mono";
+          example = "fira-code";
+          pkgsText = "pkgs.nerd-fonts";
+        };
+        name = mkOption {
+          type = str;
+          default = "JetBrainsMono Nerd Font";
+          example = "FiraCode Nerd Font";
+        };
+      };
+
       terminal = mkOption {
         type = enum [
           "ghostty"
@@ -75,14 +88,16 @@ in
   };
 
   config = mkIf cfg.enable {
-    home.packages =
-      (import ./home/scripts.nix {
-        inherit
-          cfg
-          inputs
-          lib
-          pkgs
-          ;
-      }).allScripts;
+    home.packages = [
+      cfg.font.package
+    ]
+    ++ (import ./home/scripts.nix {
+      inherit
+        cfg
+        inputs
+        lib
+        pkgs
+        ;
+    }).allScripts;
   };
 }
