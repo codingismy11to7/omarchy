@@ -1,4 +1,4 @@
 #!@bash@/bin/bash
 
-pkill -x .waybar-wrapped
+@procps@/bin/pkill -x .waybar-wrapped
 setsid @uwsm@/bin/uwsm-app -- @waybar@/bin/waybar >/dev/null 2>&1 &
