@@ -190,10 +190,12 @@ in
       {
         inherit
           bash
+          findutils
           libnotify
           swaybg
           uwsm
           ;
+        backgroundsDir = ../../../themes/${cfg.theme}/backgrounds;
       }
     ))
     (createScript "omarchy-toggle-idle" (
