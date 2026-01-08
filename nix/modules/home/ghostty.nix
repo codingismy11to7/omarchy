@@ -20,6 +20,7 @@ lib.mkIf (cfg.terminal == "ghostty") {
   xdg.configFile = {
     "ghostty/config".source = pkgs.replaceVars ../../../config/ghostty/config {
       inherit themeFile;
+      font = cfg.font.name;
       shaderFile = warpShader;
       # always animate cursor shader since otherwise it can get
       # stuck when switching windows. a full-terminal crazy shader
