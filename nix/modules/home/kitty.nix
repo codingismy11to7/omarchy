@@ -15,6 +15,7 @@ lib.mkIf (cfg.terminal == "kitty") {
   xdg.configFile = {
     "kitty/config".source = pkgs.replaceVars ../../../config/kitty/kitty.conf {
       inherit themeFile;
+      font = cfg.font.name;
     };
     "xdg-terminals.list".text = ''
       kitty.desktop

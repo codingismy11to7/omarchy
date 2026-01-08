@@ -22,6 +22,7 @@ lib.mkMerge [
     xdg.configFile = {
       "alacritty/alacritty.toml".source = pkgs.replaceVars ../../../config/alacritty/alacritty.toml {
         inherit themeFile;
+        font = cfg.font.name;
       };
     };
   }
