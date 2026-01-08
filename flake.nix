@@ -54,6 +54,11 @@
         omarchy = import ./nix/modules/home-manager.nix { inherit self inputs; };
       };
 
+      nixosModules = {
+        default = self.nixosModules.omarchy;
+        omarchy = import ./nix/modules/nixos.nix { inherit self inputs; };
+      };
+
       devShells = forAllSystems (pkgs: {
         default = pkgs.mkShell {
           shellHook = ''
