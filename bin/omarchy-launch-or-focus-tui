@@ -1,4 +1,4 @@
-#!/bin/bash
+#!@bash@/bin/bash
 
 APP_ID="org.omarchy.$(basename $1)"
 LAUNCH_COMMAND="omarchy-launch-tui $@"
