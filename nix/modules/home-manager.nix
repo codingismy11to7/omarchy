@@ -41,6 +41,7 @@ in
     ./home/hyprland-preview-share-picker.nix
     ./home/hyprlock.nix
     ./home/hyprsunset.nix
+    ./home/imv.nix
     ./home/kitty.nix
     ./home/mako.nix
     ./home/swayosd.nix
