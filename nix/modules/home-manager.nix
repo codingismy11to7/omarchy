@@ -36,6 +36,7 @@ in
   imports = [
     inputs.walker.homeManagerModules.default
     ./home/alacritty.nix
+    ./home/btop.nix
     ./home/ghostty.nix
     ./home/hyprlock.nix
     ./home/hyprsunset.nix
