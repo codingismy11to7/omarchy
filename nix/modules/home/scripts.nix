@@ -167,6 +167,17 @@ in
           ;
       }
     ))
+    (createScript "omarchy-notification-dismiss" (
+      with pkgs;
+      {
+        inherit
+          bash
+          gnugrep
+          gnused
+          mako
+          ;
+      }
+    ))
     (createScript "omarchy-powerprofiles-list" (
       with pkgs; { inherit bash gawk power-profiles-daemon; }
     ))
