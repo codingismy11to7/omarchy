@@ -40,6 +40,7 @@ in
     ./home/hyprlock.nix
     ./home/hyprsunset.nix
     ./home/kitty.nix
+    ./home/swayosd.nix
     ./home/walker.nix
     ./home/waybar.nix
   ];
@@ -90,16 +91,23 @@ in
   };
 
   config = mkIf cfg.enable {
-    home.packages = [
-      cfg.font.package
-    ]
-    ++ (import ./home/scripts.nix {
-      inherit
-        cfg
-        inputs
-        lib
-        pkgs
-        ;
-    }).allScripts;
+    home.packages =
+      with pkgs;
+      [
+        cfg.font.package
+        liberation_ttf
+      ]
+      ++ (import ./home/scripts.nix {
+        inherit
+          cfg
+          inputs
+          lib
+          pkgs
+          ;
+      }).allScripts;
+
+    xdg.configFile."fontconfig/conf.d/50-omarchy.conf".source =
+      pkgs.replaceVars ../../config/fontconfig/fonts.conf
+        { font = config.omarchy.font.name; };
   };
 }
