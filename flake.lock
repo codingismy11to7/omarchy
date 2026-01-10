@@ -10,11 +10,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1765715259,
-        "narHash": "sha256-fqj1c3RVPrwOdJgg5AiH69LBiFozHsCu3mOnxUevG6g=",
+        "lastModified": 1768065088,
+        "narHash": "sha256-T2vcLUTo23vTNf5Qvpsd9T7y/SfRY3s2EsFSbqjsXRU=",
         "owner": "abenz1267",
         "repo": "elephant",
-        "rev": "3cd81164d20b266288d3febcd0390b2e21f30c48",
+        "rev": "4201e98e4b268673cc684f5971928f7698b7156b",
         "type": "github"
       },
       "original": {
@@ -39,6 +39,27 @@
       "original": {
         "owner": "numtide",
         "repo": "flake-utils",
+        "type": "github"
+      }
+    },
+    "home-manager": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1767024057,
+        "narHash": "sha256-B1aycRjMRvb6QOGbnqDhiDzZwMebj5jxZ5qyJzaKvpI=",
+        "owner": "nix-community",
+        "repo": "home-manager",
+        "rev": "34578a2fdfce4257ce5f5baf6e7efbd4e4e252b1",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "ref": "release-25.11",
+        "repo": "home-manager",
         "type": "github"
       }
     },
@@ -98,16 +119,16 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1767640445,
-        "narHash": "sha256-UWYqmD7JFBEDBHWYcqE6s6c77pWdcU/i+bwD6XxMb8A=",
+        "lastModified": 1768182255,
+        "narHash": "sha256-DRyigmNMfNVyxughsF3xpcj0iKziwG/YMVZRwCv2Zyg=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "9f0c42f8bc7151b8e7e5840fb3bd454ad850d8c5",
+        "rev": "2aaff160012b71d6b5a0798c314f444333d671ab",
         "type": "github"
       },
       "original": {
         "owner": "NixOS",
-        "ref": "nixos-unstable",
+        "ref": "release-25.11",
         "repo": "nixpkgs",
         "type": "github"
       }
@@ -115,6 +136,7 @@
     "root": {
       "inputs": {
         "elephant": "elephant",
+        "home-manager": "home-manager",
         "hyprland-preview-share-picker": "hyprland-preview-share-picker",
         "nixpkgs": "nixpkgs_2",
         "systems": "systems_2",
@@ -189,11 +211,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1766324177,
-        "narHash": "sha256-7Y8Pqn12ovZ2nH1y+rxMbliUPhY4cu/iB0cwSNHTMZY=",
+        "lastModified": 1767893373,
+        "narHash": "sha256-PYqT8GdCAsmCAgJXu88wvOU2n41iugVCph0RV+v2VAc=",
         "owner": "abenz1267",
         "repo": "walker",
-        "rev": "fb6152710c450a4b81342db42857de4aea049716",
+        "rev": "3dfc75e90e7a7cbff109ffa6e1af099d4e1f3867",
         "type": "github"
       },
       "original": {
