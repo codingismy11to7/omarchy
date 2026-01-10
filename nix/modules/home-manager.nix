@@ -41,6 +41,7 @@ in
     ./home/hyprlock.nix
     ./home/hyprsunset.nix
     ./home/kitty.nix
+    ./home/mako.nix
     ./home/swayosd.nix
     ./home/walker.nix
     ./home/waybar.nix
