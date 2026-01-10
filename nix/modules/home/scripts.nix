@@ -63,6 +63,21 @@ in
         screensaverText = ../../../logo.txt;
       }
     ))
+    (createScript "omarchy-cmd-screenshot" (
+      with pkgs;
+      {
+        inherit
+          bash
+          grim
+          hyprland
+          jq
+          satty
+          slurp
+          wayfreeze
+          wl-clipboard
+          ;
+      }
+    ))
     (createScript "omarchy-cmd-share" (
       with pkgs;
       {
