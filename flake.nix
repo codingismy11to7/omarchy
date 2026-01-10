@@ -23,6 +23,7 @@
         systems.follows = "systems";
       };
     };
+    hyprland-preview-share-picker.url = "github:codingismy11to7/hyprland-preview-share-picker/nix";
   };
 
   outputs =
