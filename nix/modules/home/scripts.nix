@@ -24,245 +24,186 @@ let
       install -Dm 755 ${script} $out/bin/${name}
     '';
 
-  omarchy-restart-waybar = createScript "omarchy-restart-waybar" (
-    with pkgs;
-    {
-      inherit
-        bash
-        procps
-        uwsm
-        waybar
-        ;
-    }
-  );
+  omarchy-restart-waybar = createScript "omarchy-restart-waybar" {
+    inherit (pkgs)
+      bash
+      procps
+      uwsm
+      waybar
+      ;
+  };
 in
 {
   scripts = { inherit omarchy-restart-waybar; };
 
   allScripts = [
-    (createScript "omarchy-cmd-present" (with pkgs; { inherit bash; }))
-    (createScript "omarchy-cmd-screenrecord" (
-      with pkgs;
-      {
-        inherit
-          bash
-          ffmpeg
-          gpu-screen-recorder
-          hyprland
-          jq
-          libnotify
-          v4l-utils
-          ;
-      }
-    ))
-    (createScript "omarchy-cmd-screensaver" (
-      with pkgs;
-      {
-        inherit bash hyprland jq;
-        inherit (flakes) tte;
-        screensaverText = ../../../logo.txt;
-      }
-    ))
-    (createScript "omarchy-cmd-screenshot" (
-      with pkgs;
-      {
-        inherit
-          bash
-          grim
-          hyprland
-          jq
-          satty
-          slurp
-          wayfreeze
-          wl-clipboard
-          ;
-      }
-    ))
-    (createScript "omarchy-cmd-share" (
-      with pkgs;
-      {
-        inherit
-          bash
-          fzf
-          gnugrep
-          localsend
-          wl-clipboard
-          ;
-      }
-    ))
-    (createScript "omarchy-font-current" (with pkgs; { inherit bash gnugrep; }))
-    (createScript "omarchy-font-list" (with pkgs; { inherit bash fontconfig gnugrep; }))
-    (createScript "omarchy-font-set" (
-      with pkgs;
-      {
-        inherit
-          bash
-          fontconfig
-          gnugrep
-          libnotify
-          ;
-      }
-    ))
-    (createScript "omarchy-launch-about" (with pkgs; { inherit bash fastfetch; }))
-    (createScript "omarchy-launch-bluetooth" (with pkgs; { inherit bash bluetui; }))
-    (createScript "omarchy-launch-editor" (with pkgs; { inherit bash uwsm; }))
-    (createScript "omarchy-launch-floating-terminal-with-presentation" (
-      with pkgs; { inherit bash uwsm xdg-terminal-exec; }
-    ))
-    (createScript "omarchy-launch-or-focus" (
-      with pkgs;
-      {
-        inherit
-          bash
-          hyprland
-          jq
-          uwsm
-          ;
-      }
-    ))
-    (createScript "omarchy-launch-or-focus-tui" (with pkgs; { inherit bash; }))
-    (createScript "omarchy-launch-or-focus-webapp" (with pkgs; { inherit bash; }))
-    (createScript "omarchy-launch-browser" (
-      with pkgs;
-      {
-        inherit bash uwsm xdg-utils;
-        inherit (cfg) browser;
-      }
-    ))
-    (createScript "omarchy-launch-screensaver" (
-      with pkgs;
-      {
-        inherit
-          bash
-          hyprland
-          jq
-          libnotify
-          xdg-terminal-exec
-          ;
-        inherit (flakes) walker;
-        alacrittyConf = ../../../default/alacritty/screensaver.toml;
-        ghosttyConf = ../../../default/ghostty/screensaver;
-      }
-    ))
-    (createScript "omarchy-launch-tui" (with pkgs; { inherit bash uwsm xdg-terminal-exec; }))
-    (createScript "omarchy-launch-walker" (
-      with pkgs;
-      {
-        inherit bash uwsm;
-        inherit (flakes) walker;
-      }
-    ))
-    (createScript "omarchy-launch-webapp" (
-      with pkgs;
-      {
-        inherit bash xdg-utils uwsm;
-        inherit (cfg) browser;
-      }
-    ))
-    (createScript "omarchy-launch-wifi" (with pkgs; { inherit bash impala; }))
-    (createScript "omarchy-lock-screen" (with pkgs; { inherit bash hyprland hyprlock; }))
-    (createScript "omarchy-menu" (
-      with pkgs;
-      {
-        inherit
-          bash
-          hyprpicker
-          libnotify
-          power-profiles-daemon
-          nautilus
-          wiremix
-          xdg-terminal-exec
-          ;
-        inherit (flakes) walker;
-      }
-    ))
-    (createScript "omarchy-menu-keybindings" (
-      with pkgs;
-      {
-        inherit
-          bash
-          bc
-          gawk
-          gnused
-          hyprland
-          jq
-          libxkbcommon
-          ;
-      }
-    ))
-    (createScript "omarchy-notification-dismiss" (
-      with pkgs;
-      {
-        inherit
-          bash
-          gnugrep
-          gnused
-          mako
-          ;
-      }
-    ))
-    (createScript "omarchy-powerprofiles-list" (
-      with pkgs; { inherit bash gawk power-profiles-daemon; }
-    ))
-    (createScript "omarchy-restart-app" (with pkgs; { inherit bash uwsm; }))
-    (createScript "omarchy-restart-hypridle" (with pkgs; { inherit bash; }))
-    (createScript "omarchy-restart-hyprsunset" (with pkgs; { inherit bash; }))
-    (createScript "omarchy-restart-swayosd" (with pkgs; { inherit bash; }))
-    (createScript "omarchy-restart-walker" (with pkgs; { inherit bash; }))
+    (createScript "omarchy-cmd-present" { inherit (pkgs) bash; })
+    (createScript "omarchy-cmd-screenrecord" {
+      inherit (pkgs)
+        bash
+        ffmpeg
+        gpu-screen-recorder
+        hyprland
+        jq
+        libnotify
+        v4l-utils
+        ;
+    })
+    (createScript "omarchy-cmd-screensaver" {
+      inherit (pkgs) bash hyprland jq;
+      inherit (flakes) tte;
+      screensaverText = ../../../logo.txt;
+    })
+    (createScript "omarchy-cmd-screenshot" {
+      inherit (pkgs)
+        bash
+        grim
+        hyprland
+        jq
+        satty
+        slurp
+        wayfreeze
+        wl-clipboard
+        ;
+    })
+    (createScript "omarchy-cmd-share" {
+      inherit (pkgs)
+        bash
+        fzf
+        gnugrep
+        localsend
+        wl-clipboard
+        ;
+    })
+    (createScript "omarchy-font-current" { inherit (pkgs) bash gnugrep; })
+    (createScript "omarchy-font-list" { inherit (pkgs) bash fontconfig gnugrep; })
+    (createScript "omarchy-font-set" {
+      inherit (pkgs)
+        bash
+        fontconfig
+        gnugrep
+        libnotify
+        ;
+    })
+    (createScript "omarchy-launch-about" { inherit (pkgs) bash fastfetch; })
+    (createScript "omarchy-launch-bluetooth" { inherit (pkgs) bash bluetui; })
+    (createScript "omarchy-launch-editor" { inherit (pkgs) bash uwsm; })
+    (createScript "omarchy-launch-floating-terminal-with-presentation" {
+      inherit (pkgs) bash uwsm xdg-terminal-exec;
+    })
+    (createScript "omarchy-launch-or-focus" {
+      inherit (pkgs)
+        bash
+        hyprland
+        jq
+        uwsm
+        ;
+    })
+    (createScript "omarchy-launch-or-focus-tui" { inherit (pkgs) bash; })
+    (createScript "omarchy-launch-or-focus-webapp" { inherit (pkgs) bash; })
+    (createScript "omarchy-launch-browser" {
+      inherit (pkgs) bash uwsm xdg-utils;
+      inherit (cfg) browser;
+    })
+    (createScript "omarchy-launch-screensaver" {
+      inherit (pkgs)
+        bash
+        hyprland
+        jq
+        libnotify
+        xdg-terminal-exec
+        ;
+      inherit (flakes) walker;
+      alacrittyConf = ../../../default/alacritty/screensaver.toml;
+      ghosttyConf = ../../../default/ghostty/screensaver;
+    })
+    (createScript "omarchy-launch-tui" { inherit (pkgs) bash uwsm xdg-terminal-exec; })
+    (createScript "omarchy-launch-walker" {
+      inherit (pkgs) bash uwsm;
+      inherit (flakes) walker;
+    })
+    (createScript "omarchy-launch-webapp" {
+      inherit (pkgs) bash xdg-utils uwsm;
+      inherit (cfg) browser;
+    })
+    (createScript "omarchy-launch-wifi" { inherit (pkgs) bash impala; })
+    (createScript "omarchy-lock-screen" { inherit (pkgs) bash hyprland hyprlock; })
+    (createScript "omarchy-menu" {
+      inherit (pkgs)
+        bash
+        hyprpicker
+        libnotify
+        power-profiles-daemon
+        nautilus
+        wiremix
+        xdg-terminal-exec
+        ;
+      inherit (flakes) walker;
+    })
+    (createScript "omarchy-menu-keybindings" {
+      inherit (pkgs)
+        bash
+        bc
+        gawk
+        gnused
+        hyprland
+        jq
+        libxkbcommon
+        ;
+    })
+    (createScript "omarchy-notification-dismiss" {
+      inherit (pkgs)
+        bash
+        gnugrep
+        gnused
+        mako
+        ;
+    })
+    (createScript "omarchy-powerprofiles-list" { inherit (pkgs) bash gawk power-profiles-daemon; })
+    (createScript "omarchy-restart-app" { inherit (pkgs) bash uwsm; })
+    (createScript "omarchy-restart-hypridle" { inherit (pkgs) bash; })
+    (createScript "omarchy-restart-hyprsunset" { inherit (pkgs) bash; })
+    (createScript "omarchy-restart-swayosd" { inherit (pkgs) bash; })
+    (createScript "omarchy-restart-walker" { inherit (pkgs) bash; })
     omarchy-restart-waybar
-    (createScript "omarchy-setup-dns" (with pkgs; { inherit bash gum libnotify; }))
-    (createScript "omarchy-show-done" (with pkgs; { inherit bash gum; }))
-    (createScript "omarchy-show-logo" (
-      with pkgs;
-      {
-        inherit bash;
-        logo = ../../../logo.txt;
-      }
-    ))
-    (createScript "omarchy-theme-bg-next" (
-      with pkgs;
-      {
-        inherit
-          bash
-          findutils
-          libnotify
-          swaybg
-          uwsm
-          ;
-        backgroundsDir = ../../../themes/${cfg.theme}/backgrounds;
-      }
-    ))
-    (createScript "omarchy-toggle-idle" (
-      with pkgs;
-      {
-        inherit
-          bash
-          hypridle
-          libnotify
-          uwsm
-          ;
-      }
-    ))
-    (createScript "omarchy-toggle-nightlight" (
-      with pkgs;
-      {
-        inherit
-          bash
-          gnugrep
-          hyprland
-          hyprsunset
-          libnotify
-          ;
-      }
-    ))
-    (createScript "omarchy-toggle-screensaver" (with pkgs; { inherit bash libnotify; }))
-    (createScript "omarchy-toggle-waybar" (with pkgs; { inherit bash uwsm waybar; }))
-    (createScript "omarchy-tz-select" (
-      with pkgs;
-      {
-        inherit bash gnused gum;
-        CONFIG_FILE = "redo this implementation";
-      }
-    ))
+    (createScript "omarchy-setup-dns" { inherit (pkgs) bash gum libnotify; })
+    (createScript "omarchy-show-done" { inherit (pkgs) bash gum; })
+    (createScript "omarchy-show-logo" {
+      inherit (pkgs) bash;
+      logo = ../../../logo.txt;
+    })
+    (createScript "omarchy-theme-bg-next" {
+      inherit (pkgs)
+        bash
+        findutils
+        libnotify
+        swaybg
+        uwsm
+        ;
+      backgroundsDir = ../../../themes/${cfg.theme}/backgrounds;
+    })
+    (createScript "omarchy-toggle-idle" {
+      inherit (pkgs)
+        bash
+        hypridle
+        libnotify
+        uwsm
+        ;
+    })
+    (createScript "omarchy-toggle-nightlight" {
+      inherit (pkgs)
+        bash
+        gnugrep
+        hyprland
+        hyprsunset
+        libnotify
+        ;
+    })
+    (createScript "omarchy-toggle-screensaver" { inherit (pkgs) bash libnotify; })
+    (createScript "omarchy-toggle-waybar" { inherit (pkgs) bash uwsm waybar; })
+    (createScript "omarchy-tz-select" {
+      inherit (pkgs) bash gnused gum;
+      CONFIG_FILE = "redo this implementation";
+    })
   ];
 }
