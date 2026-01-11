@@ -1,6 +1,6 @@
 {
   config,
-  inputs,
+  omarchyInputs,
   pkgs,
   ...
 }:
@@ -13,7 +13,7 @@ let
 in
 {
   home.packages = [
-    inputs.hyprland-preview-share-picker.packages.${system}.default
+    omarchyInputs.hyprland-preview-share-picker.packages.${system}.default
   ];
 
   xdg.configFile."hyprland-preview-share-picker/config.yaml".source =

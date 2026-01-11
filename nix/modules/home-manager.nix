@@ -144,13 +144,14 @@ in
       twelveHourClock = mkOption {
         type = bool;
         default = true;
-        example = false;
         description = "Show am/pm in Waybar";
       };
     };
   };
 
   config = mkIf cfg.enable {
+    _module.args.omarchyInputs = inputs;
+
     home.packages =
       with pkgs;
       [
