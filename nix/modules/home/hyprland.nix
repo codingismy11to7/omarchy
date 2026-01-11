@@ -53,6 +53,8 @@ let
     windowsDotConf = pkgs.replaceVars ../../../default/hypr/windows.conf { inherit appsDotConf; };
   };
 
+  monitorConfig = if hyprCfg.monitorConfig != null then hyprCfg.monitorConfig else "";
+
   configs = {
     inputDotConf = ../../../config/hypr/input.conf;
     bindingsDotConf = pkgs.replaceVars ../../../config/hypr/bindings.conf {
@@ -63,9 +65,16 @@ let
       rounding = "rounding = ${if hyprCfg.roundWindowCorners then "8" else "0"}";
     };
     monitorsDotConf = pkgs.replaceVars ../../../config/hypr/monitors.conf {
-      inherit (hyprCfg) monitorConfig;
+      inherit monitorConfig;
     };
     autostartDotConf = ../../../config/hypr/autostart.conf;
+  };
+
+  lockSecs = 60 * cfg.screensaver.lockMinutes;
+  screensaver = {
+    activationSeconds = toString (60 * cfg.screensaver.activationMinutes);
+    lockSeconds = toString lockSecs;
+    screenOffDelaySeconds = toString (cfg.screensaver.screenOffDelaySeconds + lockSecs);
   };
 in
 {
@@ -93,6 +102,7 @@ in
 
     "hypr/hypridle.conf".source = pkgs.replaceVars ../../../config/hypr/hypridle.conf {
       inherit (pkgs) brightnessctl hyprland;
+      inherit (screensaver) activationSeconds lockSeconds screenOffDelaySeconds;
     };
 
     "hypr/xdph.conf".source = pkgs.replaceVars ../../../config/hypr/xdph.conf {
