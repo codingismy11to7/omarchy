@@ -18,7 +18,10 @@ let
     nullOr
     bool
     enum
+    float
+    int
     lines
+    oneOf
     str
     submodule
     ;
@@ -79,6 +82,32 @@ in
         };
       };
 
+      hyprland = mkOption {
+        default = { };
+        type = submodule {
+          options = {
+            monitorConfig = mkOption {
+              type = nullOr lines;
+              default = null;
+              example = ''
+                env = GDK_SCALE,1
+                monitor=,preferred,auto,1
+              '';
+            };
+
+            roundWindowCorners = mkEnableOption "Enable rounded window corners";
+
+            dwindleExtra = mkOption {
+              type = nullOr lines;
+              default = null;
+              example = ''
+                single_window_aspect_ratio = 16 9
+              '';
+            };
+          };
+        };
+      };
+
       keyboard = mkOption {
         default = { };
         type = submodule {
@@ -101,27 +130,33 @@ in
         };
       };
 
-      hyprland = mkOption {
+      screensaver = mkOption {
         default = { };
         type = submodule {
           options = {
-            monitorConfig = mkOption {
-              type = nullOr lines;
-              default = null;
-              example = ''
-                env = GDK_SCALE,1
-                monitor=LG Electronics LG ULTRAGEAR+,preferred,auto,auto,bitdepth,10
-              '';
+            activationMinutes = mkOption {
+              type = oneOf [
+                float
+                int
+              ];
+              default = 2.5;
+              example = 10;
+              description = "Minutes of inactivity before activating the screensaver.";
             };
-
-            roundWindowCorners = mkEnableOption "Enable rounded window corners";
-
-            dwindleExtra = mkOption {
-              type = nullOr lines;
-              default = null;
-              example = ''
-                single_window_aspect_ratio = 16 9
-              '';
+            lockMinutes = mkOption {
+              type = oneOf [
+                float
+                int
+              ];
+              default = 5;
+              example = 15;
+              description = "Minutes of inactivity before locking the screen.";
+            };
+            screenOffDelaySeconds = mkOption {
+              type = int;
+              default = 30;
+              example = 60;
+              description = "How long to wait after locking before turning off screen.";
             };
           };
         };
