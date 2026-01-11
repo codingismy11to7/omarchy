@@ -122,6 +122,13 @@ in
     ))
     (createScript "omarchy-launch-or-focus-tui" (with pkgs; { inherit bash; }))
     (createScript "omarchy-launch-or-focus-webapp" (with pkgs; { inherit bash; }))
+    (createScript "omarchy-launch-browser" (
+      with pkgs;
+      {
+        inherit bash uwsm xdg-utils;
+        inherit (cfg) browser;
+      }
+    ))
     (createScript "omarchy-launch-screensaver" (
       with pkgs;
       {
@@ -162,6 +169,7 @@ in
           hyprpicker
           libnotify
           power-profiles-daemon
+          nautilus
           wiremix
           xdg-terminal-exec
           ;

@@ -37,5 +37,11 @@ in
       withUWSM = true;
     };
 
+    # quick previewer for nautilus
+    services.gnome.sushi.enable = true;
+
+    environment.systemPackages = with pkgs; [
+      nautilus
+    ];
   };
 }
