@@ -1,6 +1,6 @@
 {
   config,
-  inputs,
+  omarchyInputs,
   pkgs,
   ...
 }:
@@ -10,7 +10,8 @@ let
 
   inherit (pkgs.stdenv.hostPlatform) system;
 
-  hyprland-preview-share-picker = inputs.hyprland-preview-share-picker.packages.${system}.default;
+  hyprland-preview-share-picker =
+    omarchyInputs.hyprland-preview-share-picker.packages.${system}.default;
 
   defaults = rec {
     appsDotConf = pkgs.replaceVars ../../../default/hypr/apps.conf {
@@ -33,8 +34,10 @@ let
       utilitiesDotConf = pkgs.replaceVars ../../../default/hypr/bindings/utilities.conf {
         inherit (pkgs)
           gnome-calculator
+          gnugrep
           hyprland
           hyprpicker
+          jq
           libnotify
           mako
           ;
