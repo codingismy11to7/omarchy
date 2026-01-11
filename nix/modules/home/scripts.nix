@@ -37,6 +37,18 @@ in
   scripts = { inherit omarchy-restart-waybar; };
 
   allScripts = [
+    (createScript "omarchy-cmd-audio-switch" {
+      inherit (pkgs)
+        bash
+        gnugrep
+        gnused
+        hyprland
+        jq
+        pulseaudio
+        swayosd
+        wireplumber
+        ;
+    })
     (createScript "omarchy-cmd-present" { inherit (pkgs) bash; })
     (createScript "omarchy-cmd-screenrecord" {
       inherit (pkgs)
@@ -85,6 +97,9 @@ in
         libnotify
         ;
     })
+    (createScript "omarchy-hyprland-window-close-all" { inherit (pkgs) bash hyprland jq; })
+    (createScript "omarchy-hyprland-window-pop" { inherit (pkgs) bash hyprland jq; })
+    (createScript "omarchy-hyprland-workspace-toggle-gaps" { inherit (pkgs) bash hyprland jq; })
     (createScript "omarchy-launch-about" { inherit (pkgs) bash fastfetch; })
     (createScript "omarchy-launch-bluetooth" { inherit (pkgs) bash bluetui; })
     (createScript "omarchy-launch-editor" { inherit (pkgs) bash uwsm; })

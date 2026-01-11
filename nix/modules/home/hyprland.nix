@@ -10,7 +10,7 @@ let
 
   inherit (pkgs.stdenv.hostPlatform) system;
 
-  hpsp = inputs.hyprland-preview-share-picker.packages.${system}.default;
+  hyprland-preview-share-picker = inputs.hyprland-preview-share-picker.packages.${system}.default;
 
   defaults = rec {
     appsDotConf = pkgs.replaceVars ../../../default/hypr/apps.conf {
@@ -25,10 +25,20 @@ let
         ;
     };
     bindings = {
-      mediaDotConf = ../../../default/hypr/bindings/media.conf;
+      mediaDotConf = pkgs.replaceVars ../../../default/hypr/bindings/media.conf {
+        inherit (pkgs) hyprland jq swayosd;
+      };
       clipboardDotConf = ../../../default/hypr/bindings/clipboard.conf;
       tilingV2DotConf = ../../../default/hypr/bindings/tiling-v2.conf;
-      utilitiesDotConf = ../../../default/hypr/bindings/utilities.conf;
+      utilitiesDotConf = pkgs.replaceVars ../../../default/hypr/bindings/utilities.conf {
+        inherit (pkgs)
+          gnome-calculator
+          hyprland
+          hyprpicker
+          libnotify
+          mako
+          ;
+      };
     };
     envsDotConf = pkgs.replaceVars ../../../default/hypr/envs.conf {
       xcompose = ../../../default/xcompose;
@@ -85,7 +95,7 @@ in
     };
 
     "hypr/xdph.conf".source = pkgs.replaceVars ../../../config/hypr/xdph.conf {
-      "hyprland-preview-share-picker" = hpsp;
+      inherit hyprland-preview-share-picker;
     };
   };
 }
