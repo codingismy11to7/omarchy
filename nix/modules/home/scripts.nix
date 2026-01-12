@@ -187,6 +187,22 @@ let
         mako
         ;
     })
+    (createScript "omarchy-pkg-install" {
+      inherit (pkgs)
+        bash
+        fzf
+        gawk
+        gnused
+        jq
+        ;
+    })
+    (createScript "omarchy-pkg-remove" {
+      inherit (pkgs)
+        bash
+        fzf
+        jq
+        ;
+    })
     (createScript "omarchy-powerprofiles-list" { inherit (pkgs) bash gawk power-profiles-daemon; })
     (createScript "omarchy-restart-app" { inherit (pkgs) bash uwsm; })
     (createScript "omarchy-restart-hypridle" { inherit (pkgs) bash; })

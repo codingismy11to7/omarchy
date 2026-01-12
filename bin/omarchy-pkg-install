@@ -1,8 +1,8 @@
-#!/bin/bash
+#!@bash@/bin/bash
 
 fzf_args=(
   --multi
-  --preview 'pacman -Sii {1}'
+  --preview 'nix eval --offline nixpkgs#{1}.meta --json | @jq@/bin/jq'
   --preview-label='alt-p: toggle description, alt-j/k: scroll, tab: multi-select'
   --preview-label-pos='bottom'
   --preview-window 'down:65%:wrap'
@@ -12,10 +12,15 @@ fzf_args=(
   --color 'pointer:green,marker:green'
 )
 
-pkg_names=$(pacman -Slq | fzf "${fzf_args[@]}")
+pkg_names=$(stdbuf -o0 nix search --offline nixpkgs '^' 2>/dev/null |
+  @gnused@/bin/sed -u 's/\x1b\[[0-9;]*m//g' |
+  @gawk@/bin/awk '/^\* /{print $2; fflush()}' |
+  @gnused@/bin/sed -u 's/^legacyPackages\.[^.]*\.//' |
+  @fzf@/bin/fzf "${fzf_args[@]}")
 
 if [[ -n "$pkg_names" ]]; then
-  # Convert newline-separated selections to space-separated for yay
-  echo "$pkg_names" | tr '\n' ' ' | xargs sudo pacman -S --noconfirm
+  # Prefix each package with nixpkgs# and run nix profile add
+  export NIXPKGS_ALLOW_UNFREE=1
+  echo "$pkg_names" | @gnused@/bin/sed 's/^/nixpkgs#/' | xargs nix profile add --impure
   omarchy-show-done
 fi

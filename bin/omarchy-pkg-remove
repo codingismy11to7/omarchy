@@ -1,8 +1,8 @@
-#!/bin/bash
+#!@bash@/bin/bash
 
 fzf_args=(
   --multi
-  --preview 'yay -Qi {1}'
+  --preview 'nix eval --offline nixpkgs#{1}.meta --json | @jq@/bin/jq'
   --preview-label='alt-p: toggle description, alt-j/k: scroll, tab: multi-select'
   --preview-label-pos='bottom'
   --preview-window 'down:65%:wrap'
@@ -12,10 +12,12 @@ fzf_args=(
   --color 'pointer:red,marker:red'
 )
 
-pkg_names=$(yay -Qqe | fzf "${fzf_args[@]}")
+pkg_names=$(nix profile list --json |
+  @jq@/bin/jq -r '.elements | keys[]' |
+  @fzf@/bin/fzf "${fzf_args[@]}")
 
 if [[ -n "$pkg_names" ]]; then
   # Convert newline-separated selections to space-separated for yay
-  echo "$pkg_names" | tr '\n' ' ' | xargs sudo pacman -Rns --noconfirm
+  echo "$pkg_names" | tr '\n' ' ' | xargs nix profile remove
   omarchy-show-done
 fi
