@@ -1,4 +1,4 @@
-#!/bin/bash
+#!@bash@/bin/bash
 
 omarchy-cmd-present "$EDITOR" || EDITOR=nvim
 
@@ -7,6 +7,6 @@ nvim | vim | nano | micro | hx | helix)
   exec omarchy-launch-tui "$EDITOR" "$@"
   ;;
 *)
-  exec setsid uwsm-app -- "$EDITOR" "$@"
+  exec setsid @uwsm@/bin/uwsm-app -- "$EDITOR" "$@"
   ;;
 esac

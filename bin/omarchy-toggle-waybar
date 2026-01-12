@@ -1,7 +1,7 @@
-#!/bin/bash
+#!@bash@/bin/bash
 
-if pgrep -x waybar >/dev/null; then
-  pkill -x waybar
+if pgrep -x .waybar-wrapped >/dev/null; then
+  pkill -x .waybar-wrapped
 else
-  uwsm-app -- waybar >/dev/null 2>&1 &
+  @uwsm@/bin/uwsm-app -- @waybar@/bin/waybar >/dev/null 2>&1 &
 fi

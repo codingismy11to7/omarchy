@@ -1,3 +1,4 @@
-#!/bin/bash
+#!@bash@/bin/bash
 
-omarchy-restart-app waybar
+@procps@/bin/pkill -x .waybar-wrapped
+setsid @uwsm@/bin/uwsm-app -- @waybar@/bin/waybar >/dev/null 2>&1 &

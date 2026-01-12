@@ -1,6 +1,4 @@
-#!/bin/bash
-
-export PATH="$HOME/.local/share/omarchy/bin:$PATH"
+#!@bash@/bin/bash
 
 # Set to true when going directly to a submenu, so we can exit directly
 BACK_TO_EXIT=false
@@ -37,7 +35,7 @@ menu() {
 }
 
 terminal() {
-  xdg-terminal-exec --app-id=org.omarchy.terminal "$@"
+  @xdg-terminal-exec@/bin/xdg-terminal-exec --app-id=org.omarchy.terminal "$@"
 }
 
 present_terminal() {
@@ -45,7 +43,7 @@ present_terminal() {
 }
 
 open_in_editor() {
-  notify-send "Editing config file" "$1"
+  @libnotify@/bin/notify-send "Editing config file" "$1"
   omarchy-launch-editor "$1"
 }
 
@@ -74,12 +72,12 @@ aur_install_and_launch() {
 }
 
 show_learn_menu() {
-  case $(menu "Learn" "  Keybindings\n  Omarchy\n  Hyprland\n󰣇  Arch\n  Neovim\n󱆃  Bash") in
+  case $(menu "Learn" "  Keybindings\n  Omarchy\n  Hyprland\n  Nix\n  Neovim\n󱆃  Fish") in
   *Keybindings*) omarchy-menu-keybindings ;;
   *Omarchy*) omarchy-launch-webapp "https://learn.omacom.io/2/the-omarchy-manual" ;;
   *Hyprland*) omarchy-launch-webapp "https://wiki.hypr.land/" ;;
-  *Arch*) omarchy-launch-webapp "https://wiki.archlinux.org/title/Main_page" ;;
-  *Bash*) omarchy-launch-webapp "https://devhints.io/bash" ;;
+  *Nix*) omarchy-launch-webapp "https://nixos.org/learn/" ;;
+  *Fish*) omarchy-launch-webapp "https://fishshell.com/docs/current" ;;
   *Neovim*) omarchy-launch-webapp "https://www.lazyvim.org/keymaps" ;;
   *) show_main_menu ;;
   esac
@@ -98,7 +96,7 @@ show_capture_menu() {
   case $(menu "Capture" "  Screenshot\n  Screenrecord\n󰃉  Color") in
   *Screenshot*) show_screenshot_menu ;;
   *Screenrecord*) show_screenrecord_menu ;;
-  *Color*) pkill hyprpicker || hyprpicker -a ;;
+  *Color*) pkill hyprpicker || @hyprpicker@/bin/hyprpicker -a ;;
   *) show_trigger_menu ;;
   esac
 }
@@ -125,8 +123,8 @@ show_screenrecord_menu() {
 show_share_menu() {
   case $(menu "Share" "  Clipboard\n  File \n  Folder") in
   *Clipboard*) omarchy-cmd-share clipboard ;;
-  *File*) terminal bash -c "omarchy-cmd-share file" ;;
-  *Folder*) terminal bash -c "omarchy-cmd-share folder" ;;
+  *File*) terminal @bash@/bin/bash -c "omarchy-cmd-share file" ;;
+  *Folder*) terminal @bash@/bin/bash -c "omarchy-cmd-share folder" ;;
   *) back_to show_trigger_menu ;;
   esac
 }
@@ -173,7 +171,7 @@ show_setup_menu() {
   options="$options\n  Defaults\n󰱔  DNS\n  Security\n  Config"
 
   case $(menu "Setup" "$options") in
-  *Audio*) omarchy-launch-or-focus-tui wiremix ;;
+  *Audio*) omarchy-launch-or-focus-tui @wiremix@/bin/wiremix ;;
   *Wifi*) omarchy-launch-wifi ;;
   *Bluetooth*) omarchy-launch-bluetooth ;;
   *Power*) show_setup_power_menu ;;
@@ -189,12 +187,12 @@ show_setup_menu() {
 }
 
 show_setup_power_menu() {
-  profile=$(menu "Power Profile" "$(omarchy-powerprofiles-list)" "" "$(powerprofilesctl get)")
+  profile=$(menu "Power Profile" "$(omarchy-powerprofiles-list)" "" "$(@power-profiles-daemon@/bin/powerprofilesctl get)")
 
   if [[ "$profile" == "CNCLD" || -z "$profile" ]]; then
     back_to show_setup_menu
   else
-    powerprofilesctl set "$profile"
+    @power-profiles-daemon@/bin/powerprofilesctl set "$profile"
   fi
 }
 
@@ -302,7 +300,7 @@ show_install_gaming_menu() {
 show_install_style_menu() {
   case $(menu "Install" "󰸌  Theme\n  Background\n  Font") in
   *Theme*) present_terminal omarchy-theme-install ;;
-  *Background*) nautilus ~/.config/omarchy/current/theme/backgrounds ;;
+  *Background*) @nautilus@/bin/nautilus ~/.config/omarchy/current/theme/backgrounds ;;
   *Font*) show_install_font_menu ;;
   *) show_install_menu ;;
   esac
@@ -459,7 +457,7 @@ show_main_menu() {
 
 go_to_menu() {
   case "${1,,}" in
-  *apps*) walker -p "Launch…" ;;
+  *apps*) @walker@/bin/walker --placeholder "Launch…" ;;
   *learn*) show_learn_menu ;;
   *trigger*) show_trigger_menu ;;
   *share*) show_share_menu ;;

@@ -1,9 +1,9 @@
-#!/bin/bash
+#!@bash@/bin/bash
 
 # Close all open windows
-hyprctl clients -j | \
-  jq -r ".[].address" | \
-  xargs -I{} hyprctl dispatch closewindow address:{}
+@hyprland@/bin/hyprctl clients -j |
+  @jq@/bin/jq -r ".[].address" |
+  xargs -I{} @hyprland@/bin/hyprctl dispatch closewindow address:{}
 
 # Move to first workspace
-hyprctl dispatch workspace 1
+@hyprland@/bin/hyprctl dispatch workspace 1
