@@ -42,6 +42,12 @@ in
         description = "The chromium-based web browser to use for launching webapps.";
       };
 
+      firstRunMode = mkOption {
+        type = bool;
+        default = true;
+        description = "Show the introductory notifications.";
+      };
+
       font = mkOption {
         type = nullOr (submodule {
           options = {
