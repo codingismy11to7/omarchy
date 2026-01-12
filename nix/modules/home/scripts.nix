@@ -36,6 +36,9 @@ let
       ;
   };
 
+  welcomeDotSh = pkgs.replaceVars ../../../install/first-run/welcome.sh { inherit (pkgs) libnotify; };
+  wifiDotSh = pkgs.replaceVars ../../../install/first-run/wifi.sh { inherit (pkgs) libnotify; };
+
   allScripts = [
     (createScript "omarchy-cmd-audio-switch" {
       inherit (pkgs)
@@ -48,6 +51,11 @@ let
         swayosd
         wireplumber
         ;
+    })
+    (createScript "omarchy-cmd-first-run" {
+      inherit (cfg) firstRunMode;
+      inherit (pkgs) bash;
+      inherit welcomeDotSh wifiDotSh;
     })
     (createScript "omarchy-cmd-present" { inherit (pkgs) bash; })
     (createScript "omarchy-cmd-screenrecord" {
