@@ -71,11 +71,14 @@ in
               '';
             };
 
+            widerWindowGaps = mkEnableOption "Enable wider gaps than default.";
+
             roundWindowCorners = mkEnableOption "Enable rounded window corners";
 
             dwindleExtra = mkOption {
               type = nullOr lines;
               default = null;
+              description = "Extra options for dwindle layout, such as setting an aspect ratio for single-window workspaces";
               example = ''
                 single_window_aspect_ratio = 16 9
               '';
@@ -103,6 +106,13 @@ in
             };
           };
         });
+      };
+
+      passwordManager = mkOption {
+        type = str;
+        default = "1password";
+        example = "bitwarden";
+        description = "The password manager to use.";
       };
 
       screensaver = mkOption {

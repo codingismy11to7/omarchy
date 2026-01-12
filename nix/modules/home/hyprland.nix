@@ -59,10 +59,19 @@ let
     inputDotConf = ../../../config/hypr/input.conf;
     bindingsDotConf = pkgs.replaceVars ../../../config/hypr/bindings.conf {
       inherit (pkgs) nautilus uwsm xdg-terminal-exec;
+      inherit (cfg) passwordManager;
     };
     looknfeelDotConf = pkgs.replaceVars ../../../config/hypr/looknfeel.conf {
       inherit (hyprCfg) dwindleExtra;
       rounding = "rounding = ${if hyprCfg.roundWindowCorners then "8" else "0"}";
+      gapsSize =
+        if !hyprCfg.widerWindowGaps then
+          ""
+        else
+          ''
+            gaps_in = 10
+            gaps_out = 20
+          '';
     };
     monitorsDotConf = pkgs.replaceVars ../../../config/hypr/monitors.conf {
       inherit monitorConfig;
