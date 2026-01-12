@@ -4,7 +4,7 @@ workspace_id=$(@hyprland@/bin/hyprctl activeworkspace -j | @jq@/bin/jq -r .id)
 gaps=$(@hyprland@/bin/hyprctl workspacerules -j | @jq@/bin/jq -r ".[] | select(.workspaceString==\"$workspace_id\") | .gapsOut[0] // 0")
 
 if [[ $gaps == "0" ]]; then
-  @hyprland@/bin/hyprctl keyword "workspace $workspace_id, gapsout:10, gapsin:5, bordersize:2"
+  @hyprland@/bin/hyprctl keyword "workspace $workspace_id, gapsout:@gapsOut@, gapsin:@gapsIn@, bordersize:2, rounding:@rounding@"
 else
-  @hyprland@/bin/hyprctl keyword "workspace $workspace_id, gapsout:0, gapsin:0, bordersize:0"
+  @hyprland@/bin/hyprctl keyword "workspace $workspace_id, gapsout:0, gapsin:0, bordersize:0, rounding:0"
 fi

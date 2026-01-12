@@ -99,7 +99,12 @@ let
     })
     (createScript "omarchy-hyprland-window-close-all" { inherit (pkgs) bash hyprland jq; })
     (createScript "omarchy-hyprland-window-pop" { inherit (pkgs) bash hyprland jq; })
-    (createScript "omarchy-hyprland-workspace-toggle-gaps" { inherit (pkgs) bash hyprland jq; })
+    (createScript "omarchy-hyprland-workspace-toggle-gaps" {
+      inherit (pkgs) bash hyprland jq;
+      gapsOut = if cfg.hyprland.widerWindowGaps then "20" else "10";
+      gapsIn = if cfg.hyprland.widerWindowGaps then "10" else "5";
+      rounding = if cfg.hyprland.roundWindowCorners then "8" else "0";
+    })
     (createScript "omarchy-launch-about" { inherit (pkgs) bash fastfetch; })
     (createScript "omarchy-launch-bluetooth" { inherit (pkgs) bash bluetui; })
     (createScript "omarchy-launch-editor" { inherit (pkgs) bash uwsm; })
