@@ -45,6 +45,7 @@ let
     };
     envsDotConf = pkgs.replaceVars ../../../default/hypr/envs.conf {
       xcompose = ../../../default/xcompose;
+      inherit (hyprCfg) envsExtra;
     };
     inputDotConf = pkgs.replaceVars ../../../default/hypr/input.conf {
       inherit (cfg.keyboard) layout variant options;
@@ -54,12 +55,14 @@ let
   };
 
   monitorConfig = if hyprCfg.monitorConfig != null then hyprCfg.monitorConfig else "";
+  bindingsExtra = if hyprCfg.bindingsExtra != null then hyprCfg.bindingsExtra else "";
 
   configs = {
     inputDotConf = ../../../config/hypr/input.conf;
     bindingsDotConf = pkgs.replaceVars ../../../config/hypr/bindings.conf {
       inherit (pkgs) nautilus uwsm xdg-terminal-exec;
       inherit (cfg) passwordManager;
+      inherit bindingsExtra;
     };
     looknfeelDotConf = pkgs.replaceVars ../../../config/hypr/looknfeel.conf {
       inherit (hyprCfg) dwindleExtra;

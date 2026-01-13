@@ -69,8 +69,8 @@ in
         type = nullOr (submodule {
           options = {
             monitorConfig = mkOption {
-              type = nullOr lines;
-              default = null;
+              type = lines;
+              default = "";
               example = ''
                 env = GDK_SCALE,1
                 monitor=,preferred,auto,1
@@ -82,11 +82,29 @@ in
             roundWindowCorners = mkEnableOption "Enable rounded window corners";
 
             dwindleExtra = mkOption {
-              type = nullOr lines;
-              default = null;
+              type = lines;
+              default = "";
               description = "Extra options for dwindle layout, such as setting an aspect ratio for single-window workspaces";
               example = ''
                 single_window_aspect_ratio = 16 9
+              '';
+            };
+
+            bindingsExtra = mkOption {
+              type = lines;
+              default = "";
+              description = "Extra keybindings to add to the Hyprland configuration.";
+              example = ''
+                bindd = CTRL, F11, Melt Faces, exec, repeat_key_toggle
+              '';
+            };
+
+            envsExtra = mkOption {
+              type = lines;
+              default = "";
+              description = "Extra environment variables to add to the Hyprland configuration.";
+              example = ''
+                env = YDOTOOL_SOCKET,/run/ydotool/socket
               '';
             };
           };
