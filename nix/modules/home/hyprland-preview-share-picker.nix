@@ -4,12 +4,13 @@
   pkgs,
   ...
 }:
+with builtins;
 let
   cfg = config.omarchy;
 
   inherit (pkgs.stdenv.hostPlatform) system;
 
-  themeFile = ../../../themes/${cfg.theme}/hyprland-preview-share-picker.css;
+  themeFile = path { path = ../../../themes/${cfg.theme}/hyprland-preview-share-picker.css; };
 in
 {
   home.packages = [
@@ -17,7 +18,7 @@ in
   ];
 
   xdg.configFile."hyprland-preview-share-picker/config.yaml".source =
-    pkgs.replaceVars ../../../config/hyprland-preview-share-picker/config.yaml
+    pkgs.replaceVars (path { path = ../../../config/hyprland-preview-share-picker/config.yaml; })
       {
         inherit (pkgs) slurp;
         inherit themeFile;

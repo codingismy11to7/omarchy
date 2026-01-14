@@ -4,6 +4,7 @@
   pkgs,
   ...
 }:
+with builtins;
 let
   cfg = config.omarchy;
 in
@@ -18,20 +19,23 @@ lib.mkIf cfg.enable {
     configFile = {
       # the walker home-manager module enables elephant, so
       # configure it here
-      "elephant/calc.toml".source = ../../../config/elephant/calc.toml;
-      "elephant/desktopapplications.toml".source = ../../../config/elephant/desktopapplications.toml;
-      "elephant/menus/omarchy_themes.lua".source =
-        pkgs.replaceVars ../../../default/elephant/omarchy_themes.lua
-          { omarchyThemesDir = ../../../themes; };
+      "elephant/calc.toml".source = path { path = ../../../config/elephant/calc.toml; };
+      "elephant/desktopapplications.toml".source = path {
+        path = ../../../config/elephant/desktopapplications.toml;
+      };
+      "elephant/menus/omarchy_themes.lua".source = pkgs.replaceVars (path {
+        path = ../../../default/elephant/omarchy_themes.lua;
+      }) { omarchyThemesDir = path { path = ../../../themes; }; };
 
-      "walker/config.toml".source = ../../../config/walker/config.toml;
+      "walker/config.toml".source = path { path = ../../../config/walker/config.toml; };
     };
 
-    dataFile."omarchy/default/walker/themes/omarchy-default/layout.xml".source =
-      ../../../default/walker/themes/omarchy-default/layout.xml;
+    dataFile."omarchy/default/walker/themes/omarchy-default/layout.xml".source = path {
+      path = ../../../default/walker/themes/omarchy-default/layout.xml;
+    };
 
-    dataFile."omarchy/default/walker/themes/omarchy-default/style.css".source =
-      pkgs.replaceVars ../../../default/walker/themes/omarchy-default/style.css
-        { styleImport = ../../../themes/${cfg.theme}/walker.css; };
+    dataFile."omarchy/default/walker/themes/omarchy-default/style.css".source = pkgs.replaceVars (path {
+      path = ../../../default/walker/themes/omarchy-default/style.css;
+    }) { styleImport = path { path = ../../../themes/${cfg.theme}/walker.css; }; };
   };
 }

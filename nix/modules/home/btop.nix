@@ -1,4 +1,9 @@
-{ config, pkgs, ... }:
+{
+  config,
+  pkgs,
+  ...
+}:
+with builtins;
 let
   cfg = config.omarchy;
 
@@ -13,6 +18,8 @@ in
     };
   };
 
-  xdg.configFile."btop/btop.conf".source = ../../../config/btop/btop.conf;
-  xdg.configFile."btop/themes/current.theme".source = ../../../themes/${cfg.theme}/btop.theme;
+  xdg.configFile."btop/btop.conf".source = path { path = ../../../config/btop/btop.conf; };
+  xdg.configFile."btop/themes/current.theme".source = path {
+    path = ../../../themes/${cfg.theme}/btop.theme;
+  };
 }

@@ -5,6 +5,7 @@
   omarchyInputs,
   ...
 }:
+with builtins;
 let
   cfg = config.omarchy;
   hyprland = cfg.hyprland.package;
@@ -22,7 +23,11 @@ let
   createScript =
     name: vars:
     let
-      script = pkgs.replaceVars ../../../bin/${name} vars;
+      orig = path {
+        inherit name;
+        path = ../../../bin/${name};
+      };
+      script = pkgs.replaceVars orig vars;
     in
     pkgs.runCommand name { } ''
       install -Dm 755 ${script} $out/bin/${name}
@@ -37,8 +42,12 @@ let
       ;
   };
 
-  welcomeDotSh = pkgs.replaceVars ../../../install/first-run/welcome.sh { inherit (pkgs) libnotify; };
-  wifiDotSh = pkgs.replaceVars ../../../install/first-run/wifi.sh { inherit (pkgs) libnotify; };
+  welcomeDotSh = pkgs.replaceVars (path { path = ../../../install/first-run/welcome.sh; }) {
+    inherit (pkgs) libnotify;
+  };
+  wifiDotSh = pkgs.replaceVars (path { path = ../../../install/first-run/wifi.sh; }) {
+    inherit (pkgs) libnotify;
+  };
 
   allScripts = [
     (createScript "omarchy-cmd-audio-switch" {
@@ -74,7 +83,7 @@ let
       inherit (pkgs) bash jq;
       inherit hyprland;
       inherit (flakes) tte;
-      screensaverText = ../../../logo.txt;
+      screensaverText = path { path = ../../../logo.txt; };
     })
     (createScript "omarchy-cmd-screenshot" {
       inherit (pkgs)
@@ -151,8 +160,8 @@ let
         ;
       inherit hyprland;
       inherit (flakes) walker;
-      alacrittyConf = ../../../default/alacritty/screensaver.toml;
-      ghosttyConf = ../../../default/ghostty/screensaver;
+      alacrittyConf = path { path = ../../../default/alacritty/screensaver.toml; };
+      ghosttyConf = path { path = ../../../default/ghostty/screensaver; };
     })
     (createScript "omarchy-launch-tui" { inherit (pkgs) bash uwsm xdg-terminal-exec; })
     (createScript "omarchy-launch-walker" {
@@ -226,7 +235,7 @@ let
     (createScript "omarchy-show-done" { inherit (pkgs) bash gum; })
     (createScript "omarchy-show-logo" {
       inherit (pkgs) bash;
-      logo = ../../../logo.txt;
+      logo = path { path = ../../../logo.txt; };
     })
     (createScript "omarchy-theme-bg-next" {
       inherit (pkgs)
@@ -236,7 +245,7 @@ let
         swaybg
         uwsm
         ;
-      backgroundsDir = ../../../themes/${cfg.theme}/backgrounds;
+      backgroundsDir = path { path = ../../../themes/${cfg.theme}/backgrounds; };
     })
     (createScript "omarchy-toggle-idle" {
       inherit (pkgs)

@@ -4,5 +4,7 @@ _: {
     settings = { };
   };
 
-  xdg.configFile."hypr/hyprsunset.conf".source = ../../../config/hypr/hyprsunset.conf;
+  xdg.configFile."hypr/hyprsunset.conf".source = builtins.path {
+    path = ../../../config/hypr/hyprsunset.conf;
+  };
 }

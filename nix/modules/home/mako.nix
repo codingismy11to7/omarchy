@@ -1,7 +1,8 @@
 { config, ... }:
 with builtins;
 let
-  configFile = ../../../themes/${config.omarchy.theme}/mako.ini;
+  cfg = config.omarchy;
+  configFile = path { path = ../../../themes/${cfg.theme}/mako.ini; };
 in
 {
   services.mako = {
@@ -9,5 +10,7 @@ in
     extraConfig = readFile configFile;
   };
 
-  xdg.dataFile."omarchy/default/mako/core.ini".source = ../../../default/mako/core.ini;
+  xdg.dataFile."omarchy/default/mako/core.ini".source = path {
+    path = ../../../default/mako/core.ini;
+  };
 }

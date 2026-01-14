@@ -4,10 +4,11 @@
   pkgs,
   ...
 }:
+with builtins;
 let
   cfg = config.omarchy;
 
-  themeFile = ../../../themes/${cfg.theme}/ghostty.conf;
+  themeFile = path { path = ../../../themes/${cfg.theme}/ghostty.conf; };
 
   warpShader = pkgs.fetchurl {
     url = "https://github.com/sahaj-b/ghostty-cursor-shaders/raw/88c27a55b2e970eec19c21ef858a1a5bea489a1d/cursor_warp.glsl";
@@ -18,7 +19,7 @@ lib.mkIf (cfg.terminal == "ghostty") {
   programs.ghostty.enable = true;
 
   xdg.configFile = {
-    "ghostty/config".source = pkgs.replaceVars ../../../config/ghostty/config {
+    "ghostty/config".source = pkgs.replaceVars (path { path = ../../../config/ghostty/config; }) {
       inherit themeFile;
       font = cfg.font.name;
       shaderFile = warpShader;

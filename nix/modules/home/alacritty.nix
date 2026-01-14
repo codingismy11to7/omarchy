@@ -4,10 +4,11 @@
   pkgs,
   ...
 }:
+with builtins;
 let
   cfg = config.omarchy;
 
-  themeFile = ../../../themes/${cfg.theme}/alacritty.toml;
+  themeFile = path { path = ../../../themes/${cfg.theme}/alacritty.toml; };
 in
 lib.mkMerge [
   (lib.mkIf (cfg.terminal == "alacritty") {
@@ -20,10 +21,12 @@ lib.mkMerge [
     home.packages = [ pkgs.alacritty ];
 
     xdg.configFile = {
-      "alacritty/alacritty.toml".source = pkgs.replaceVars ../../../config/alacritty/alacritty.toml {
-        inherit themeFile;
-        font = cfg.font.name;
-      };
+      "alacritty/alacritty.toml".source =
+        pkgs.replaceVars (path { path = ../../../config/alacritty/alacritty.toml; })
+          {
+            inherit themeFile;
+            font = cfg.font.name;
+          };
     };
   }
 ]

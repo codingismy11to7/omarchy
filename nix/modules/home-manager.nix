@@ -21,7 +21,7 @@ let
 
   cfg = config.omarchy;
 
-  envFile = ../../default/hypr/envs.conf;
+  envFile = path { path = ../../default/hypr/envs.conf; };
 
   cursorSize =
     let
@@ -63,9 +63,9 @@ in
       liberation_ttf
     ];
 
-    xdg.configFile."fontconfig/conf.d/50-omarchy.conf".source =
-      pkgs.replaceVars ../../config/fontconfig/fonts.conf
-        { font = config.omarchy.font.name; };
+    xdg.configFile."fontconfig/conf.d/50-omarchy.conf".source = pkgs.replaceVars (path {
+      path = ../../config/fontconfig/fonts.conf;
+    }) { font = config.omarchy.font.name; };
 
     home.pointerCursor = {
       gtk.enable = true;
