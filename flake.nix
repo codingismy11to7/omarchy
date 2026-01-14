@@ -1,6 +1,11 @@
 {
   description = "Omarchy on NixOS";
 
+  nixConfig = {
+    extra-substituters = [ "https://nix-cache.codingismy11to7.us/omarchy" ];
+    extra-trusted-public-keys = [ "omarchy:TRPnFp7RNU+BhR64bXpG61cNE7TlB53BAoc7wEmhzyE=" ];
+  };
+
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/release-25.11";
     systems.url = "github:nix-systems/default-linux";
