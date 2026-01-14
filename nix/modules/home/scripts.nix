@@ -7,6 +7,7 @@
 }:
 let
   cfg = config.omarchy;
+  hyprland = cfg.hyprland.package;
 
   inherit (pkgs.stdenv.hostPlatform) system;
 
@@ -45,12 +46,12 @@ let
         bash
         gnugrep
         gnused
-        hyprland
         jq
         pulseaudio
         swayosd
         wireplumber
         ;
+      inherit hyprland;
     })
     (createScript "omarchy-cmd-first-run" {
       inherit (cfg) firstRunMode;
@@ -63,14 +64,15 @@ let
         bash
         ffmpeg
         gpu-screen-recorder
-        hyprland
         jq
         libnotify
         v4l-utils
         ;
+      inherit hyprland;
     })
     (createScript "omarchy-cmd-screensaver" {
-      inherit (pkgs) bash hyprland jq;
+      inherit (pkgs) bash jq;
+      inherit hyprland;
       inherit (flakes) tte;
       screensaverText = ../../../logo.txt;
     })
@@ -78,13 +80,13 @@ let
       inherit (pkgs)
         bash
         grim
-        hyprland
         jq
         satty
         slurp
         wayfreeze
         wl-clipboard
         ;
+      inherit hyprland;
     })
     (createScript "omarchy-cmd-share" {
       inherit (pkgs)
@@ -105,10 +107,17 @@ let
         libnotify
         ;
     })
-    (createScript "omarchy-hyprland-window-close-all" { inherit (pkgs) bash hyprland jq; })
-    (createScript "omarchy-hyprland-window-pop" { inherit (pkgs) bash hyprland jq; })
+    (createScript "omarchy-hyprland-window-close-all" {
+      inherit (pkgs) bash jq;
+      inherit hyprland;
+    })
+    (createScript "omarchy-hyprland-window-pop" {
+      inherit (pkgs) bash jq;
+      inherit hyprland;
+    })
     (createScript "omarchy-hyprland-workspace-toggle-gaps" {
-      inherit (pkgs) bash hyprland jq;
+      inherit (pkgs) bash jq;
+      inherit hyprland;
       gapsOut = if cfg.hyprland.widerWindowGaps then "20" else "10";
       gapsIn = if cfg.hyprland.widerWindowGaps then "10" else "5";
       rounding = if cfg.hyprland.roundWindowCorners then "8" else "0";
@@ -122,10 +131,10 @@ let
     (createScript "omarchy-launch-or-focus" {
       inherit (pkgs)
         bash
-        hyprland
         jq
         uwsm
         ;
+      inherit hyprland;
     })
     (createScript "omarchy-launch-or-focus-tui" { inherit (pkgs) bash; })
     (createScript "omarchy-launch-or-focus-webapp" { inherit (pkgs) bash; })
@@ -136,11 +145,11 @@ let
     (createScript "omarchy-launch-screensaver" {
       inherit (pkgs)
         bash
-        hyprland
         jq
         libnotify
         xdg-terminal-exec
         ;
+      inherit hyprland;
       inherit (flakes) walker;
       alacrittyConf = ../../../default/alacritty/screensaver.toml;
       ghosttyConf = ../../../default/ghostty/screensaver;
@@ -155,7 +164,10 @@ let
       inherit (cfg) browser;
     })
     (createScript "omarchy-launch-wifi" { inherit (pkgs) bash impala; })
-    (createScript "omarchy-lock-screen" { inherit (pkgs) bash hyprland hyprlock; })
+    (createScript "omarchy-lock-screen" {
+      inherit (pkgs) bash hyprlock;
+      inherit hyprland;
+    })
     (createScript "omarchy-menu" {
       inherit (pkgs)
         bash
@@ -174,10 +186,10 @@ let
         bc
         gawk
         gnused
-        hyprland
         jq
         libxkbcommon
         ;
+      inherit hyprland;
     })
     (createScript "omarchy-notification-dismiss" {
       inherit (pkgs)
@@ -238,10 +250,10 @@ let
       inherit (pkgs)
         bash
         gnugrep
-        hyprland
         hyprsunset
         libnotify
         ;
+      inherit hyprland;
     })
     (createScript "omarchy-toggle-screensaver" { inherit (pkgs) bash libnotify; })
     (createScript "omarchy-toggle-waybar" { inherit (pkgs) bash uwsm waybar; })

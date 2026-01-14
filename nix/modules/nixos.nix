@@ -10,7 +10,7 @@ let
   inherit (lib.options) mkOption mkEnableOption mkPackageOption;
   inherit (lib.trivial) importTOML;
   inherit (lib.meta) getExe;
-  inherit (lib.types) nullOr bool;
+  inherit (lib.types) nullOr bool submodule;
   inherit (lib)
     optionalString
     types
@@ -27,13 +27,23 @@ in
   options = {
     omarchy = {
       enable = mkEnableOption self.description;
+
+      hyprland = mkOption {
+        type = nullOr (submodule {
+          options = {
+            package = mkPackageOption pkgs "hyprland" { };
+          };
+        });
+      };
     };
   };
 
   config = mkIf cfg.enable {
+    omarchy.hyprland = mkDefault { };
 
     programs.hyprland = {
       enable = true;
+      package = cfg.hyprland.package;
       withUWSM = true;
     };
 

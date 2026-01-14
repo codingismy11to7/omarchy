@@ -68,6 +68,8 @@ in
       hyprland = mkOption {
         type = nullOr (submodule {
           options = {
+            package = mkPackageOption pkgs "hyprland" { };
+
             monitorConfig = mkOption {
               type = lines;
               default = "";

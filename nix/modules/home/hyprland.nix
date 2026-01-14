@@ -27,7 +27,8 @@ let
     };
     bindings = {
       mediaDotConf = pkgs.replaceVars ../../../default/hypr/bindings/media.conf {
-        inherit (pkgs) hyprland jq swayosd;
+        inherit (pkgs) jq swayosd;
+        hyprland = hyprCfg.package;
       };
       clipboardDotConf = ../../../default/hypr/bindings/clipboard.conf;
       tilingV2DotConf = ../../../default/hypr/bindings/tiling-v2.conf;
@@ -35,12 +36,12 @@ let
         inherit (pkgs)
           gnome-calculator
           gnugrep
-          hyprland
           hyprpicker
           jq
           libnotify
           mako
           ;
+        hyprland = hyprCfg.package;
       };
     };
     envsDotConf = pkgs.replaceVars ../../../default/hypr/envs.conf {
@@ -113,7 +114,8 @@ in
     };
 
     "hypr/hypridle.conf".source = pkgs.replaceVars ../../../config/hypr/hypridle.conf {
-      inherit (pkgs) brightnessctl hyprland;
+      inherit (pkgs) brightnessctl;
+      hyprland = hyprCfg.package;
       inherit (screensaver) activationSeconds lockSeconds screenOffDelaySeconds;
     };
 
