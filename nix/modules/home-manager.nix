@@ -38,6 +38,7 @@ in
   imports = [
     inputs.walker.homeManagerModules.default
     ./alacritty/home.nix
+    ./browser/home.nix
     ./btop/home.nix
     ./fastfetch/home.nix
     ./gaming/home.nix
@@ -59,6 +60,7 @@ in
     ./voxtype/home.nix
     ./walker/home.nix
     ./waybar/home.nix
+    ./webapps/home.nix
     ./xdg/home.nix
   ];
 
