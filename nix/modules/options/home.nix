@@ -142,15 +142,12 @@ in
               gnome-calculator = pkgs.gnome-calculator;
               nautilus = pkgs.nautilus;
 
-              # Gaming
-              heroic = pkgs.heroic;
-
               # Apps
               obsidian = pkgs.obsidian;
-            }
-            // lib.optionalAttrs isx86_64 {
+            } // lib.optionalAttrs isx86_64 {
               # x86_64-only packages
               gpu-screen-recorder = pkgs.gpu-screen-recorder;
+              heroic = pkgs.heroic;
             };
           in
           defaults // config.omarchy.packages;
