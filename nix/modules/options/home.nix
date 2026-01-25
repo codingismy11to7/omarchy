@@ -163,6 +163,31 @@ in
               example = "microsoft-edge";
               extraDescription = "The chromium-based web browser to use for launching webapps. It will also be used as a fallback if no default browser can be found.";
             };
+            copyUrlExtension = mkOption {
+              type = types.package;
+              readOnly = true;
+              description = "The copy-url browser extension package";
+            };
+            wrapWithExtension = mkOption {
+              type = types.functionTo types.package;
+              readOnly = true;
+              description = "Function to wrap a browser package with omarchy extensions";
+            };
+            brave = mkOption {
+              type = types.package;
+              readOnly = true;
+              description = "Brave browser wrapped with omarchy extensions";
+            };
+            chromium = mkOption {
+              type = types.package;
+              readOnly = true;
+              description = "Chromium browser wrapped with omarchy extensions";
+            };
+            google-chrome = mkOption {
+              type = types.package;
+              readOnly = true;
+              description = "Google Chrome browser wrapped with omarchy extensions";
+            };
           };
         });
       };
