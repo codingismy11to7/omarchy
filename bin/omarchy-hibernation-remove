@@ -1,4 +1,3 @@
-#!/bin/bash
 
 # omarchy:summary=Remove hibernation setup including swap and boot resume settings
 # omarchy:requires-sudo=true

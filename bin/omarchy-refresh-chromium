@@ -1,4 +1,3 @@
-#!/bin/bash
 
 # omarchy:summary=Refresh the ~/.config/chromium-flags.conf file from the Omarchy defaults.
 

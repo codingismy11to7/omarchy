@@ -1,4 +1,3 @@
-#!/bin/bash
 
 # omarchy:summary=Print drive information such as size, model, and mount details
 # omarchy:args=<drive>

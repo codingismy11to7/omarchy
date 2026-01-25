@@ -1,4 +1,3 @@
-#!/bin/bash
 
 # omarchy:summary=Install Arch packages if they are missing
 # omarchy:args=<packages...>

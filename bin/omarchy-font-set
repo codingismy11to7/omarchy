@@ -1,4 +1,3 @@
-#!/bin/bash
 
 # omarchy:summary=Set the system monospace font
 # omarchy:args=<font-name>
@@ -6,8 +5,11 @@
 
 font_name="$1"
 
+# we don't need this
+exit 0
+
 if [[ -n $font_name ]]; then
-  if fc-list | grep -iq "$font_name"; then
+  if @fc-list@ | @grep@ -iq "$font_name"; then
     if [[ -f ~/.config/alacritty/alacritty.toml ]]; then
       sed -i "s/family = \".*\"/family = \"$font_name\"/g" ~/.config/alacritty/alacritty.toml
     fi
@@ -38,11 +40,11 @@ if [[ -n $font_name ]]; then
     omarchy-restart-swayosd
 
     if pgrep -x ghostty; then
-      notify-send -u low "    You must restart Ghostty to see font change"
+      @notify-send@ -u low "    You must restart Ghostty to see font change"
     fi
 
     if pgrep -x foot; then
-      notify-send -u low "    You must restart Foot to see font change"
+      @notify-send@ -u low "    You must restart Foot to see font change"
     fi
 
     omarchy-hook font-set "$font_name"

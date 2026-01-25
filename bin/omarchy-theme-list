@@ -1,4 +1,3 @@
-#!/bin/bash
 
 # omarchy:summary=List available themes
 # omarchy:examples=omarchy theme list | omarchy theme set "Tokyo Night"

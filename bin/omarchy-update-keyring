@@ -1,4 +1,3 @@
-#!/bin/bash
 
 # omarchy:summary=Ensure the Omarchy and Arch keyring packages are installed and populated
 # omarchy:requires-sudo=true

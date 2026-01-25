@@ -1,4 +1,3 @@
-#!/bin/bash
 
 # omarchy:summary=Update system packages with pacman
 # omarchy:requires-sudo=true

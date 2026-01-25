@@ -1,4 +1,3 @@
-#!/bin/bash
 
 # omarchy:summary=Sync Omarchy theme to all Obsidian vaults
 # omarchy:hidden=true
@@ -7,7 +6,7 @@ CURRENT_THEME_DIR="$HOME/.config/omarchy/current/theme"
 
 [[ -f $CURRENT_THEME_DIR/obsidian.css ]] || exit 0
 
-jq -r '.vaults | values[].path' ~/.config/obsidian/obsidian.json 2>/dev/null | while read -r vault_path; do
+@jq@ -r '.vaults | values[].path' ~/.config/obsidian/obsidian.json 2>/dev/null | while read -r vault_path; do
   [[ -d $vault_path/.obsidian ]] || continue
 
   theme_dir="$vault_path/.obsidian/themes/Omarchy"

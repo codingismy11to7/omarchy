@@ -1,4 +1,3 @@
-#!/bin/bash
 
 # omarchy:summary=Show a fuzzy-finder TUI for picking new AUR packages to install.
 # omarchy:requires-sudo=true

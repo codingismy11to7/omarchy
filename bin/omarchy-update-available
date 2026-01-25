@@ -1,4 +1,7 @@
-#!/bin/bash
+
+# On NixOS, updates are managed via flake inputs, not git tags.
+# TODO: Implement flake input update checking
+exit 1
 
 # omarchy:summary=Get remote tag
 

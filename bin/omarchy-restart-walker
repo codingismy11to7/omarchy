@@ -1,4 +1,3 @@
-#!/bin/bash
 
 # omarchy:summary=Restart Walker and related user services
 
@@ -7,8 +6,8 @@ restart_services() {
     systemctl --user restart elephant.service
   fi
 
-  if systemctl --user is-enabled app-walker@autostart.service &>/dev/null; then
-    systemctl --user restart app-walker@autostart.service
+  if systemctl --user is-enabled walker.service &>/dev/null; then
+    systemctl --user restart walker.service
   else
     echo -e "\e[31mUnable to restart Walker -- RESTART MANUALLY\e[0m"
   fi

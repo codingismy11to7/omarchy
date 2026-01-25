@@ -1,4 +1,3 @@
-#!/bin/bash
 
 # omarchy:summary=Launch the Omarchy screensaver in the default terminal on the system with the correct font configuration.
 
@@ -15,30 +14,30 @@ if omarchy-toggle-enabled screensaver-off && [[ $1 != "force" ]]; then
 fi
 
 # Silently quit Walker on overlay
-walker -q
+@walker@ --close
 
 focused=$(omarchy-hyprland-monitor-focused)
-terminal=$(xdg-terminal-exec --print-id)
+terminal=$(@xdg-terminal-exec@ --print-id)
 
 hypr_focus_monitor() {
-  hyprctl dispatch "hl.dsp.focus({ monitor = \"$1\" })" >/dev/null 2>&1 || hyprctl dispatch focusmonitor "$1" >/dev/null
+  @hyprctl@ dispatch "hl.dsp.focus({ monitor = \"$1\" })" >/dev/null 2>&1 || @hyprctl@ dispatch focusmonitor "$1" >/dev/null
 }
 
 hypr_exec() {
   local command="$1"
 
-  hyprctl dispatch "hl.dsp.exec_cmd([[$command]])" >/dev/null 2>&1 || hyprctl dispatch exec -- bash -lc "$command" >/dev/null
+  @hyprctl@ dispatch "hl.dsp.exec_cmd([[$command]])" >/dev/null 2>&1 || @hyprctl@ dispatch exec -- bash -lc "$command" >/dev/null
 }
 
-for m in $(hyprctl monitors -j | jq -r '.[] | .name'); do
+for m in $(@hyprctl@ monitors -j | @jq@ -r '.[] | .name'); do
   hypr_focus_monitor "$m"
 
   case $terminal in
   *Alacritty*)
-    hypr_exec "alacritty --class=org.omarchy.screensaver --config-file ~/.local/share/omarchy/default/alacritty/screensaver.toml -e omarchy-screensaver"
+    hypr_exec "alacritty --class=org.omarchy.screensaver --config-file @alacrittyConf@ -e omarchy-screensaver"
     ;;
   *ghostty*)
-    hypr_exec "ghostty --class=org.omarchy.screensaver --config-file=~/.local/share/omarchy/default/ghostty/screensaver --font-size=18 -e omarchy-screensaver"
+    hypr_exec "ghostty --class=org.omarchy.screensaver --config-file=@ghosttyConf@ --font-size=18 -e omarchy-screensaver"
     ;;
   *foot*)
     hypr_exec "foot --app-id=org.omarchy.screensaver --config=\"$OMARCHY_PATH/default/foot/screensaver.ini\" -e omarchy-screensaver"
@@ -47,7 +46,7 @@ for m in $(hyprctl monitors -j | jq -r '.[] | .name'); do
     hypr_exec "kitty --class=org.omarchy.screensaver --override font_size=18 --override window_padding_width=0 -e omarchy-screensaver"
     ;;
   *)
-    notify-send -u low "✋  Screensaver only runs in Alacritty, Foot, Ghostty, or Kitty"
+    @notify-send@ -u low "✋  Screensaver only runs in Alacritty, Foot, Ghostty, or Kitty"
     ;;
   esac
 done

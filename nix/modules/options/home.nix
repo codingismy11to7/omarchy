@@ -399,6 +399,12 @@ in
         description = "Show am/pm in Waybar";
       };
 
+      obsidian = {
+        enable = mkEnableOption "Obsidian with omarchy theming" // {
+          default = true;
+        };
+      };
+
       voxtype = mkOption {
         type = nullOr (submodule {
           options = {
