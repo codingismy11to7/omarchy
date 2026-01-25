@@ -26,20 +26,11 @@ function GetEntries()
   local entries = {}
   local home = os.getenv("HOME")
 
-  -- Read current theme name
-  local theme_name_file = io.open(home .. "/.config/omarchy/current/theme.name", "r")
-  local theme_name = theme_name_file and theme_name_file:read("*l") or nil
-  if theme_name_file then
-    theme_name_file:close()
-  end
-
   -- Directories to search
   local dirs = {
-    home .. "/.config/omarchy/current/theme/backgrounds",
+    "@backgroundsDir@",
+    home .. "/.config/omarchy/backgrounds/@theme@",
   }
-  if theme_name then
-    table.insert(dirs, home .. "/.config/omarchy/backgrounds/" .. theme_name)
-  end
 
   -- Track added files to avoid duplicates
   local seen = {}
