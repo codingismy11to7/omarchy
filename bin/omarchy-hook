@@ -1,4 +1,3 @@
-#!/bin/bash
 
 # Run a named hook, like post-update (available in ~/.config/omarchy/hooks/post-update).
 
@@ -14,5 +13,5 @@ HOOK_PATH="$HOME/.config/omarchy/hooks/$1"
 shift
 
 if [[ -f $HOOK_PATH ]]; then
-  bash "$HOOK_PATH" "$@"
+  @bash@ "$HOOK_PATH" "$@"
 fi

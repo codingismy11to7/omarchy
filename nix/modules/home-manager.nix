@@ -51,6 +51,7 @@ in
     ./kitty/home.nix
     ./mako/home.nix
     ./mpv/home.nix
+    ./obsidian/home.nix
     ./options/home.nix
     ./scripts/home.nix
     ./swayosd/home.nix
