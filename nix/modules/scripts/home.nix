@@ -260,6 +260,12 @@ let
       inherit (exe) xdg-settings uwsm-app;
       webappBrowser = getExe cfg.browser.webapp;
     })
+    (createScript "omarchy-webapp-handler-gmail" {
+      inherit (exe) sed;
+    })
+    (createScript "omarchy-webapp-handler-zoom" {
+      inherit (exe) sed;
+    })
     (createScript "omarchy-launch-wifi" {
       inherit (exe) impala;
     })
