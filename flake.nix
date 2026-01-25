@@ -142,7 +142,7 @@
 
                           home.stateVersion = "25.11";
                           omarchy.enable = true;
-                          omarchy.voxtype = { };
+                          omarchy.voxtype.enable = true;
                         };
                       };
                     }
