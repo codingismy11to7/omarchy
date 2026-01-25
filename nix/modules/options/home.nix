@@ -144,6 +144,9 @@ in
 
               # Gaming
               heroic = pkgs.heroic;
+
+              # Apps
+              obsidian = pkgs.obsidian;
             };
           in
           defaults // config.omarchy.packages;
@@ -398,6 +401,12 @@ in
         type = bool;
         default = true;
         description = "Show am/pm in Waybar";
+      };
+
+      obsidian = {
+        enable = mkEnableOption "Obsidian with omarchy theming" // {
+          default = true;
+        };
       };
 
       voxtype = mkOption {
