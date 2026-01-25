@@ -110,9 +110,10 @@ in
 
               # Terminal/apps
               alacritty = pkgs.alacritty;
-              kitty = pkgs.kitty;
               fastfetch = pkgs.fastfetch;
               fzf = pkgs.fzf;
+              ghostty = pkgs.ghostty;
+              kitty = pkgs.kitty;
               pamixer = pkgs.pamixer;
               wiremix = pkgs.wiremix;
 
