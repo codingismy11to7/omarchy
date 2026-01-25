@@ -18,7 +18,8 @@ hl.env("HYPRCURSOR_SIZE", "24")
 -- Force all apps to use Wayland.
 hl.env("GDK_BACKEND", "wayland,x11,*")
 hl.env("QT_QPA_PLATFORM", "wayland;xcb")
-hl.env("QT_STYLE_OVERRIDE", "kvantum")
+hl.env("QT_STYLE_OVERRIDE", "@qtTheme@")
+hl.env("SDL_VIDEODRIVER", "wayland,x11")
 hl.env("MOZ_ENABLE_WAYLAND", "1")
 hl.env("ELECTRON_OZONE_PLATFORM_HINT", "wayland")
 hl.env("OZONE_PLATFORM", "wayland")
@@ -29,7 +30,9 @@ hl.env("XDG_CURRENT_DESKTOP", "Hyprland")
 hl.env("XDG_SESSION_DESKTOP", "Hyprland")
 
 -- Use XCompose file.
-hl.env("XCOMPOSEFILE", paths.home .. "/.XCompose")
+hl.env("XCOMPOSEFILE", "@xcompose@")
+
+@envsExtra@
 
 hl.config({
   xwayland = {
@@ -37,6 +40,7 @@ hl.config({
   },
 
   ecosystem = {
+    no_donation_nag = true,
     no_update_news = true,
   },
 })

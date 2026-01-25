@@ -1,3 +1,5 @@
+o.bind("SUPER + CTRL + SHIFT + Q", "Log out", "@hyprctl@ dispatch exit")
+
 o.bind("SUPER + SPACE", "Launch apps", { omarchy = "walker" })
 o.bind("SUPER + CTRL + E", "Emoji picker", { omarchy = "walker -m symbols" })
 o.bind_menu("SUPER + CTRL + C", "Capture menu", "capture")
@@ -7,9 +9,9 @@ o.bind_menu("SUPER + ALT + SPACE", "Omarchy menu", nil)
 o.bind_menu("SUPER + SHIFT + code:201", "Omarchy menu", nil)
 o.bind_menu("SUPER + ESCAPE", "System menu", "system")
 o.bind_menu("XF86PowerOff", "Power menu", "system", { locked = true })
-o.bind("SUPER + K", "Show key bindings", "omarchy-menu-keybindings")
+o.bind("SUPER + Y", "Show key bindings", "omarchy-menu-keybindings")
 o.bind("SUPER + ALT + K", "Show Tmux key bindings", "omarchy-menu-tmux-keybindings")
-o.bind("XF86Calculator", "Calculator", "gnome-calculator")
+o.bind("XF86Calculator", "Calculator", "@gnome-calculator@")
 
 o.bind("SUPER + SHIFT + SPACE", "Toggle top bar", "omarchy-toggle-waybar")
 o.bind("SUPER + SHIFT + CTRL + UP", "Move Waybar to top", "omarchy-style-waybar-position top")
@@ -22,11 +24,11 @@ o.bind("SUPER + BACKSPACE", "Toggle window transparency", "omarchy-hyprland-wind
 o.bind("SUPER + SHIFT + BACKSPACE", "Toggle window gaps", "omarchy-hyprland-window-gaps-toggle")
 o.bind("SUPER + CTRL + BACKSPACE", "Toggle single-window square aspect", "omarchy-hyprland-window-single-square-aspect-toggle")
 
-o.bind("SUPER + COMMA", "Dismiss last notification", "makoctl dismiss")
-o.bind("SUPER + SHIFT + COMMA", "Dismiss all notifications", "makoctl dismiss --all")
+o.bind("SUPER + COMMA", "Dismiss last notification", "@makoctl@ dismiss")
+o.bind("SUPER + SHIFT + COMMA", "Dismiss all notifications", "@makoctl@ dismiss --all")
 o.bind("SUPER + CTRL + COMMA", "Toggle silencing notifications", "omarchy-toggle-notification-silencing")
-o.bind("SUPER + ALT + COMMA", "Invoke last notification", "makoctl invoke")
-o.bind("SUPER + SHIFT + ALT + COMMA", "Restore last notification", "makoctl restore")
+o.bind("SUPER + ALT + COMMA", "Invoke last notification", "@makoctl@ invoke")
+o.bind("SUPER + SHIFT + ALT + COMMA", "Restore last notification", "@makoctl@ restore")
 
 o.bind_toggle("SUPER + CTRL + I", "Toggle locking on idle", "idle")
 o.bind_toggle("SUPER + CTRL + N", "Toggle nightlight", "nightlight")

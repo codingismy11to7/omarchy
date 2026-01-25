@@ -77,7 +77,6 @@ let
         in
         pkgs.replaceVars (path { path = ../../../default/hypr/bindings/utilities.conf; }) {
           gnome-calculator = getExe p.gnome-calculator;
-          grep = getExe p.gnugrep;
           hyprpicker = getExe p.hyprpicker;
           jq = getExe p.jq;
           notify-send = getExe' p.libnotify "notify-send";

@@ -13,6 +13,8 @@
 --   },
 -- })
 
+@gapsSize@
+
 -- https://wiki.hypr.land/Configuring/Basics/Variables/#decoration
 -- hl.config({
 --   decoration = {
@@ -24,6 +26,8 @@
 --     dim_strength = 0.15,
 --   },
 -- })
+
+@rounding@
 
 -- https://wiki.hypr.land/Configuring/Basics/Variables/#animations
 -- hl.config({
@@ -40,6 +44,8 @@
 --     single_window_aspect_ratio = { 1, 1 },
 --   },
 -- })
+
+@dwindleExtra@
 
 -- https://wiki.hypr.land/Configuring/Layouts/Scrolling-Layout/
 -- hl.config({
