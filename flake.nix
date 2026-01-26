@@ -118,6 +118,10 @@
                       fileSystems."/".device = "/dev/null";
                       boot.loader.grub.enable = false;
                       system.stateVersion = "25.11";
+                      omarchy.gaming = {
+                        steam = true;
+                        heroicGameLauncher = true;
+                      };
                       users.users.testuser = {
                         isNormalUser = true;
                         group = "testuser";
