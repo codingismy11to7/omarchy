@@ -57,6 +57,7 @@ in
     ./scripts/home.nix
     ./swayosd/home.nix
     ./theme/home.nix
+    ./video-encoding/home.nix
     ./voxtype/home.nix
     ./walker/home.nix
     ./waybar/home.nix
