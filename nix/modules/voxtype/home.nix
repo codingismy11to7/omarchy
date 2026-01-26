@@ -50,7 +50,7 @@ let
     inherit (models.${vt.model}) url hash;
   };
 in
-mkIf (vt != null) {
+mkIf vt.enable {
   home.packages = [ package ];
 
   systemd.user.services.voxtype = {

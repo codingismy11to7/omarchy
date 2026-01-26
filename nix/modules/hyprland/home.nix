@@ -39,7 +39,7 @@ let
         let
           voxtypePkgs = omarchyInputs.voxtype.packages.${system};
           unwrapped =
-            if cfg.voxtype == null then
+            if !cfg.voxtype.enable then
               null
             else if cfg.voxtype.variant == "vulkan" then
               voxtypePkgs.voxtype-vulkan-unwrapped
@@ -68,7 +68,7 @@ let
                 inherit (unwrapped) meta;
               };
           voxtypeBindings =
-            if vt != null then
+            if cfg.voxtype.enable then
               ''
                 bindd  = SUPER CTRL, X, Start dictation, exec, ${getExe vt} record start
                 binddr = SUPER CTRL, X, Stop dictation, exec, ${getExe vt} record stop''
