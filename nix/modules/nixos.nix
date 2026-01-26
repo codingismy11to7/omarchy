@@ -39,25 +39,27 @@ in
       qtEnableAdwaita = mkEnableOption "Adwaita theme for Qt applications";
 
       hyprland = mkOption {
-        type = nullOr (submodule {
+        type = submodule {
           options = {
             package = mkPackageOption pkgs "hyprland" { };
             portalPackage = mkPackageOption pkgs "xdg-desktop-portal-hyprland" { };
           };
-        });
+        };
+        default = { };
       };
 
       gaming = mkOption {
-        type = nullOr (submodule {
+        type = submodule {
           options = {
+            enable = mkEnableOption "gaming support (Steam, Heroic)";
             steam = mkEnableOption "Steam with Gamescope";
             steamRealtime = mkEnableOption
               "real-time scheduling for Gamescope";
             heroicGameLauncher = mkEnableOption
               "Heroic (GOG/Epic/Amazon launcher)";
           };
-        });
-        default = null;
+        };
+        default = { };
       };
 
       username = mkOption {
@@ -67,8 +69,6 @@ in
   };
 
   config = mkIf cfg.enable {
-    omarchy.hyprland = mkDefault { };
-
     programs.hyprland = {
       enable = true;
       inherit (cfg.hyprland) package portalPackage;
