@@ -155,7 +155,7 @@ in
       qtEnableAdwaita = mkEnableOption "Adwaita theme for Qt applications";
 
       browser = mkOption {
-        type = nullOr (submodule {
+        type = submodule {
           options = {
             webapp = mkPackageOption pkgs "brave" {
               default = "brave";
@@ -188,7 +188,8 @@ in
               description = "Google Chrome browser wrapped with omarchy extensions";
             };
           };
-        });
+        };
+        default = { };
       };
 
       firstRunMode = mkOption {
@@ -198,7 +199,7 @@ in
       };
 
       font = mkOption {
-        type = nullOr (submodule {
+        type = submodule {
           options = {
             package = mkPackageOption pkgs.nerd-fonts "font" {
               default = "jetbrains-mono";
@@ -211,11 +212,12 @@ in
               example = "FiraCode Nerd Font";
             };
           };
-        });
+        };
+        default = { };
       };
 
       hyprland = mkOption {
-        type = nullOr (submodule {
+        type = submodule {
           options = {
             package = mkPackageOption pkgs "hyprland" { };
 
@@ -275,11 +277,12 @@ in
               '';
             };
           };
-        });
+        };
+        default = { };
       };
 
       keyboard = mkOption {
-        type = nullOr (submodule {
+        type = submodule {
           options = {
             layout = mkOption {
               type = str;
@@ -296,7 +299,8 @@ in
               example = "compose:ralt";
             };
           };
-        });
+        };
+        default = { };
       };
 
       passwordManager = mkOption {
@@ -307,7 +311,7 @@ in
       };
 
       screensaver = mkOption {
-        type = nullOr (submodule {
+        type = submodule {
           options = {
             activationMinutes = mkOption {
               type = oneOf [
@@ -334,7 +338,8 @@ in
               description = "How long to wait after locking before turning off screen.";
             };
           };
-        });
+        };
+        default = { };
       };
 
       terminal = mkOption {
@@ -435,8 +440,9 @@ in
       };
 
       voxtype = mkOption {
-        type = nullOr (submodule {
+        type = submodule {
           options = {
+            enable = mkEnableOption "Voxtype push-to-talk voice-to-text";
             variant = mkOption {
               type = enum [
                 "default"
@@ -497,21 +503,10 @@ in
               description = "Audio feedback sounds config.";
             };
           };
-        });
-        default = null;
-        description = "Voxtype push-to-talk voice-to-text.";
+        };
+        default = { };
       };
     };
   };
 
-  config = mkIf config.omarchy.enable {
-    omarchy = {
-      browser = mkDefault { };
-      font = mkDefault { };
-      hyprland = mkDefault { };
-      keyboard = mkDefault { };
-      # palette = mkDefault { };
-      screensaver = mkDefault { };
-    };
-  };
 }

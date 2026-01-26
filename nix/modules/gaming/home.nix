@@ -10,8 +10,8 @@ let
 
   cfg = config.omarchy;
   p = cfg._packages;
-  gaming = osConfig.omarchy.gaming or null;
+  gaming = osConfig.omarchy.gaming or { enable = false; };
 in
-mkIf (cfg.enable && gaming != null && gaming.heroicGameLauncher) {
+mkIf (cfg.enable && gaming.enable && gaming.heroicGameLauncher) {
   home.packages = [ p.heroic ];
 }
