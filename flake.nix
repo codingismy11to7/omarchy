@@ -123,6 +123,7 @@
                         group = "testuser";
                       };
                       users.groups.testuser = { };
+                      omarchy.videoEncoding = { enable = true; };
                       home-manager = {
                         useUserPackages = true;
                         useGlobalPkgs = true;

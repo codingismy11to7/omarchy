@@ -62,6 +62,15 @@ in
         default = { };
       };
 
+      videoEncoding = mkOption {
+        type = nullOr (submodule {
+          options = {
+            enable = mkEnableOption "video encoding tools (Handbrake, MakeMKV)";
+          };
+        });
+        default = null;
+      };
+
       username = mkOption {
         type = str;
       };
