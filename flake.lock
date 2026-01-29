@@ -1,5 +1,28 @@
 {
   "nodes": {
+    "claude-code-nix": {
+      "inputs": {
+        "flake-utils": [
+          "flake-utils"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1769893338,
+        "narHash": "sha256-iRRaY8dnowvXl+nQRVItRtYgAIIUbz3VZnHRYZ0OzEY=",
+        "owner": "sadjow",
+        "repo": "claude-code-nix",
+        "rev": "babe8eef56e4f9fc5f27a00fda501cdd0b9deb5a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "sadjow",
+        "repo": "claude-code-nix",
+        "type": "github"
+      }
+    },
     "elephant": {
       "inputs": {
         "nixpkgs": [
@@ -83,7 +106,9 @@
     },
     "hyprland-preview-share-picker": {
       "inputs": {
-        "flake-utils": "flake-utils",
+        "flake-utils": [
+          "flake-utils"
+        ],
         "hyprland-protocols": "hyprland-protocols",
         "nixpkgs": "nixpkgs"
       },
@@ -168,8 +193,10 @@
     },
     "root": {
       "inputs": {
+        "claude-code-nix": "claude-code-nix",
         "elephant": "elephant",
         "flake-parts": "flake-parts",
+        "flake-utils": "flake-utils",
         "home-manager": "home-manager",
         "hyprland-preview-share-picker": "hyprland-preview-share-picker",
         "nixpkgs": "nixpkgs_2",
