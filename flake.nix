@@ -9,6 +9,7 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/release-25.11";
     flake-parts.url = "github:hercules-ci/flake-parts";
+    flake-utils.url = "github:numtide/flake-utils";
     systems.url = "github:nix-systems/default-linux";
     home-manager = {
       url = "github:nix-community/home-manager/release-25.11";
@@ -37,7 +38,15 @@
         systems.follows = "systems";
       };
     };
-    hyprland-preview-share-picker.url = "github:codingismy11to7/hyprland-preview-share-picker/nix";
+    hyprland-preview-share-picker = {
+      url = "github:codingismy11to7/hyprland-preview-share-picker/nix";
+      inputs.flake-utils.follows = "flake-utils";
+    };
+    claude-code-nix = {
+      url = "github:sadjow/claude-code-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.flake-utils.follows = "flake-utils";
+    };
   };
 
   outputs =
@@ -63,7 +72,9 @@
             forTheme =
               theme:
               with builtins;
-              readFile (path { path = ./themes/${theme}/neovim.lua; });
+              readFile (path {
+                path = ./themes/${theme}/neovim.lua;
+              });
           };
 
           nixosModules = {
@@ -144,6 +155,7 @@
 
                           home.stateVersion = "25.11";
                           omarchy.enable = true;
+                          omarchy.ai.claudeCode.enable = true;
                           omarchy.voxtype.enable = true;
                         };
                       };

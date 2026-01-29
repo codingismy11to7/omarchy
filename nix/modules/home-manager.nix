@@ -37,6 +37,7 @@ in
 {
   imports = [
     inputs.walker.homeManagerModules.default
+    ./ai/home.nix
     ./alacritty/home.nix
     ./browser/home.nix
     ./btop/home.nix

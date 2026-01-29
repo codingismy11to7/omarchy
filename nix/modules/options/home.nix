@@ -500,6 +500,22 @@ in
         };
         default = { };
       };
+
+      ai = mkOption {
+        type = submodule {
+          options = {
+            claudeCode = mkOption {
+              type = submodule {
+                options = {
+                  enable = mkEnableOption "Claude Code AI coding assistant";
+                };
+              };
+              default = { };
+            };
+          };
+        };
+        default = { };
+      };
     };
   };
 
