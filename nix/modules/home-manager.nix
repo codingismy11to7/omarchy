@@ -39,6 +39,7 @@ in
     inputs.walker.homeManagerModules.default
     ./ai/home.nix
     ./alacritty/home.nix
+    ./bash/home.nix
     ./browser/home.nix
     ./btop/home.nix
     ./fastfetch/home.nix
@@ -70,6 +71,7 @@ in
     _module.args.self = self;
 
     omarchy.qtEnableAdwaita = mkDefault (osConfig.omarchy.qtEnableAdwaita or false);
+    omarchy.bash.enable = mkDefault (osConfig.omarchy.bash.enable or true);
 
     home.packages = [
       cfg.font.package
