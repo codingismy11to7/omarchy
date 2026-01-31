@@ -27,16 +27,39 @@ let
 in
 {
   imports = [
+    ./bash/core.nix
+    ./gaming/core.nix
     ./qt/core.nix
     ./sddm/core.nix
-    ./gaming/core.nix
   ];
 
   options = {
     omarchy = {
+      bash = mkOption {
+        type = submodule {
+          options = {
+            enable = mkEnableOption "Bash shell with omarchy configuration" // {
+              default = true;
+            };
+            package = mkPackageOption pkgs "bash" { };
+          };
+        };
+        default = { };
+      };
+
       enable = mkEnableOption self.description;
 
-      qtEnableAdwaita = mkEnableOption "Adwaita theme for Qt applications";
+      gaming = mkOption {
+        type = submodule {
+          options = {
+            enable = mkEnableOption "gaming support (Steam, Heroic)";
+            heroicGameLauncher = mkEnableOption "Heroic (GOG/Epic/Amazon launcher)";
+            steam = mkEnableOption "Steam with Gamescope";
+            steamRealtime = mkEnableOption "real-time scheduling for Gamescope";
+          };
+        };
+        default = { };
+      };
 
       hyprland = mkOption {
         type = submodule {
@@ -48,19 +71,7 @@ in
         default = { };
       };
 
-      gaming = mkOption {
-        type = submodule {
-          options = {
-            enable = mkEnableOption "gaming support (Steam, Heroic)";
-            steam = mkEnableOption "Steam with Gamescope";
-            steamRealtime = mkEnableOption
-              "real-time scheduling for Gamescope";
-            heroicGameLauncher = mkEnableOption
-              "Heroic (GOG/Epic/Amazon launcher)";
-          };
-        };
-        default = { };
-      };
+      qtEnableAdwaita = mkEnableOption "Adwaita theme for Qt applications";
 
       username = mkOption {
         type = str;
