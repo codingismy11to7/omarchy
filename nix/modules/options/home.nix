@@ -7,10 +7,8 @@
 }:
 with builtins;
 let
-  inherit (lib.modules) mkIf mkMerge;
   inherit (pkgs.stdenv.hostPlatform) isx86_64;
   inherit (lib.options) mkOption mkEnableOption mkPackageOption;
-  inherit (lib.meta) getExe;
   inherit (lib.types)
     attrsOf
     bool
@@ -29,11 +27,6 @@ let
     hasPrefix
     importTOML
     literalExpression
-    mapAttrs'
-    mapAttrsToList
-    mkDefault
-    nameValuePair
-    optional
     removePrefix
     stringToCharacters
     toUpper
@@ -66,88 +59,90 @@ in
         default =
           let
             defaults = {
-              # Core CLI tools
-              gawk = pkgs.gawk;
-              bc = pkgs.bc;
-              gnugrep = pkgs.gnugrep;
-              gnused = pkgs.gnused;
-              jq = pkgs.jq;
-              jaq = pkgs.jaq;
-              findutils = pkgs.findutils;
-              brotli = pkgs.brotli;
-              bash = pkgs.bash;
+              inherit (pkgs)
+                # Core CLI tools
+                gawk
+                bc
+                gnugrep
+                gnused
+                jq
+                jaq
+                findutils
+                brotli
+                bash
 
-              # Hyprland ecosystem
-              hypridle = pkgs.hypridle;
-              hyprlock = pkgs.hyprlock;
-              hyprpicker = pkgs.hyprpicker;
-              hyprsunset = pkgs.hyprsunset;
-              swaybg = pkgs.swaybg;
-              swayosd = pkgs.swayosd;
+                # Hyprland ecosystem
+                hypridle
+                hyprlock
+                hyprpicker
+                hyprsunset
+                swaybg
+                swayosd
 
-              # Screenshot/recording
-              grim = pkgs.grim;
-              slurp = pkgs.slurp;
-              satty = pkgs.satty;
+                # Screenshot/recording
+                grim
+                slurp
+                satty
 
-              # Notifications/UI
-              libnotify = pkgs.libnotify;
-              mako = pkgs.mako;
-              gum = pkgs.gum;
-              waybar = pkgs.waybar;
+                # Notifications/UI
+                libnotify
+                mako
+                gum
+                waybar
 
-              # System tools
-              procps = pkgs.procps;
-              systemd = pkgs.systemd;
-              pulseaudio = pkgs.pulseaudio;
-              wireplumber = pkgs.wireplumber;
-              power-profiles-daemon = pkgs.power-profiles-daemon;
+                # System tools
+                procps
+                systemd
+                pulseaudio
+                wireplumber
+                power-profiles-daemon
 
-              # Network/bluetooth
-              bluetui = pkgs.bluetui;
-              impala = pkgs.impala;
-              localsend = pkgs.localsend;
+                # Network/bluetooth
+                bluetui
+                impala
+                localsend
 
-              # Terminal/apps
-              alacritty = pkgs.alacritty;
-              fastfetch = pkgs.fastfetch;
-              fzf = pkgs.fzf;
-              ghostty = pkgs.ghostty;
-              kitty = pkgs.kitty;
-              pamixer = pkgs.pamixer;
-              wiremix = pkgs.wiremix;
+                # Terminal/apps
+                alacritty
+                fastfetch
+                fzf
+                ghostty
+                kitty
+                pamixer
+                wiremix
 
-              # Wayland
-              wl-clipboard = pkgs.wl-clipboard;
-              uwsm = pkgs.uwsm;
-              xdg-terminal-exec = pkgs.xdg-terminal-exec;
-              xdg-utils = pkgs.xdg-utils;
+                # Wayland
+                wl-clipboard
+                uwsm
+                xdg-terminal-exec
+                xdg-utils
 
-              # Browsers
-              brave = pkgs.brave;
-              chromium = pkgs.chromium;
-              google-chrome = pkgs.google-chrome;
+                # Browsers
+                brave
+                chromium
+                google-chrome
 
-              # Theming
-              yaru-theme = pkgs.yaru-theme;
-              adwaita-icon-theme = pkgs.adwaita-icon-theme;
-              imagemagick = pkgs.imagemagick;
+                # Theming
+                yaru-theme
+                adwaita-icon-theme
+                imagemagick
 
-              # Misc
-              ffmpeg = pkgs.ffmpeg;
-              fontconfig = pkgs.fontconfig;
-              v4l-utils = pkgs.v4l-utils;
-              libxkbcommon = pkgs.libxkbcommon;
-              brightnessctl = pkgs.brightnessctl;
-              gnome-calculator = pkgs.gnome-calculator;
-              nautilus = pkgs.nautilus;
+                # Misc
+                ffmpeg
+                fontconfig
+                v4l-utils
+                libxkbcommon
+                brightnessctl
+                gnome-calculator
+                nautilus
 
-              # Apps
-              obsidian = pkgs.obsidian;
-            } // lib.optionalAttrs isx86_64 {
+                # Apps
+                obsidian
+                ;
+            }
+            // lib.optionalAttrs isx86_64 {
               # x86_64-only packages
-              gpu-screen-recorder = pkgs.gpu-screen-recorder;
-              heroic = pkgs.heroic;
+              inherit (pkgs) gpu-screen-recorder heroic;
             };
           in
           defaults // config.omarchy.packages;
