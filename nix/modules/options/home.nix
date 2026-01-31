@@ -91,6 +91,7 @@ in
                 waybar
 
                 # System tools
+                openssh
                 procps
                 systemd
                 pulseaudio
@@ -420,6 +421,43 @@ in
         type = bool;
         default = true;
         description = "Show am/pm in Waybar";
+      };
+
+      bash = mkOption {
+        type = submodule {
+          options = {
+            enable = mkEnableOption "Bash shell with omarchy configuration" // {
+              default = true;
+            };
+            eza = mkEnableOption "Eza modern ls replacement" // {
+              default = true;
+            };
+            fastfetch = mkOption {
+              type = submodule {
+                options = {
+                  enable = mkEnableOption "Fastfetch system info display";
+                  logo = mkOption {
+                    type = nullOr types.path;
+                    default = null;
+                    description = "Path to logo image for fastfetch display.";
+                  };
+                };
+              };
+              default = { };
+            };
+            fzf = mkEnableOption "Fzf fuzzy finder" // {
+              default = true;
+            };
+            sshKeyPrompt = mkEnableOption "Prompt to add SSH key to agent if empty";
+            starship = mkEnableOption "Starship prompt" // {
+              default = true;
+            };
+            zoxide = mkEnableOption "Zoxide directory jumper" // {
+              default = true;
+            };
+          };
+        };
+        default = { };
       };
 
       obsidian = {
