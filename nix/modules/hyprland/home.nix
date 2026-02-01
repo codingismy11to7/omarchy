@@ -7,6 +7,7 @@
 }:
 with builtins;
 let
+  inherit (lib.modules) mkIf;
   cfg = config.omarchy;
   inherit (cfg) qtEnableAdwaita;
   hyprCfg = cfg.hyprland;
@@ -149,7 +150,7 @@ let
     lockSeconds = toString cfg.screensaver.lockSeconds;
   };
 in
-{
+mkIf cfg.hyprland.enable {
   services.polkit-gnome.enable = true;
 
   home.packages = [ p.gnome-calculator ];

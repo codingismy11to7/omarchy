@@ -6,6 +6,7 @@
 }:
 with builtins;
 let
+  inherit (lib.modules) mkIf;
   cfg = config.omarchy;
   inherit (cfg) lightMode theme;
   p = cfg._packages;
@@ -29,7 +30,7 @@ let
     };
   };
 in
-{
+mkIf cfg.hyprland.enable {
   gtk = {
     enable = true;
     gtk2.enable = false;

@@ -1,4 +1,9 @@
-_: {
+{ config, lib, ... }:
+let
+  inherit (lib.modules) mkIf;
+  cfg = config.omarchy;
+in
+mkIf cfg.hyprland.enable {
   services.hyprsunset = {
     enable = true;
     settings = { };

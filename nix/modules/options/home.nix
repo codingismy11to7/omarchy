@@ -40,20 +40,21 @@ in
       enable = mkEnableOption self.description;
 
       packages = mkOption {
-        type = attrsOf types.package;
+        type = attrsOf (nullOr types.package);
         default = { };
-        description = "Package overrides for omarchy tools. Merged with internal defaults.";
+        description = "Package overrides for omarchy tools. Merged with internal defaults. Set to null to disable.";
         example = literalExpression ''
           {
             jq = pkgs.jaq;  # Use jaq instead of jq
             brave = pkgs.ungoogled-chromium;  # Use different browser
+            mpv = null;  # Disable mpv
           }
         '';
       };
 
       # Internal option that merges user overrides with defaults
       _packages = mkOption {
-        type = attrsOf types.package;
+        type = attrsOf (nullOr types.package);
         internal = true;
         readOnly = true;
         default =
@@ -108,6 +109,7 @@ in
                 fastfetch
                 fzf
                 ghostty
+                imv
                 kitty
                 pamixer
                 wiremix
@@ -138,6 +140,7 @@ in
                 nautilus
 
                 # Apps
+                mpv
                 obsidian
                 ;
             }
@@ -216,6 +219,10 @@ in
       hyprland = mkOption {
         type = submodule {
           options = {
+            enable = mkEnableOption "Hyprland window manager" // {
+              default = true;
+            };
+
             package = mkPackageOption pkgs "hyprland" { };
 
             monitorConfig = mkOption {
@@ -333,12 +340,13 @@ in
       };
 
       terminal = mkOption {
-        type = enum [
+        type = nullOr (enum [
           "ghostty"
           "kitty"
           "alacritty"
-        ];
+        ]);
         default = "ghostty";
+        description = "Terminal emulator to use. Set to null for headless systems.";
       };
 
       theme = mkOption {

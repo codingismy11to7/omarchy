@@ -21,7 +21,7 @@ let
   wrapBrowser = browser: browser.override { commandLineArgs = extensionFlags; };
 in
 {
-  config = lib.mkIf cfg.enable {
+  config = lib.mkIf cfg.hyprland.enable {
     omarchy.browser = {
       inherit copyUrlExtension;
       wrapWithExtension = wrapBrowser;

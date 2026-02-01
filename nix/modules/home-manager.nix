@@ -18,7 +18,7 @@ let
     toInt
     last
     ;
-  inherit (lib.modules) mkDefault mkIf;
+  inherit (lib.modules) mkDefault mkIf mkMerge;
 
   cfg = config.omarchy;
 
@@ -66,28 +66,31 @@ in
     ./xdg/home.nix
   ];
 
-  config = mkIf cfg.enable {
-    _module.args.omarchyInputs = inputs;
-    _module.args.self = self;
+  config = mkMerge [
+    {
+      _module.args.omarchyInputs = inputs;
+      _module.args.self = self;
+      omarchy.bash.enable = mkDefault (osConfig.omarchy.bash.enable or true);
+    }
+    (mkIf cfg.hyprland.enable {
+      omarchy.qtEnableAdwaita = mkDefault (osConfig.omarchy.qtEnableAdwaita or false);
 
-    omarchy.qtEnableAdwaita = mkDefault (osConfig.omarchy.qtEnableAdwaita or false);
-    omarchy.bash.enable = mkDefault (osConfig.omarchy.bash.enable or true);
+      home.packages = [
+        cfg.font.package
+        pkgs.liberation_ttf
+      ];
 
-    home.packages = [
-      cfg.font.package
-      pkgs.liberation_ttf
-    ];
+      xdg.configFile."fontconfig/conf.d/50-omarchy.conf".source = pkgs.replaceVars (path {
+        path = ../../config/fontconfig/fonts.conf;
+      }) { font = config.omarchy.font.name; };
 
-    xdg.configFile."fontconfig/conf.d/50-omarchy.conf".source = pkgs.replaceVars (path {
-      path = ../../config/fontconfig/fonts.conf;
-    }) { font = config.omarchy.font.name; };
-
-    home.pointerCursor = {
-      gtk.enable = true;
-      x11.enable = true;
-      name = "Adwaita";
-      package = cfg._packages.adwaita-icon-theme;
-      size = cursorSize;
-    };
-  };
+      home.pointerCursor = {
+        gtk.enable = true;
+        x11.enable = true;
+        name = "Adwaita";
+        package = cfg._packages.adwaita-icon-theme;
+        size = cursorSize;
+      };
+    })
+  ];
 }
