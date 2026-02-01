@@ -10,8 +10,7 @@ let
 
   cfg = config.omarchy;
 in
-mkIf (cfg.enable && cfg.gaming.enable
-  && cfg.gaming.steam && isx86_64) {
+mkIf (cfg.gaming.enable && cfg.gaming.steam && isx86_64) {
   programs.steam = {
     enable = true;
     gamescopeSession = {

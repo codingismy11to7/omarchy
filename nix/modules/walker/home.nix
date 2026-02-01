@@ -8,7 +8,7 @@ with builtins;
 let
   cfg = config.omarchy;
 in
-lib.mkIf cfg.enable {
+lib.mkIf cfg.hyprland.enable {
   programs.walker = {
     enable = true;
     runAsService = true;

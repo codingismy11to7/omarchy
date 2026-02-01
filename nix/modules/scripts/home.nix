@@ -7,6 +7,7 @@
 }:
 with builtins;
 let
+  inherit (lib.modules) mkIf;
   cfg = config.omarchy;
   hyprland = cfg.hyprland.package;
   p = cfg._packages;
@@ -384,17 +385,24 @@ in
     description = "Internal access to omarchy scripts";
   };
 
-  config = {
-    omarchy.scripts = {
-      inherit
-        omarchy-restart-terminal
-        omarchy-restart-walker
-        omarchy-restart-waybar
-        omarchy-theme-bg-next
-        omarchy-theme-set-obsidian
-        ;
-    };
-    home.packages = allScripts;
+  config = lib.mkMerge [
+    # Scripts available without hyprland
+    {
+      omarchy.scripts = {
+        inherit omarchy-theme-set-obsidian;
+      };
+    }
+    # Hyprland-dependent scripts
+    (mkIf cfg.hyprland.enable {
+      omarchy.scripts = {
+        inherit
+          omarchy-restart-terminal
+          omarchy-restart-walker
+          omarchy-restart-waybar
+          omarchy-theme-bg-next
+          ;
+      };
+      home.packages = allScripts;
 
     # Restart apps on activation so they pick up theme changes.
     # Import wayland env vars since activation runs without them.
@@ -414,5 +422,6 @@ in
 
       ${omarchy-restart-terminal}/bin/omarchy-restart-terminal >/dev/null 2>&1 || true
     '';
-  };
+    })
+  ];
 }

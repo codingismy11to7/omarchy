@@ -8,7 +8,7 @@ with builtins;
 let
   cfg = config.omarchy;
 in
-lib.mkIf cfg.enable {
+{
   xdg.configFile = {
     "omarchy/current/theme/obsidian.css".source =
       pkgs.replaceVars
