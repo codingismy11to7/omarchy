@@ -1,7 +1,9 @@
-{ lib, ... }:
+{ config, lib, ... }:
 with builtins;
 let
+  inherit (lib.modules) mkIf;
   inherit (lib) splitString hasPrefix foldl';
+  cfg = config.omarchy;
 
   mimetypesFile = readFile (path {
     path = ../../../install/config/mimetypes.sh;
@@ -22,7 +24,7 @@ let
 
   mimeApps = foldl' (acc: line: acc // parseLine line) { } lines;
 in
-{
+mkIf cfg.hyprland.enable {
   xdg = {
     enable = true;
     mime.enable = true;

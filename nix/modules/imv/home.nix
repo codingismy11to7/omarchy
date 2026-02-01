@@ -7,9 +7,11 @@
 with builtins;
 let
   inherit (lib) getExe';
-  p = config.omarchy._packages;
+  inherit (lib.modules) mkIf;
+  cfg = config.omarchy;
+  p = cfg._packages;
 in
-{
+mkIf (p.imv != null) {
   programs.imv.enable = true;
 
   xdg.configFile."imv/config".source =

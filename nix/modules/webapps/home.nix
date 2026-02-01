@@ -167,7 +167,7 @@ in
       };
     };
 
-  config = lib.mkIf (cfg.enable && allWebapps != { }) {
+  config = lib.mkIf (cfg.hyprland.enable && allWebapps != { }) {
     home.file = webappFiles;
   };
 }
