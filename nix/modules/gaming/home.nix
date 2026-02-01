@@ -13,6 +13,6 @@ let
   p = cfg._packages;
   gaming = osConfig.omarchy.gaming or { enable = false; };
 in
-mkIf (cfg.enable && gaming.enable && gaming.heroicGameLauncher && isx86_64) {
+mkIf (gaming.enable && gaming.heroicGameLauncher && isx86_64) {
   home.packages = [ p.heroic ];
 }

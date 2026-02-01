@@ -154,7 +154,6 @@
                           ];
 
                           home.stateVersion = "25.11";
-                          omarchy.enable = true;
                           omarchy.ai.claudeCode.enable = true;
                           omarchy.voxtype.enable = true;
                         };

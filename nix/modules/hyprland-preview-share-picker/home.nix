@@ -1,11 +1,14 @@
 {
   config,
+  lib,
   omarchyInputs,
   pkgs,
   ...
 }:
 with builtins;
 let
+  inherit (lib.modules) mkIf;
+  cfg = config.omarchy;
   inherit (pkgs.stdenv.hostPlatform) system;
 
   themeFile =
@@ -21,7 +24,7 @@ let
           ;
       };
 in
-{
+mkIf cfg.hyprland.enable {
   home.packages = [
     omarchyInputs.hyprland-preview-share-picker.packages.${system}.default
   ];

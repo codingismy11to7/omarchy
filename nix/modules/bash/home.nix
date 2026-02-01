@@ -39,7 +39,7 @@ let
     ''}
   '';
 in
-lib.mkIf (cfg.enable && cfg.bash.enable) {
+lib.mkIf cfg.bash.enable {
   programs.bash = {
     enable = true;
     initExtra = readFile (path { path = ../../../default/bashrc; }) + interactiveShellInit;

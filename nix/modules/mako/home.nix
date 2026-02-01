@@ -1,9 +1,11 @@
-{ config, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 with builtins;
 let
+  inherit (lib.modules) mkIf;
+  cfg = config.omarchy;
   configTmpl = path { path = ../../../default/themed/mako.ini.tpl; };
 in
-{
+mkIf cfg.hyprland.enable {
   services.mako = {
     enable = true;
     extraConfig = "include=${

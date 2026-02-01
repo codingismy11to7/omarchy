@@ -20,7 +20,7 @@ let
     inherit (config.omarchy.palette) foreground background;
   };
 in
-lib.mkIf cfg.enable {
+lib.mkIf cfg.hyprland.enable {
   programs.waybar = {
     enable = true;
     systemd.enable = true;

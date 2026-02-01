@@ -44,8 +44,8 @@ lib.mkMerge [
       Alacritty.desktop
     '';
   })
-  {
-    # we're always installing alacritty as an emergency fallback
+  (lib.mkIf (cfg.terminal != null) {
+    # install alacritty as an emergency fallback when a terminal is configured
     home.packages = [ p.alacritty ];
 
     xdg.configFile = {
@@ -56,5 +56,5 @@ lib.mkMerge [
             font = cfg.font.name;
           };
     };
-  }
+  })
 ]
