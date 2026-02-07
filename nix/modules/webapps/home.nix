@@ -103,6 +103,7 @@ let
     whatsapp = mkWebapp { name = "WhatsApp"; url = "https://web.whatsapp.com/"; icon = "whatsapp.svg"; };
     x = mkWebapp { name = "X"; url = "https://x.com/"; icon = "x.svg"; singleton = false; };
     youtube = mkWebapp { name = "YouTube"; url = "https://youtube.com/"; icon = "youtube.svg"; singleton = false; };
+    youtube-music = mkWebapp { name = "YouTube Music"; url = "https://music.youtube.com/"; icon = "youtube-music.svg"; defaultEnabled = false; };
     zoom = mkWebapp {
       name = "Zoom";
       url = "https://app.zoom.us/wc/home";
