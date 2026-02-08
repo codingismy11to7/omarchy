@@ -133,6 +133,7 @@ in
                 # Misc
                 ffmpeg
                 fontconfig
+                gnome-keyring
                 v4l-utils
                 libxkbcommon
                 brightnessctl
