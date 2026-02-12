@@ -45,6 +45,7 @@ in
     ./fastfetch/home.nix
     ./gaming/home.nix
     ./ghostty/home.nix
+    ./git/home.nix
     ./gnome-keyring/home.nix
     ./gtk/home.nix
     ./hyprland/home.nix

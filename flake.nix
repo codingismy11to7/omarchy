@@ -154,8 +154,14 @@
                           ];
 
                           home.stateVersion = "25.11";
-                          omarchy.ai.claudeCode.enable = true;
-                          omarchy.voxtype.enable = true;
+                          omarchy = {
+                            git = {
+                              userName = "Test User";
+                              userEmail = "test@example.com";
+                            };
+                            ai.claudeCode.enable = true;
+                            voxtype.enable = true;
+                          };
                         };
                       };
                     }
