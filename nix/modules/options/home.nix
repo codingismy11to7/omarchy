@@ -64,6 +64,7 @@ in
                 # Core CLI tools
                 gawk
                 bc
+                git
                 gnugrep
                 gnused
                 jq
@@ -211,6 +212,25 @@ in
               type = str;
               default = "JetBrainsMono Nerd Font";
               example = "FiraCode Nerd Font";
+            };
+          };
+        };
+        default = { };
+      };
+
+      git = mkOption {
+        type = submodule {
+          options = {
+            enable = mkEnableOption "Git version control with omarchy defaults" // {
+              default = true;
+            };
+            userName = mkOption {
+              type = str;
+              description = "Git user.name for commits";
+            };
+            userEmail = mkOption {
+              type = str;
+              description = "Git user.email for commits";
             };
           };
         };
