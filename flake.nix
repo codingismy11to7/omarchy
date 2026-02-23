@@ -83,6 +83,11 @@
           };
 
           stylixTheme = import ./nix/modules/stylix-theme.nix;
+
+          nixosConfigurations = import ./nix/installer.nix {
+            inherit inputs self;
+            systems = import inputs.systems;
+          };
         };
 
         perSystem =
@@ -101,6 +106,41 @@
               packages = with pkgs; [
                 nixd
                 uv
+
+                (writeShellScriptBin "build-installer" ''
+                  nix build .#nixosConfigurations.installer-${system}.config.system.build.isoImage "$@"
+                '')
+
+                (writeShellScriptBin "test-installer" ''
+                  set -eEo pipefail
+                  REPO_ROOT="$(git rev-parse --show-toplevel)"
+                  PHASES="$REPO_ROOT/install/packaging/phases"
+
+                  # Load defaults, allow env overrides
+                  set -a
+                  source "$REPO_ROOT/install/packaging/test-defaults.env"
+                  set +a
+
+                  export OMARCHY_TEST_MODE=1
+                  export OMARCHY_INSTALL_LOG_FILE="''${OMARCHY_INSTALL_LOG_FILE:-/tmp/omarchy-test-install.log}"
+                  export OMARCHY_TEST_FACTER_JSON="''${OMARCHY_TEST_FACTER_JSON:-$REPO_ROOT/install/packaging/test-facter.json}"
+                  export OMARCHY_TEST_REPO="''${OMARCHY_TEST_REPO:-$REPO_ROOT}"
+
+                  echo "=== Omarchy Installer Test Mode ==="
+                  echo "Hostname: $OMARCHY_HOSTNAME"
+                  echo "User: $OMARCHY_USER_NAME"
+                  echo "Working in: /tmp/dotfiles"
+                  echo ""
+
+                  source "$PHASES/clone-dotfiles.sh"
+                  source "$PHASES/configure-secrets.sh"
+                  source "$PHASES/install-system.sh"
+
+                  echo ""
+                  echo "=== Test completed successfully ==="
+                  echo "Dotfiles at: /tmp/dotfiles"
+                  echo "Secrets at: /tmp/secrets"
+                '')
 
                 (writeShellScriptBin "lint" ''
                   if [[ "$1" == "--fix" ]]; then
