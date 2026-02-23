@@ -83,6 +83,11 @@
           };
 
           stylixTheme = import ./nix/modules/stylix-theme.nix;
+
+          nixosConfigurations = import ./nix/installer.nix {
+            inherit inputs self;
+            systems = import inputs.systems;
+          };
         };
 
         perSystem =
@@ -101,6 +106,10 @@
               packages = with pkgs; [
                 nixd
                 uv
+
+                (writeShellScriptBin "build-installer" ''
+                  nix build .#nixosConfigurations.installer-${system}.config.system.build.isoImage "$@"
+                '')
 
                 (writeShellScriptBin "lint" ''
                   if [[ "$1" == "--fix" ]]; then

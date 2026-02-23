@@ -219,8 +219,32 @@ Contributions welcome! Check the issues or just fix something that bugs you.
 ## Non-Goals
 
 - Total feature parity where it conflicts with NixOS idioms
-- Standalone distribution or installer
 - Support for non-flake configurations
+
+## Installer ISO (Experimental)
+
+There's an experimental NixOS installer ISO that provides a
+guided installation experience similar to upstream Omarchy's
+installer. It walks through keyboard layout, WiFi, account
+setup, disk selection, and then runs a full NixOS installation
+with omarchy pre-configured.
+
+**This is very early and mostly just wires up
+[my personal dotfiles](https://github.com/codingismy11to7/dotfiles).**
+It's not yet a general-purpose omarchy installer — it clones
+my dotfiles repo, strips out personal settings, and installs
+from that. It works, but it's tightly coupled to my setup
+for now.
+
+To build the ISO:
+
+```bash
+nix develop
+build-installer
+```
+
+The resulting ISO is in `result/iso/`. Boot it in a VM or
+write it to a USB drive.
 
 ---
 
