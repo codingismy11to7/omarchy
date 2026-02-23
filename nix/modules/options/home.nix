@@ -107,13 +107,16 @@ in
 
                 # Terminal/apps
                 alacritty
+                eza
                 fastfetch
                 fzf
                 ghostty
                 imv
                 kitty
                 pamixer
+                starship
                 wiremix
+                zoxide
 
                 # Wayland
                 wl-clipboard

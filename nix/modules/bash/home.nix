@@ -45,7 +45,7 @@ lib.mkIf cfg.bash.enable {
     initExtra = readFile (path { path = ../../../default/bashrc; }) + interactiveShellInit;
   };
 
-  home.packages = map (name: pkgs.${name}) (filter (name: cfg.bash.${name}) optionalPkgs);
+  home.packages = map (name: p.${name}) (filter (name: cfg.bash.${name}) optionalPkgs);
 
   xdg.dataFile = listToAttrs (
     map (name: {
