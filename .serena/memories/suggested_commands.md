@@ -5,6 +5,7 @@
 - `nix fmt <files>` - Format nix files (uses nixfmt)
 - `dev-mode` - File watcher that auto-runs `nix flake check` on changes (available in `nix develop`)
 - `lint` / `lint --fix` - Run statix and deadnix linting (available in `nix develop`)
+- `test-installer` - Run installer phases locally in test mode (skips disko/nixos-install, does nix build instead) (available in `nix develop`)
 
 ## Git
 - `git status` - Check working tree status
