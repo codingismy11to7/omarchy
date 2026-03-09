@@ -381,6 +381,12 @@ in
         default = "tokyo-night";
       };
 
+      themeSetCommand = mkOption {
+        type = str;
+        default = "omarchy-theme-set";
+        description = "Command to run when a theme is selected from the menu. Receives the theme name as an argument.";
+      };
+
       lightMode = mkOption {
         type = bool;
         internal = true;
