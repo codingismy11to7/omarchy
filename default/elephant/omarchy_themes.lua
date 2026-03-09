@@ -76,7 +76,7 @@ function GetEntries()
             Preview = preview_path,
             PreviewType = "file",
             Actions = {
-              activate = "omarchy-theme-set " .. theme_name,
+              activate = "@themeSetCommand@ " .. theme_name,
             },
           })
         end

@@ -17,7 +17,7 @@ lib.mkIf cfg.hyprland.enable {
 
   # Elephant is the data provider for walker's application list.
   # Restart it on activation so it picks up added/removed desktop files.
-  home.activation.restartWalker = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+  home.activation.restartWalker = lib.hm.dag.entryAfter [ "onFilesChange" "reloadSystemd" ] ''
     run ${cfg.scripts.omarchy-restart-walker}/bin/omarchy-restart-walker
   '';
 
@@ -31,7 +31,10 @@ lib.mkIf cfg.hyprland.enable {
       };
       "elephant/menus/omarchy_themes.lua".source = pkgs.replaceVars (path {
         path = ../../../default/elephant/omarchy_themes.lua;
-      }) { omarchyThemesDir = path { path = ../../../themes; }; };
+      }) {
+        omarchyThemesDir = path { path = ../../../themes; };
+        inherit (cfg) themeSetCommand;
+      };
       "elephant/menus/omarchy_background_selector.lua".source = pkgs.replaceVars (path {
         path = ../../../default/elephant/omarchy_background_selector.lua;
       }) {
