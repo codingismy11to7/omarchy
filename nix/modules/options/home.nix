@@ -331,6 +331,19 @@ in
         default = { };
       };
 
+      media = mkOption {
+        type = submodule {
+          options = {
+            sensitiveVolume = mkOption {
+              type = bool;
+              default = false;
+              description = "When true, swap the Alt modifier for volume adjustments: 1% by default, 5% with Alt.";
+            };
+          };
+        };
+        default = { };
+      };
+
       passwordManager = mkOption {
         type = str;
         default = "1password";
