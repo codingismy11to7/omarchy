@@ -47,6 +47,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.flake-utils.follows = "flake-utils";
     };
+    codex-cli-nix = {
+      url = "github:sadjow/codex-cli-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.flake-utils.follows = "flake-utils";
+    };
   };
 
   outputs =
@@ -200,6 +205,7 @@
                               userEmail = "test@example.com";
                             };
                             ai.claudeCode.enable = true;
+                            ai.codexCli.enable = true;
                             voxtype.enable = true;
                           };
                         };

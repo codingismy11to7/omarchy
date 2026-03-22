@@ -18,7 +18,6 @@ let
     lines
     listOf
     nullOr
-    oneOf
     str
     submodule
     ;
@@ -592,6 +591,14 @@ in
               type = submodule {
                 options = {
                   enable = mkEnableOption "Claude Code AI coding assistant";
+                };
+              };
+              default = { };
+            };
+            codexCli = mkOption {
+              type = submodule {
+                options = {
+                  enable = mkEnableOption "Codex CLI AI coding assistant";
                 };
               };
               default = { };
