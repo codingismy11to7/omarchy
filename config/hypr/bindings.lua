@@ -11,7 +11,7 @@ o.bind("SUPER + SHIFT + ALT + B", "Browser (private)", { omarchy = "browser --pr
 o.bind("SUPER + SHIFT + N", "Editor", { omarchy = "editor" })
 o.bind("SUPER + SHIFT + D", "Docker", { tui = "lazydocker" })
 o.bind("SUPER + SHIFT + G", "Signal", { launch = "signal-desktop", focus = "^signal$" })
-o.bind("SUPER + SHIFT + O", "Obsidian", { launch = "obsidian -disable-gpu --enable-wayland-ime", focus = "^obsidian$" })
+o.bind("SUPER + SHIFT + O", "Obsidian", { launch = "obsidian -disable-gpu --enable-wayland-ime", focus = "obsidian" })
 o.bind("SUPER + SHIFT + W", "Typora", { launch = "typora --enable-wayland-ime" })
 o.bind("SUPER + SHIFT + SLASH", "Passwords", { launch = "@passwordManager@" })
 
