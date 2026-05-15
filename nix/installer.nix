@@ -1,6 +1,7 @@
 {
   inputs,
   systems,
+  ...
 }:
 with builtins;
 let
