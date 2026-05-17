@@ -127,37 +127,24 @@ let
   };
 
   allScripts = [
-    (createScript "omarchy-cmd-audio-switch" {
+    (createScript "omarchy-audio-output-switch" {
       inherit (exe)
         grep
-        sed
-        hyprctl
         jq
         pactl
-        swayosd-client
+        sed
         wpctl
         ;
     })
-    (createScript "omarchy-cmd-first-run" {
+    (createScript "omarchy-first-run" {
       inherit (cfg) firstRunMode;
       inherit (exe) bash;
       inherit welcomeDotSh wifiDotSh;
     })
     (createScript "omarchy-cmd-present" { })
-  ] ++ lib.optional isx86_64 (createScript "omarchy-cmd-screenrecord" {
-      inherit (exe)
-        ffmpeg
-        ffplay
-        hyprctl
-        jq
-        mpv
-        notify-send
-        v4l2-ctl
-        ;
-      gpu-screen-recorder = getExe p.gpu-screen-recorder;
-    })
+  ] ++ lib.optional isx86_64 (createScript "omarchy-capture-screenrecording" { })
   ++ [
-    (createScript "omarchy-cmd-screensaver" {
+    (createScript "omarchy-screensaver" {
       inherit (exe)
         hyprctl
         jq
@@ -169,7 +156,7 @@ let
         else
           path { path = ../../../logo.txt; };
     })
-    (createScript "omarchy-cmd-screenshot" {
+    (createScript "omarchy-capture-screenshot" {
       inherit (exe)
         grim
         hyprctl
@@ -181,7 +168,7 @@ let
         wl-copy
         ;
     })
-    (createScript "omarchy-cmd-share" {
+    (createScript "omarchy-menu-share" {
       inherit (exe)
         fzf
         grep
@@ -270,9 +257,7 @@ let
     (createScript "omarchy-launch-wifi" {
       inherit (exe) impala;
     })
-    (createScript "omarchy-lock-screen" {
-      inherit (exe) hyprctl hyprlock;
-    })
+    (createScript "omarchy-system-lock" { })
     (createScript "omarchy-menu" {
       inherit (exe)
         bash
@@ -356,9 +341,7 @@ let
         notify-send
         ;
     })
-    (createScript "omarchy-toggle-screensaver" {
-      inherit (exe) notify-send;
-    })
+    (createScript "omarchy-toggle-screensaver" { })
     (createScript "omarchy-toggle-waybar" {
       inherit (exe) systemctl;
     })

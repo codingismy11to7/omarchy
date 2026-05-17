@@ -148,12 +148,8 @@ show_capture_menu() {
   case $(menu "Capture" "  Screenshot\n  Screenrecord\n󰴑  Text Extraction\n󰃉  Color") in
   *Screenshot*) omarchy-capture-screenshot ;;
   *Screenrecord*) show_screenrecord_menu ;;
-<<<<<<< HEAD
   *Text*) omarchy-capture-text-extraction ;;
-  *Color*) pkill hyprpicker || hyprpicker -a ;;
-=======
   *Color*) pkill hyprpicker || @hyprpicker@ -a ;;
->>>>>>> 2bb3cf2b (Nixify scripts with @placeholder@ substitution)
   *) back_to show_trigger_menu ;;
   esac
 }
@@ -529,11 +525,7 @@ show_setup_system_menu() {
 }
 
 show_install_menu() {
-<<<<<<< HEAD
   case $(menu "Install" "󰣇  Package\n󰣇  AUR\n  Web App\n  TUI\n  Service\n  Style\n󰵮  Development\n  Editor\n  Terminal\n  Browser\n󱚤  AI\n  Gaming\n󰍲  Windows") in
-=======
-  case $(menu "Install" "  Package\n  Web App\n  TUI\n  Service\n  Style\n󰵮  Development\n  Editor\n  Terminal\n󱚤  AI\n󰍲  Windows\n  Gaming") in
->>>>>>> 2bb3cf2b (Nixify scripts with @placeholder@ substitution)
   *Package*) terminal omarchy-pkg-install ;;
   *Web*) present_terminal omarchy-webapp-install ;;
   *TUI*) present_terminal omarchy-tui-install ;;

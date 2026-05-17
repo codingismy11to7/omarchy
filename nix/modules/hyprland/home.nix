@@ -30,9 +30,6 @@ let
     };
     bindings = {
       mediaDotConf = pkgs.replaceVars (path { path = ../../../default/hypr/bindings/media.conf; }) {
-        jq = getExe p.jq;
-        swayosd-client = getExe' p.swayosd "swayosd-client";
-        hyprctl = getExe' hyprCfg.package "hyprctl";
         volUpCmd = if cfg.media.sensitiveVolume then "+1" else "raise";
         volDownCmd = if cfg.media.sensitiveVolume then "-1" else "lower";
         volUpDesc = if cfg.media.sensitiveVolume then "Volume up precise" else "Volume up";
@@ -41,7 +38,7 @@ let
         volDownAltCmd = if cfg.media.sensitiveVolume then "lower" else "-1";
         volUpAltDesc = if cfg.media.sensitiveVolume then "Volume up" else "Volume up precise";
         volDownAltDesc = if cfg.media.sensitiveVolume then "Volume down" else "Volume down precise";
-        };
+      };
       clipboardDotConf = path { path = ../../../default/hypr/bindings/clipboard.conf; };
       tilingV2DotConf = path { path = ../../../default/hypr/bindings/tiling-v2.conf; };
       utilitiesDotConf =
