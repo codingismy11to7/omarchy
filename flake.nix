@@ -21,7 +21,7 @@
       inputs.systems.follows = "systems";
     };
     elephant = {
-      url = "github:abenz1267/elephant/2.0.0";
+      url = "github:abenz1267/elephant/v2.21.0";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.systems.follows = "systems";
     };
@@ -31,7 +31,7 @@
       inputs.flake-utils.follows = "flake-utils";
     };
     walker = {
-      url = "github:abenz1267/walker/2.0.0";
+      url = "github:abenz1267/walker/v2.16.2";
       inputs = {
         elephant.follows = "elephant";
         nixpkgs.follows = "nixpkgs";

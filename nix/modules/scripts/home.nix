@@ -68,6 +68,7 @@ let
     pgrep = "${p.procps}/bin/pgrep";
     pkill = "${p.procps}/bin/pkill";
     powerprofilesctl = "${p.power-profiles-daemon}/bin/powerprofilesctl";
+    socat = "${pkgs.socat}/bin/socat";
     swayosd-client = "${p.swayosd}/bin/swayosd-client";
     systemctl = "${p.systemd}/bin/systemctl";
     uwsm-app = "${p.uwsm}/bin/uwsm-app";
@@ -205,16 +206,22 @@ let
     (createScript "omarchy-hook" {
       inherit (exe) bash;
     })
-    (createScript "omarchy-hyprland-window-close-all" {
+    (createScript "omarchy-hyprland-monitor-focused" {
       inherit (exe) hyprctl jq;
     })
-    (createScript "omarchy-hyprland-window-pop" {
+    (createScript "omarchy-hyprland-monitor-watch" {
+      inherit (exe) socat;
+    })
+    (createScript "omarchy-hyprland-window-close-all" {
       inherit (exe) hyprctl jq;
     })
     (createScript "omarchy-hyprland-window-gaps-toggle" {
       inherit (exe) awk hyprctl jq;
       gapsOut = if cfg.hyprland.widerWindowGaps then "20" else "10";
       gapsIn = if cfg.hyprland.widerWindowGaps then "10" else "5";
+    })
+    (createScript "omarchy-hyprland-window-pop" {
+      inherit (exe) hyprctl jq;
     })
     (createScript "omarchy-launch-about" {
       inherit (exe) bash fastfetch;
@@ -316,6 +323,7 @@ let
     (createScript "omarchy-pkg-remove" {
       inherit (exe) fzf jq;
     })
+    (createScript "omarchy-powerprofiles-init" { })
     (createScript "omarchy-powerprofiles-list" {
       inherit (exe) awk powerprofilesctl;
     })
@@ -345,6 +353,7 @@ let
     omarchy-theme-bg-next
     omarchy-theme-bg-set
     omarchy-theme-set-obsidian
+    (createScript "omarchy-toggle-enabled" { })
     (createScript "omarchy-toggle-idle" {
       inherit (exe)
         hypridle

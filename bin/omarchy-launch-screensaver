@@ -1,9 +1,10 @@
 
 # omarchy:summary=Launch the Omarchy screensaver in the default terminal on the system with the correct font configuration.
 
-if ! command -v tte &>/dev/null; then
-  exit 1
-fi
+# tte is substituted as a nix-store path inside omarchy-screensaver on the nix fork, so this guard would always fail.
+#if ! command -v tte &>/dev/null; then
+#  exit 1
+#fi
 
 # Exit early if screensave is already running
 pgrep -f org.omarchy.screensaver && exit 0
