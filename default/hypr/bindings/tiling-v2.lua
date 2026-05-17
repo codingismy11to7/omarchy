@@ -10,10 +10,14 @@ o.bind("SUPER + ALT + F", "Full width", hl.dsp.window.fullscreen({ mode = "maxim
 o.bind("SUPER + O", "Pop window out (float & pin)", "omarchy-hyprland-window-pop")
 o.bind("SUPER + L", "Toggle workspace layout", "omarchy-hyprland-workspace-layout-toggle")
 
-o.bind("SUPER + LEFT", "Focus on left window", hl.dsp.focus({ direction = "l" }))
-o.bind("SUPER + RIGHT", "Focus on right window", hl.dsp.focus({ direction = "r" }))
-o.bind("SUPER + UP", "Focus on above window", hl.dsp.focus({ direction = "u" }))
-o.bind("SUPER + DOWN", "Focus on below window", hl.dsp.focus({ direction = "d" }))
+o.bind("SUPER + LEFT", "Move window focus left", hl.dsp.focus({ direction = "l" }))
+o.bind("SUPER + H", "Move window focus left", hl.dsp.focus({ direction = "l" }))
+o.bind("SUPER + RIGHT", "Move window focus right", hl.dsp.focus({ direction = "r" }))
+o.bind("SUPER + L", "Move window focus right", hl.dsp.focus({ direction = "r" }))
+o.bind("SUPER + UP", "Move window focus up", hl.dsp.focus({ direction = "u" }))
+o.bind("SUPER + K", "Move window focus up", hl.dsp.focus({ direction = "u" }))
+o.bind("SUPER + DOWN", "Move window focus down", hl.dsp.focus({ direction = "d" }))
+o.bind("SUPER + J", "Move window focus down", hl.dsp.focus({ direction = "d" }))
 
 for workspace = 1, 10 do
   local key = "code:" .. tostring(workspace + 9)
