@@ -39,8 +39,8 @@
       };
     };
     hyprland-preview-share-picker = {
-      url = "github:codingismy11to7/hyprland-preview-share-picker/nix";
-      inputs.flake-utils.follows = "flake-utils";
+      url = "git+https://github.com/WhySoBad/hyprland-preview-share-picker?submodules=1";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
     claude-code-nix = {
       url = "github:sadjow/claude-code-nix";
