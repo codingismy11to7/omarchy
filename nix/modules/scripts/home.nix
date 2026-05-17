@@ -59,6 +59,7 @@ let
     fc-list = "${p.fontconfig}/bin/fc-list";
     ffmpeg = "${p.ffmpeg}/bin/ffmpeg";
     ffplay = "${p.ffmpeg}/bin/ffplay";
+    ffprobe = "${p.ffmpeg}/bin/ffprobe";
     find = "${p.findutils}/bin/find";
     hyprctl = getExe' hyprland "hyprctl";
     localsend_app = "${p.localsend}/bin/localsend_app";
@@ -142,7 +143,23 @@ let
       inherit welcomeDotSh wifiDotSh;
     })
     (createScript "omarchy-cmd-present" { })
-  ] ++ lib.optional isx86_64 (createScript "omarchy-capture-screenrecording" { })
+  ] ++ lib.optional isx86_64 (createScript "omarchy-capture-screenrecording" {
+      inherit (exe)
+        awk
+        ffmpeg
+        ffplay
+        ffprobe
+        grep
+        hyprctl
+        hyprpicker
+        jq
+        mpv
+        notify-send
+        slurp
+        v4l2-ctl
+        ;
+      gpu-screen-recorder = getExe p.gpu-screen-recorder;
+    })
   ++ [
     (createScript "omarchy-screensaver" {
       inherit (exe)
