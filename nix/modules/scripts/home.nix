@@ -274,7 +274,9 @@ let
     (createScript "omarchy-launch-wifi" {
       inherit (exe) impala;
     })
-    (createScript "omarchy-system-lock" { })
+    (createScript "omarchy-system-lock" {
+      inherit (exe) hyprctl hyprlock;
+    })
     (createScript "omarchy-menu" {
       inherit (exe)
         bash
