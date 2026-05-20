@@ -144,6 +144,7 @@ let
       inherit welcomeDotSh wifiDotSh;
     })
     (createScript "omarchy-cmd-present" { })
+    (createScript "omarchy-swayosd-client" { })
   ] ++ lib.optional isx86_64 (createScript "omarchy-capture-screenrecording" {
       inherit (exe)
         awk

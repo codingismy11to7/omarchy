@@ -95,6 +95,7 @@ in
                 openssh
                 procps
                 systemd
+                playerctl
                 pulseaudio
                 wireplumber
                 power-profiles-daemon

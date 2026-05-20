@@ -14,6 +14,9 @@ mkIf (cfg._packages.swayosd != null) {
     package = cfg._packages.swayosd;
   };
 
+  # Needed for swayosd-server's --playerctl flag (XF86AudioPlay/Pause/Next/Prev).
+  home.packages = [ cfg._packages.playerctl ];
+
   xdg.configFile."swayosd/config.toml".source = path { path = ../../../config/swayosd/config.toml; };
   xdg.configFile."swayosd/style.css".source =
     pkgs.replaceVars (path { path = ../../../config/swayosd/style.css; })
