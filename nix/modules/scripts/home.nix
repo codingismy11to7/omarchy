@@ -224,6 +224,9 @@ let
     (createScript "omarchy-hyprland-window-pop" {
       inherit (exe) hyprctl jq;
     })
+    (createScript "omarchy-hyprland-window-transparency-toggle" {
+      inherit (exe) hyprctl jq;
+    })
     (createScript "omarchy-launch-about" {
       inherit (exe) bash fastfetch;
     })
