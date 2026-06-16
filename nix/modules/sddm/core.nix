@@ -23,6 +23,8 @@ mkIf cfg.enable {
     };
   };
 
-  programs.uwsm.waylandCompositors.hyprland.binPath =
-    lib.mkForce "${cfg.hyprland.package}/bin/start-hyprland";
+  programs.uwsm.waylandCompositors.hyprland = {
+    prettyName = "Hyprland";
+    binPath = lib.mkForce "${cfg.hyprland.package}/bin/start-hyprland";
+  };
 }
