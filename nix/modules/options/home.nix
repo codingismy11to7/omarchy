@@ -254,9 +254,10 @@ in
             monitorConfig = mkOption {
               type = lines;
               default = "";
+              description = "Monitor setup as Hyprland Lua config lines (hyprlang was retired with the Hyprland 0.55 lua configs).";
               example = ''
-                env = GDK_SCALE,1
-                monitor=,preferred,auto,1
+                hl.env("GDK_SCALE", "1")
+                hl.monitor({ output = "", mode = "preferred", position = "auto", scale = 1 })
               '';
             };
 
@@ -267,25 +268,25 @@ in
             dwindleExtra = mkOption {
               type = lines;
               default = "";
-              description = "Extra options for dwindle layout, such as setting an aspect ratio for single-window workspaces";
+              description = "Extra layout config as Hyprland Lua, such as setting an aspect ratio for single-window workspaces";
               example = ''
-                single_window_aspect_ratio = 16 9
+                hl.config({ layout = { single_window_aspect_ratio = { 16, 9 } } })
               '';
             };
 
             bindings = mkOption {
               type = listOf str;
               default = [ ];
-              description = "Keybindings to add to the Hyprland configuration.";
-              example = [ "bindd = CTRL, F11, Melt Faces, exec, repeat_key_toggle" ];
+              description = "Keybindings (Hyprland Lua o.bind/hl.bind lines) to add to the Hyprland configuration.";
+              example = [ ''o.bind("CTRL + F11", "Melt Faces", "repeat_key_toggle")'' ];
             };
 
             bindingsExtra = mkOption {
               type = lines;
               default = "";
-              description = "Extra keybindings to add to the Hyprland configuration (raw lines).";
+              description = "Extra keybindings (Hyprland Lua, raw lines) to add to the Hyprland configuration.";
               example = ''
-                bindd = CTRL, F11, Melt Faces, exec, repeat_key_toggle
+                o.bind("CTRL + F11", "Melt Faces", "repeat_key_toggle")
               '';
             };
 
@@ -301,9 +302,9 @@ in
             envsExtra = mkOption {
               type = lines;
               default = "";
-              description = "Extra environment variables to add to the Hyprland configuration (raw lines).";
+              description = "Extra environment variables (Hyprland Lua, raw lines) to add to the Hyprland configuration.";
               example = ''
-                env = YDOTOOL_SOCKET,/run/ydotool/socket
+                hl.env("YDOTOOL_SOCKET", "/run/ydotool/socket")
               '';
             };
           };

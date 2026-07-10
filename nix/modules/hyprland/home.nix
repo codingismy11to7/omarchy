@@ -19,102 +19,122 @@ let
   hyprland-preview-share-picker =
     omarchyInputs.hyprland-preview-share-picker.packages.${system}.default;
 
-  defaults = rec {
-    appsDotConf = pkgs.replaceVars (path { path = ../../../default/hypr/apps.conf; }) {
-      appsPath = path { path = ../../../default/hypr/apps; };
-    };
-    autostartDotConf = pkgs.replaceVars (path { path = ../../../default/hypr/autostart.conf; }) {
-      hypridle = getExe p.hypridle;
-      swaybg = getExe p.swaybg;
-      uwsm-app = getExe' p.uwsm "uwsm-app";
-    };
-    bindings = {
-      mediaDotConf = pkgs.replaceVars (path { path = ../../../default/hypr/bindings/media.conf; }) {
-        volUpCmd = if cfg.media.sensitiveVolume then "+1" else "raise";
-        volDownCmd = if cfg.media.sensitiveVolume then "-1" else "lower";
-        volUpDesc = if cfg.media.sensitiveVolume then "Volume up precise" else "Volume up";
-        volDownDesc = if cfg.media.sensitiveVolume then "Volume down precise" else "Volume down";
-        volUpAltCmd = if cfg.media.sensitiveVolume then "raise" else "+1";
-        volDownAltCmd = if cfg.media.sensitiveVolume then "lower" else "-1";
-        volUpAltDesc = if cfg.media.sensitiveVolume then "Volume up" else "Volume up precise";
-        volDownAltDesc = if cfg.media.sensitiveVolume then "Volume down" else "Volume down precise";
+  voxtype =
+    let
+      voxtypePkgs = omarchyInputs.voxtype.packages.${system};
+      unwrapped =
+        if !cfg.voxtype.enable then
+          null
+        else if cfg.voxtype.variant == "vulkan" then
+          voxtypePkgs.voxtype-vulkan-unwrapped
+        else if cfg.voxtype.variant == "rocm" then
+          voxtypePkgs.voxtype-rocm-unwrapped
+        else
+          voxtypePkgs.voxtype-unwrapped;
+    in
+    if unwrapped == null then
+      null
+    else
+      pkgs.symlinkJoin {
+        name = "${unwrapped.pname or "voxtype"}" + "-wrapped-${unwrapped.version}";
+        paths = [ unwrapped ];
+        buildInputs = [ pkgs.makeWrapper ];
+        postBuild = ''
+          wrapProgram $out/bin/voxtype \
+            --prefix PATH : ${
+              lib.makeBinPath [
+                p.wl-clipboard
+                p.libnotify
+                cfg.voxtype.ydotool
+              ]
+            }
+        '';
+        inherit (unwrapped) meta;
       };
-      clipboardDotConf = path { path = ../../../default/hypr/bindings/clipboard.conf; };
-      tilingV2DotConf = path { path = ../../../default/hypr/bindings/tiling-v2.conf; };
-      utilitiesDotConf =
-        let
-          voxtypePkgs = omarchyInputs.voxtype.packages.${system};
-          unwrapped =
-            if !cfg.voxtype.enable then
-              null
-            else if cfg.voxtype.variant == "vulkan" then
-              voxtypePkgs.voxtype-vulkan-unwrapped
-            else if cfg.voxtype.variant == "rocm" then
-              voxtypePkgs.voxtype-rocm-unwrapped
-            else
-              voxtypePkgs.voxtype-unwrapped;
-          vt =
-            if unwrapped == null then
-              null
-            else
-              pkgs.symlinkJoin {
-                name = "${unwrapped.pname or "voxtype"}" + "-wrapped-${unwrapped.version}";
-                paths = [ unwrapped ];
-                buildInputs = [ pkgs.makeWrapper ];
-                postBuild = ''
-                  wrapProgram $out/bin/voxtype \
-                    --prefix PATH : ${
-                      lib.makeBinPath [
-                        p.wl-clipboard
-                        p.libnotify
-                        cfg.voxtype.ydotool
-                      ]
-                    }
-                '';
-                inherit (unwrapped) meta;
-              };
-          voxtypeBindings =
-            if cfg.voxtype.enable then
-              ''
-                bindd  = SUPER CTRL, X, Start dictation, exec, ${getExe vt} record start
-                binddr = SUPER CTRL, X, Stop dictation, exec, ${getExe vt} record stop''
-            else
-              "";
-        in
-        pkgs.replaceVars (path { path = ../../../default/hypr/bindings/utilities.conf; }) {
+
+  voxtypeBindings =
+    if cfg.voxtype.enable then
+      ''
+        o.bind("SUPER + CTRL + X", "Start dictation", "${getExe voxtype} record start")
+        o.bind("SUPER + CTRL + X", "Stop dictation", "${getExe voxtype} record stop", { release = true })''
+    else
+      "";
+
+  envsExtra =
+    let
+      envsLines = concatStringsSep "\n" (
+        attrValues (mapAttrs (k: v: ''hl.env("${k}", "${v}")'') hyprCfg.envs)
+      );
+    in
+    envsLines
+    + (if envsLines != "" && hyprCfg.envsExtra != "" then "\n" else "")
+    + hyprCfg.envsExtra;
+
+  # Option-substituted overlays for the shared OMARCHY_PATH defaults tree.
+  # Everything else in the tree ships as-is from the repo.
+  defaultOverlays = {
+    "default/hypr/helpers.lua" = pkgs.replaceVars (path { path = ../../../default/hypr/helpers.lua; }) {
+      uwsm-app = getExe' p.uwsm "uwsm-app";
+      notify-send = getExe' p.libnotify "notify-send";
+    };
+    "default/hypr/autostart.lua" =
+      pkgs.replaceVars (path { path = ../../../default/hypr/autostart.lua; })
+        {
+          hypridle = getExe p.hypridle;
+          swaybg = getExe p.swaybg;
+        };
+    "default/hypr/envs.lua" = pkgs.replaceVars (path { path = ../../../default/hypr/envs.lua; }) {
+      qtTheme =
+        if qtEnableAdwaita then
+          (if config.omarchy.lightMode then "adwaita" else "adwaita-dark")
+        else
+          "kvantum";
+      xcompose = path { path = ../../../default/xcompose; };
+      inherit envsExtra;
+    };
+    "default/hypr/input.lua" = pkgs.replaceVars (path { path = ../../../default/hypr/input.lua; }) {
+      inherit (cfg.keyboard) layout variant options;
+    };
+    "default/hypr/bindings/media.lua" =
+      pkgs.replaceVars (path { path = ../../../default/hypr/bindings/media.lua; })
+        {
+          volUpCmd = if cfg.media.sensitiveVolume then "+1" else "raise";
+          volDownCmd = if cfg.media.sensitiveVolume then "-1" else "lower";
+          volUpDesc = if cfg.media.sensitiveVolume then "Volume up precise" else "Volume up";
+          volDownDesc = if cfg.media.sensitiveVolume then "Volume down precise" else "Volume down";
+          volUpAltCmd = if cfg.media.sensitiveVolume then "raise" else "+1";
+          volDownAltCmd = if cfg.media.sensitiveVolume then "lower" else "-1";
+          volUpAltDesc = if cfg.media.sensitiveVolume then "Volume up" else "Volume up precise";
+          volDownAltDesc = if cfg.media.sensitiveVolume then "Volume down" else "Volume down precise";
+        };
+    "default/hypr/bindings/utilities.lua" =
+      pkgs.replaceVars (path { path = ../../../default/hypr/bindings/utilities.lua; })
+        {
           gnome-calculator = getExe p.gnome-calculator;
-          hyprpicker = getExe p.hyprpicker;
-          jq = getExe p.jq;
-          notify-send = getExe' p.libnotify "notify-send";
           makoctl = getExe' p.mako "makoctl";
           hyprctl = getExe' hyprCfg.package "hyprctl";
           inherit voxtypeBindings;
         };
-    };
-    envsDotConf =
-      let
-        envsLines = concatStringsSep "\n" (attrValues (mapAttrs (k: v: "env = ${k},${v}") hyprCfg.envs));
-        envsExtra =
-          envsLines + (if envsLines != "" && hyprCfg.envsExtra != "" then "\n" else "") + hyprCfg.envsExtra;
-      in
-      pkgs.replaceVars (path { path = ../../../default/hypr/envs.conf; }) {
-        qtTheme =
-          if qtEnableAdwaita then
-            (if config.omarchy.lightMode then "adwaita" else "adwaita-dark")
-          else
-            "kvantum";
-        xcompose = path { path = ../../../default/xcompose; };
-        inherit envsExtra;
-      };
-    inputDotConf = pkgs.replaceVars (path { path = ../../../default/hypr/input.conf; }) {
-      inherit (cfg.keyboard) layout variant options;
-    };
-    looknfeelDotConf = path { path = ../../../default/hypr/looknfeel.conf; };
-    windowsDotConf = pkgs.replaceVars (path { path = ../../../default/hypr/windows.conf; }) {
-      inherit appsDotConf;
-    };
   };
 
+  # The tree OMARCHY_PATH points at: upstream repo dirs with the option-substituted
+  # lua defaults overlaid. bin/ is deliberately excluded — scripts are installed
+  # (substituted) via scripts/home.nix, and raw @marker@ bodies must never be on PATH.
+  omarchyPath = pkgs.runCommand "omarchy-path" { } (
+    ''
+      mkdir -p $out
+      cp -r ${path { path = ../../../default; }} $out/default
+      cp -r ${path { path = ../../../themes; }} $out/themes
+      cp -r ${path { path = ../../../config; }} $out/config
+      cp -r ${path { path = ../../../install; }} $out/install
+      cp ${path { path = ../../../logo.txt; }} $out/logo.txt
+      chmod -R u+w $out
+    ''
+    + concatStringsSep "\n" (attrValues (mapAttrs (rel: file: "cp ${file} $out/${rel}") defaultOverlays))
+  );
+
+  # User-editable config values. These options take Hyprland Lua snippets now
+  # (hyprlang is deprecated as of Hyprland 0.55 and all omarchy configs are lua).
   monitorConfig = if hyprCfg.monitorConfig != null then hyprCfg.monitorConfig else "";
   bindingsExtra =
     let
@@ -123,32 +143,12 @@ let
     in
     bindingsLines + (if bindingsLines != "" && extra != "" then "\n" else "") + extra;
 
-  configs = {
-    inputDotConf = path { path = ../../../config/hypr/input.conf; };
-    bindingsDotConf = pkgs.replaceVars (path { path = ../../../config/hypr/bindings.conf; }) {
-      nautilus = getExe p.nautilus;
-      uwsm-app = getExe' p.uwsm "uwsm-app";
-      xdg-terminal-exec = getExe p.xdg-terminal-exec;
-      inherit (cfg) passwordManager;
-      inherit bindingsExtra;
-    };
-    looknfeelDotConf = pkgs.replaceVars (path { path = ../../../config/hypr/looknfeel.conf; }) {
-      inherit (hyprCfg) dwindleExtra;
-      rounding = "rounding = ${if hyprCfg.roundWindowCorners then "8" else "0"}";
-      gapsSize =
-        if !hyprCfg.widerWindowGaps then
-          ""
-        else
-          ''
-            gaps_in = 10
-            gaps_out = 20
-          '';
-    };
-    monitorsDotConf = pkgs.replaceVars (path { path = ../../../config/hypr/monitors.conf; }) {
-      inherit monitorConfig;
-    };
-    autostartDotConf = path { path = ../../../config/hypr/autostart.conf; };
-  };
+  gapsSize =
+    if !hyprCfg.widerWindowGaps then
+      ""
+    else
+      "hl.config({ general = { gaps_in = 10, gaps_out = 20 } })";
+  rounding = "hl.config({ decoration = { rounding = ${if hyprCfg.roundWindowCorners then "8" else "0"} } })";
 
   screensaver = {
     activationSeconds = toString cfg.screensaver.activationSeconds;
@@ -160,28 +160,46 @@ mkIf cfg.hyprland.enable {
 
   home.packages = [ p.gnome-calculator ];
 
-  xdg.configFile = {
-    "hypr/hyprland.conf".source =
-      pkgs.replaceVars (path { path = ../../../config/hypr/hyprland.conf; })
-        {
-          defaultAutostartDotConf = defaults.autostartDotConf;
-          defaultBindingsMediaDotConf = defaults.bindings.mediaDotConf;
-          defaultBindingsClipboardDotConf = defaults.bindings.clipboardDotConf;
-          defaultBindingsTilingV2DotConf = defaults.bindings.tilingV2DotConf;
-          defaultBindingsUtilitiesDotConf = defaults.bindings.utilitiesDotConf;
-          defaultEnvsDotConf = defaults.envsDotConf;
-          defaultLooknfeelDotConf = defaults.looknfeelDotConf;
-          defaultInputDotConf = defaults.inputDotConf;
-          defaultWindowsDotConf = defaults.windowsDotConf;
-          themeFile = pkgs.replaceVars (path { path = ../../../default/themed/hyprland.conf.tpl; }) {
-            inherit (config.omarchy.palette) accent_strip;
-          };
+  # Scripts and the lua config chain resolve the omarchy tree through this.
+  # sessionVariables covers login shells; systemd.user covers the uwsm-managed
+  # Hyprland session (the lua loader reads it at config parse time). The entry
+  # hyprland.lua also gets the store path substituted as its fallback.
+  home.sessionVariables.OMARCHY_PATH = "${omarchyPath}";
+  systemd.user.sessionVariables.OMARCHY_PATH = "${omarchyPath}";
 
-          configMonitorsDotConf = configs.monitorsDotConf;
-          configInputDotConf = configs.inputDotConf;
-          configBindingsDotConf = configs.bindingsDotConf;
-          configLooknfeelDotConf = configs.looknfeelDotConf;
-          configAutostartDotConf = configs.autostartDotConf;
+  xdg.configFile = {
+    "hypr/hyprland.lua".source =
+      pkgs.replaceVars (path { path = ../../../config/hypr/hyprland.lua; })
+        {
+          inherit omarchyPath;
+        };
+    "hypr/.luarc.json".source = path { path = ../../../config/hypr/.luarc.json; };
+    "hypr/autostart.lua".source = path { path = ../../../config/hypr/autostart.lua; };
+    "hypr/input.lua".source = path { path = ../../../config/hypr/input.lua; };
+    "hypr/monitors.lua".source =
+      pkgs.replaceVars (path { path = ../../../config/hypr/monitors.lua; })
+        {
+          inherit monitorConfig;
+        };
+    "hypr/bindings.lua".source =
+      pkgs.replaceVars (path { path = ../../../config/hypr/bindings.lua; })
+        {
+          inherit (cfg) passwordManager;
+          inherit bindingsExtra;
+        };
+    "hypr/looknfeel.lua".source =
+      pkgs.replaceVars (path { path = ../../../config/hypr/looknfeel.lua; })
+        {
+          inherit (hyprCfg) dwindleExtra;
+          inherit gapsSize rounding;
+        };
+
+    # Theme's Hyprland overrides, required by default/hypr/omarchy.lua as
+    # omarchy.current.theme.hyprland.
+    "omarchy/current/theme/hyprland.lua".source =
+      pkgs.replaceVars (path { path = ../../../default/themed/hyprland.lua.tpl; })
+        {
+          inherit (config.omarchy.palette) accent_strip;
         };
 
     "hypr/hypridle.conf".source =

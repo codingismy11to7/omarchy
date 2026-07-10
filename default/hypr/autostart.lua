@@ -1,8 +1,8 @@
-o.launch_on_start("hypridle")
+o.launch_on_start("@hypridle@")
 -- o.launch_on_start("mako")  -- mako runs as a service
 -- o.exec_on_start("! omarchy-toggle-enabled waybar-off && " .. o.launch("waybar"))  -- waybar runs as a service
 -- o.launch_on_start("fcitx5 --disable notificationitem")  -- TODO: haven't done fcitx yet
-o.launch_on_start("swaybg -i ~/.config/omarchy/current/background -m fill")
+o.launch_on_start("@swaybg@ -i ~/.config/omarchy/current/background -m fill")
 -- o.exec_on_start("/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1")  -- polkit-gnome runs as a service
 o.exec_on_start("omarchy-first-run")
 o.exec_on_start("omarchy-powerprofiles-init")

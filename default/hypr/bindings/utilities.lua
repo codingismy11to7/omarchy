@@ -69,3 +69,5 @@ o.bind("SUPER + CTRL + ALT + Z", "Reset zoom", function()
 end)
 
 o.bind("SUPER + SHIFT + CTRL + L", "Lock system", "omarchy-system-lock")
+
+@voxtypeBindings@

@@ -51,7 +51,7 @@ function o.bind(keys, description, dispatcher, options)
 end
 
 function o.launch(command)
-  return "uwsm-app -- " .. command
+  return "@uwsm-app@ -- " .. command
 end
 
 function o.exec_on_start(command)
@@ -85,7 +85,7 @@ function o.bind_toggle(keys, description, toggle, options)
 end
 
 function o.notify(message)
-  return "notify-send -u low " .. shell_quote(message)
+  return "@notify-send@ -u low " .. shell_quote(message)
 end
 
 function o.window(match, rules)

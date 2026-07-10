@@ -22,15 +22,16 @@ let
 
   cfg = config.omarchy;
 
-  envFile = path { path = ../../default/hypr/envs.conf; };
+  envFile = path { path = ../../default/hypr/envs.lua; };
 
   cursorSize =
     let
       lines = splitString "\n" (readFile envFile);
-      line = findFirst (l: hasPrefix "env = XCURSOR_SIZE," l) null lines;
+      line = findFirst (l: hasPrefix ''hl.env("XCURSOR_SIZE"'' l) null lines;
     in
     if line != null then
-      toInt (last (splitString "," line))
+      # hl.env("XCURSOR_SIZE", "24") — the value is the 4th "-delimited field.
+      toInt (elemAt (splitString "\"" line) 3)
     else
       throw "Failed to extract XCURSOR_SIZE from ${envFile}. The file format may have changed and the parsing logic in nix/modules/home-manager.nix needs to be updated.";
 in

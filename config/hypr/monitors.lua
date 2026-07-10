@@ -2,7 +2,7 @@
 -- List current monitors and resolutions possible: hyprctl monitors all
 
 local omarchy_gdk_scale = 2
-local omarchy_monitor_scale = "auto"
+local omarchy_monitor_scale = 2
 
 -- Optimized for retina-class 2x displays, like 13" 2.8K, 27" 5K, 32" 6K.
 -- local omarchy_gdk_scale = 2
@@ -28,3 +28,5 @@ hl.monitor({ output = "", mode = "preferred", position = "auto", scale = omarchy
 
 -- Disable the second ghost monitor on an Apple 6K XDR over Thunderbolt.
 -- hl.monitor({ output = "DP-2", disabled = true })
+
+@monitorConfig@

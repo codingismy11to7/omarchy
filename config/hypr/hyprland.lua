@@ -3,7 +3,7 @@
 -- Load user modules from ~/.config and Omarchy defaults from $OMARCHY_PATH.
 package.path = os.getenv("HOME")
   .. "/.config/?.lua;"
-  .. (os.getenv("OMARCHY_PATH") or (os.getenv("HOME") .. "/.local/share/omarchy"))
+  .. (os.getenv("OMARCHY_PATH") or "@omarchyPath@")
   .. "/?.lua;"
   .. package.path
 
