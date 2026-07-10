@@ -205,3 +205,60 @@ For UI/runtime verification: deploy to VM via the `deploy-vm` skill, then
 - After successful rebase + VM validation: update local `nix` ref via
   `git update-ref refs/heads/nix <new-tip>`, then force-push with
   `--force-with-lease`.
+
+## The 2026-07 rebase onto dev (Omarchy 4 / hyprland lua conversion)
+
+Rebased the 40-commit stack from v3.8.1 onto upstream/dev (4.0.0.alpha, 152
+commits ahead) because the hyprland-lua-conversion only exists there — master
+(3.8.2) still ships hyprlang. Hyprland 0.55 introduced lua configs and
+deprecated hyprlang entirely; dotfiles pins hyprwm/Hyprland v0.55.4.
+
+### Use --onto when master and dev have diverged
+
+`git rebase --onto upstream/dev <merge-base-with-master> rebase-dev` replays
+exactly our commits and skips upstream-master-only commits that dev lacks.
+Plain `git rebase upstream/dev` would have dragged 3.8.x master commits along.
+
+### conf→lua porting rules that worked
+
+- Customization hunks on deleted .conf files get re-implemented on the .lua
+  counterpart *inside the same commit* (vim binds in tiling-v2.lua, menu moves
+  in utilities.lua, sensitiveVolume markers in media.lua). Marker-only
+  templating hunks get dropped and re-created by one port commit at the end.
+- The port commit builds an OMARCHY_PATH nix-store tree (default/ themes/
+  config/ install/, NO bin/ — raw @marker@ script bodies must never be
+  reachable) with option-substituted lua overlays, sets it via
+  home.sessionVariables + systemd.user.sessionVariables, and substitutes it as
+  the fallback inside ~/.config/hypr/hyprland.lua.
+- helpers.lua is the central chokepoint: o.launch carries @uwsm-app@ and
+  o.notify carries @notify-send@ — one sub each covers every launch/notify.
+- BREAKING option semantics: monitorConfig/bindings/bindingsExtra/dwindleExtra/
+  envsExtra take Hyprland Lua snippets now (hl.monitor/hl.config/o.bind), not
+  hyprlang lines. All dotfiles usages were migrated in the same cycle.
+- Validate lua files with `lua -e 'loadfile(f)'` — raw marker lines fail the
+  parse (expected); re-check with simulated substitutions.
+
+### New traps discovered
+
+- **A previously-replayed commit can contain committed conflict markers.**
+  6d5197c8's snapshot of bin/omarchy-menu carried literal `<<<<<<<` blocks from
+  the May rebase (cleaned later by 98ed569d). Fidelity move: resolve only the
+  NEW conflicts, leave the old embedded markers in place so the later cleanup
+  commit replays onto them exactly as before.
+- **Never chain `git add -A && git rebase --continue` after an unverified
+  edit.** An Edit that failed (unicode glyph mismatch) left conflict markers,
+  and the chained command committed them — the exact accident that created the
+  May damage. Verify `git diff --check` / grep for markers first, as a separate
+  command.
+- After the full rebase, sweep every blob: for each file in `git ls-tree -r`,
+  grep for `^(<<<<<<< |>>>>>>> |=======$)`.
+- Upstream extracted helpers again (omarchy-notification-send,
+  omarchy-theme-bg-set, omarchy-launch-terminal/nautilus/...): subs move INTO
+  those scripts, and the old scripts' declarations legitimately shrink. The
+  marker-set audit (compare sorted unique @markers@ per file against the
+  backup tip) distinguishes moves from silent losses.
+- hl.dsp lua dispatches with `|| hyprctl dispatch` fallbacks appear all over
+  upstream's scripts now — sub @hyprctl@ on BOTH sides of the fallback.
+- Hyprland 0.55 removed `render:cm_fs_passthrough` (auto via cm_auto_hdr) and
+  the lua loader shells out to bare `find`/`sort` at config parse time
+  (session PATH must provide findutils/coreutils).
