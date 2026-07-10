@@ -71,6 +71,8 @@ in
                 findutils
                 brotli
                 bash
+                curl
+                upower
 
                 # Hyprland ecosystem
                 hypridle

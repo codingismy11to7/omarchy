@@ -70,7 +70,7 @@ args+=("-u" "$urgency")
 
 if [[ -n $description ]]; then
   description=$(printf '%b' "$description" | sed 's/^/      /')
-  notify-send "${args[@]}" "$summary" "$description"
+  @notify-send@ "${args[@]}" "$summary" "$description"
 else
-  notify-send "${args[@]}" "$summary"
+  @notify-send@ "${args[@]}" "$summary"
 fi

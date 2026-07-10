@@ -30,6 +30,7 @@ let
     bc = getExe p.bc;
     bluetui = getExe p.bluetui;
     brotli = getExe p.brotli;
+    curl = getExe p.curl;
     fastfetch = getExe p.fastfetch;
     fzf = getExe p.fzf;
     grep = getExe p.gnugrep;
@@ -52,6 +53,7 @@ let
     walker = getExe flakes.walker;
     waybar = getExe p.waybar;
     wiremix = getExe p.wiremix;
+    nautilus = getExe p.nautilus;
     xdg-terminal-exec = getExe p.xdg-terminal-exec;
 
     # Packages needing specific binary or getExe'
@@ -71,6 +73,7 @@ let
     socat = "${pkgs.socat}/bin/socat";
     swayosd-client = "${p.swayosd}/bin/swayosd-client";
     systemctl = "${p.systemd}/bin/systemctl";
+    upower = "${p.upower}/bin/upower";
     uwsm-app = "${p.uwsm}/bin/uwsm-app";
     v4l2-ctl = "${p.v4l-utils}/bin/v4l2-ctl";
     wl-copy = "${p.wl-clipboard}/bin/wl-copy";
@@ -266,6 +269,16 @@ let
       alacrittyConf = path { path = ../../../default/alacritty/screensaver.toml; };
       ghosttyConf = path { path = ../../../default/ghostty/screensaver; };
     })
+    (createScript "omarchy-launch-nautilus" {
+      inherit (exe) nautilus uwsm-app;
+    })
+    (createScript "omarchy-launch-nautilus-cwd" {
+      inherit (exe) nautilus uwsm-app;
+    })
+    (createScript "omarchy-launch-terminal" {
+      inherit (exe) uwsm-app xdg-terminal-exec;
+    })
+    (createScript "omarchy-launch-terminal-tmux" { })
     (createScript "omarchy-launch-tui" {
       inherit (exe) uwsm-app xdg-terminal-exec;
     })
@@ -308,6 +321,39 @@ let
         xkbcli
         walker
         ;
+    })
+    (createScript "omarchy-menu-tmux-keybindings" {
+      inherit (exe)
+        awk
+        hyprctl
+        jq
+        walker
+        ;
+    })
+    (createScript "omarchy-battery-capacity" {
+      inherit (exe) awk grep upower;
+    })
+    (createScript "omarchy-battery-remaining-time" {
+      inherit (exe) awk grep upower;
+    })
+    (createScript "omarchy-battery-status" {
+      inherit (exe) awk grep upower;
+    })
+    (createScript "omarchy-cmd-missing" { })
+    (createScript "omarchy-notification-battery" { })
+    (createScript "omarchy-notification-send" {
+      inherit (exe) notify-send;
+    })
+    (createScript "omarchy-notification-time" { })
+    (createScript "omarchy-notification-weather" { })
+    (createScript "omarchy-style-waybar-position" {
+      inherit (exe) sed;
+    })
+    (createScript "omarchy-weather-icon" {
+      inherit (exe) curl jq;
+    })
+    (createScript "omarchy-weather-status" {
+      inherit (exe) curl;
     })
     (createScript "omarchy-notification-dismiss" {
       inherit (exe)
