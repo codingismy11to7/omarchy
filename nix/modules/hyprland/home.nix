@@ -172,7 +172,10 @@ mkIf cfg.hyprland.enable {
   # to start when its include is missing. The chmod keeps re-runs working:
   # files copied out of the store arrive read-only, and upstream's cp would
   # fail overwriting them on the next activation.
-  home.activation.seedOmarchyToggles = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+  # Ordered before reloadSystemd: boot-time activation (nh os boot + reboot)
+  # has no user D-Bus, so reloadSystemd aborts the run there — seeding is pure
+  # filesystem work and must land regardless.
+  home.activation.seedOmarchyToggles = lib.hm.dag.entryBetween [ "reloadSystemd" ] [ "writeBoundary" ] ''
     OMARCHY_PATH=${omarchyPath} ${p.bash}/bin/bash ${omarchyPath}/install/config/toggles.sh
     OMARCHY_PATH=${omarchyPath} ${p.bash}/bin/bash ${omarchyPath}/install/config/omarchy-toggles.sh || true
     chmod -R u+w "$HOME/.local/state/omarchy/toggles" 2>/dev/null || true
