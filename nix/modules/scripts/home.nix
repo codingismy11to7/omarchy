@@ -43,9 +43,11 @@ let
     impala = getExe' p.impala "impala";
     jaq = getExe p.jaq;
     jq = getExe p.jq;
+    magick = getExe' p.imagemagick "magick";
     mpv = getExe p.mpv;
     notify-send = getExe p.libnotify;
     satty = getExe p.satty;
+    quickshell = getExe p.quickshell;
     sed = getExe p.gnused;
     slurp = getExe p.slurp;
     swaybg = getExe p.swaybg;
@@ -322,6 +324,14 @@ let
         walker
         ;
     })
+    (createScript "omarchy-menu-images" {
+      inherit (exe)
+        find
+        magick
+        quickshell
+        socat
+        ;
+    })
     (createScript "omarchy-menu-tmux-keybindings" {
       inherit (exe)
         awk
@@ -402,6 +412,7 @@ let
     (createScript "omarchy-system-shutdown" { })
     omarchy-theme-bg-next
     omarchy-theme-bg-set
+    (createScript "omarchy-theme-bg-switcher" { })
     omarchy-theme-set-obsidian
     (createScript "omarchy-toggle-enabled" { })
     (createScript "omarchy-toggle-idle" {

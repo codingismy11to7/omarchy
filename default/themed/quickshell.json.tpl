@@ -1,5 +1,5 @@
 {
-  "primary": "{{ accent }}",
-  "background": "{{ background }}",
-  "backgroundText": "{{ foreground }}"
+  "primary": "@accent@",
+  "background": "@background@",
+  "backgroundText": "@foreground@"
 }

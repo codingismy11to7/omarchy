@@ -72,6 +72,7 @@ in
                 brotli
                 bash
                 curl
+                quickshell
                 upower
 
                 # Hyprland ecosystem

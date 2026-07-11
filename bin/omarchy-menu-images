@@ -104,7 +104,7 @@ if [[ -n $current_image ]]; then
       selected_list_image="$selected_image"
       break
     elif [[ -d $dir ]]; then
-      selected_list_image=$(find -L "$dir" -maxdepth 1 -type f -samefile "$current_image" -print -quit 2>/dev/null)
+      selected_list_image=$(@find@ -L "$dir" -maxdepth 1 -type f -samefile "$current_image" -print -quit 2>/dev/null)
       [[ -n $selected_list_image ]] && break
     fi
   done
@@ -130,7 +130,7 @@ for dir in "${image_dirs[@]}"; do
       image_files+=("$image")
       image_signature=$(stat -Lc '%s:%Y' "$image") || continue
       rows_signature+="$image:$image_signature"$'\n'
-    done < <(find -L "$dir" -maxdepth 1 -type f \( -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.png' -o -iname '*.gif' -o -iname '*.bmp' -o -iname '*.webp' \) -print0 2>/dev/null | sort -z)
+    done < <(@find@ -L "$dir" -maxdepth 1 -type f \( -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.png' -o -iname '*.gif' -o -iname '*.bmp' -o -iname '*.webp' \) -print0 2>/dev/null | sort -z)
   fi
 done
 
@@ -141,7 +141,7 @@ generate_thumbnail() {
   local tmp="$thumbnail.$$.jpg"
 
   if mkdir "$lock" 2>/dev/null; then
-    if magick "${image}[0]" -auto-orient -resize '1536x864^' -gravity center -extent '1536x864' -strip -quality 82 "$tmp"; then
+    if @magick@ "${image}[0]" -auto-orient -resize '1536x864^' -gravity center -extent '1536x864' -strip -quality 82 "$tmp"; then
       mv -f "$tmp" "$thumbnail"
     else
       rm -f "$tmp" "$thumbnail"
@@ -231,13 +231,13 @@ fi
 
 ensure_selector() {
   if [[ -S $socket_path && $selector_qml -nt $socket_path ]]; then
-    quickshell kill -p "$selector_qml" >/dev/null 2>&1 || true
+    @quickshell@ kill -p "$selector_qml" >/dev/null 2>&1 || true
     rm -f "$socket_path"
   fi
 
   if [[ ! -S $socket_path ]]; then
-    quickshell kill -p "$selector_qml" >/dev/null 2>&1 || true
-    quickshell -d -p "$selector_qml" >/dev/null
+    @quickshell@ kill -p "$selector_qml" >/dev/null 2>&1 || true
+    @quickshell@ -d -p "$selector_qml" >/dev/null
 
     for ((i = 0; i < 100; i++)); do
       if [[ -S $socket_path ]]; then
@@ -253,7 +253,7 @@ ensure_selector() {
 
 send_request() {
   printf '%s\t%s\t%s\t%s\t%s\t%s\t%s\n' "$rows_payload" "$selected_list_image" "$selection_file" "$done_file" "$colors_payload" "$show_labels" "$filterable" |
-    socat -u - "UNIX-CONNECT:$socket_path"
+    @socat@ -u - "UNIX-CONNECT:$socket_path"
 }
 
 if ! ensure_selector; then
