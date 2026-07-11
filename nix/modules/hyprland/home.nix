@@ -167,6 +167,17 @@ mkIf cfg.hyprland.enable {
   home.sessionVariables.OMARCHY_PATH = "${omarchyPath}";
   systemd.user.sessionVariables.OMARCHY_PATH = "${omarchyPath}";
 
+  # Seed the toggle state files with upstream's own install scripts. Configs
+  # hard-include these (mako.ini.tpl, walker.css, hypr toggles); mako refuses
+  # to start when its include is missing. The chmod keeps re-runs working:
+  # files copied out of the store arrive read-only, and upstream's cp would
+  # fail overwriting them on the next activation.
+  home.activation.seedOmarchyToggles = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    OMARCHY_PATH=${omarchyPath} ${p.bash}/bin/bash ${omarchyPath}/install/config/toggles.sh
+    OMARCHY_PATH=${omarchyPath} ${p.bash}/bin/bash ${omarchyPath}/install/config/omarchy-toggles.sh || true
+    chmod -R u+w "$HOME/.local/state/omarchy/toggles" 2>/dev/null || true
+  '';
+
   xdg.configFile = {
     "hypr/hyprland.lua".source =
       pkgs.replaceVars (path { path = ../../../config/hypr/hyprland.lua; })
