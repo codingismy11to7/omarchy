@@ -129,6 +129,7 @@ let
       cp -r ${path { path = ../../../install; }} $out/install
       cp ${path { path = ../../../logo.txt; }} $out/logo.txt
       chmod -R u+w $out
+      patchShebangs $out
     ''
     + concatStringsSep "\n" (attrValues (mapAttrs (rel: file: "cp ${file} $out/${rel}") defaultOverlays))
   );
