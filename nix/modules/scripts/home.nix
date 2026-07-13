@@ -221,6 +221,19 @@ let
     (createScript "omarchy-hyprland-monitor-watch" {
       inherit (exe) socat;
     })
+    (createScript "omarchy-hyprland-monitor-internal" {
+      inherit (exe) hyprctl jq;
+    })
+    (createScript "omarchy-hyprland-monitor-internal-mirror" {
+      inherit (exe) hyprctl jq;
+    })
+    (createScript "omarchy-hyprland-toggle" {
+      inherit (exe) hyprctl notify-send;
+    })
+    (createScript "omarchy-hyprland-toggle-enabled" { })
+    (createScript "omarchy-hyprland-toggle-disabled" { })
+    (createScript "omarchy-hw-external-monitors" { })
+    (createScript "omarchy-hw-recover-internal-monitor" { })
     (createScript "omarchy-hyprland-window-close-all" {
       inherit (exe) hyprctl jq;
     })
