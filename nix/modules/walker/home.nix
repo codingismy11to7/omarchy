@@ -29,24 +29,33 @@ lib.mkIf cfg.hyprland.enable {
       "elephant/desktopapplications.toml".source = path {
         path = ../../../config/elephant/desktopapplications.toml;
       };
-      "elephant/menus/omarchy_themes.lua".source = pkgs.replaceVars (path {
-        path = ../../../default/elephant/omarchy_themes.lua;
-      }) {
-        omarchyThemesDir = path { path = ../../../themes; };
-        inherit (cfg) themeSetCommand;
-      };
-      "elephant/menus/omarchy_background_selector.lua".source = pkgs.replaceVars (path {
-        path = ../../../default/elephant/omarchy_background_selector.lua;
-      }) {
-        inherit (cfg) theme;
-        backgroundsDir = path { path = ../../../themes/${cfg.theme}/backgrounds; };
-      };
-      "elephant/symbols.toml".source = pkgs.replaceVars (path {
-        path = ../../../config/elephant/symbols.toml;
-      }) {
-        wl-copy = "${cfg._packages.wl-clipboard}/bin/wl-copy";
-        hyprctl = lib.getExe' cfg.hyprland.package "hyprctl";
-      };
+      "elephant/menus/omarchy_themes.lua".source =
+        pkgs.replaceVars
+          (path {
+            path = ../../../default/elephant/omarchy_themes.lua;
+          })
+          {
+            omarchyThemesDir = path { path = ../../../themes; };
+            inherit (cfg) themeSetCommand;
+          };
+      "elephant/menus/omarchy_background_selector.lua".source =
+        pkgs.replaceVars
+          (path {
+            path = ../../../default/elephant/omarchy_background_selector.lua;
+          })
+          {
+            inherit (cfg) theme;
+            backgroundsDir = path { path = ../../../themes/${cfg.theme}/backgrounds; };
+          };
+      "elephant/symbols.toml".source =
+        pkgs.replaceVars
+          (path {
+            path = ../../../config/elephant/symbols.toml;
+          })
+          {
+            wl-copy = "${cfg._packages.wl-clipboard}/bin/wl-copy";
+            hyprctl = lib.getExe' cfg.hyprland.package "hyprctl";
+          };
 
       "walker/config.toml".source = path { path = ../../../config/walker/config.toml; };
     };

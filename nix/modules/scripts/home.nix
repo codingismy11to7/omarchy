@@ -150,7 +150,9 @@ let
     })
     (createScript "omarchy-cmd-present" { })
     (createScript "omarchy-swayosd-client" { })
-  ] ++ lib.optional isx86_64 (createScript "omarchy-capture-screenrecording" {
+  ]
+  ++ lib.optional isx86_64 (
+    createScript "omarchy-capture-screenrecording" {
       inherit (exe)
         awk
         ffmpeg
@@ -166,7 +168,8 @@ let
         v4l2-ctl
         ;
       gpu-screen-recorder = getExe p.gpu-screen-recorder;
-    })
+    }
+  )
   ++ [
     (createScript "omarchy-screensaver" {
       inherit (exe)
@@ -470,24 +473,24 @@ in
       };
       home.packages = allScripts;
 
-    # Restart apps on activation so they pick up theme changes.
-    # Import wayland env vars since activation runs without them.
-    home.activation.restartThemedApps = lib.hm.dag.entryAfter [ "onFilesChange" "reloadSystemd" ] ''
-      export XDG_RUNTIME_DIR="''${XDG_RUNTIME_DIR:-/run/user/$(id -u)}"
-      eval "$(${p.systemd}/bin/systemctl --user show-environment 2>/dev/null | ${p.gnugrep}/bin/grep -E '^(WAYLAND_DISPLAY|HYPRLAND_INSTANCE_SIGNATURE)=')" || true
-      export WAYLAND_DISPLAY="''${WAYLAND_DISPLAY:-}" HYPRLAND_INSTANCE_SIGNATURE="''${HYPRLAND_INSTANCE_SIGNATURE:-}"
+      # Restart apps on activation so they pick up theme changes.
+      # Import wayland env vars since activation runs without them.
+      home.activation.restartThemedApps = lib.hm.dag.entryAfter [ "onFilesChange" "reloadSystemd" ] ''
+        export XDG_RUNTIME_DIR="''${XDG_RUNTIME_DIR:-/run/user/$(id -u)}"
+        eval "$(${p.systemd}/bin/systemctl --user show-environment 2>/dev/null | ${p.gnugrep}/bin/grep -E '^(WAYLAND_DISPLAY|HYPRLAND_INSTANCE_SIGNATURE)=')" || true
+        export WAYLAND_DISPLAY="''${WAYLAND_DISPLAY:-}" HYPRLAND_INSTANCE_SIGNATURE="''${HYPRLAND_INSTANCE_SIGNATURE:-}"
 
-      ${omarchy-theme-bg-next}/bin/omarchy-theme-bg-next >/dev/null 2>&1 || true
-      # uwsm-app doesn't work in activation context; start swaybg in its own scope
-      # so it survives the activation service's cgroup cleanup
-      sleep 0.2
-      if ! ${p.procps}/bin/pgrep -x .swaybg-wrapped >/dev/null 2>&1; then
-        ${p.systemd}/bin/systemd-run --user --scope --unit=swaybg-activation \
-          ${p.swaybg}/bin/swaybg -i "$HOME/.config/omarchy/current/background" -m fill >/dev/null 2>&1 &
-      fi
+        ${omarchy-theme-bg-next}/bin/omarchy-theme-bg-next >/dev/null 2>&1 || true
+        # uwsm-app doesn't work in activation context; start swaybg in its own scope
+        # so it survives the activation service's cgroup cleanup
+        sleep 0.2
+        if ! ${p.procps}/bin/pgrep -x .swaybg-wrapped >/dev/null 2>&1; then
+          ${p.systemd}/bin/systemd-run --user --scope --unit=swaybg-activation \
+            ${p.swaybg}/bin/swaybg -i "$HOME/.config/omarchy/current/background" -m fill >/dev/null 2>&1 &
+        fi
 
-      ${omarchy-restart-terminal}/bin/omarchy-restart-terminal >/dev/null 2>&1 || true
-    '';
+        ${omarchy-restart-terminal}/bin/omarchy-restart-terminal >/dev/null 2>&1 || true
+      '';
     })
   ];
 }

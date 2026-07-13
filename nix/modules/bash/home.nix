@@ -15,7 +15,15 @@ let
     "starship"
     "zoxide"
   ];
-  bashFiles = [ "aliases" "envs" "functions" "init" "inputrc" "rc" "shell" ];
+  bashFiles = [
+    "aliases"
+    "envs"
+    "functions"
+    "init"
+    "inputrc"
+    "rc"
+    "shell"
+  ];
 
   inherit (lib) getExe optionalString;
   inherit (pkgs.stdenv.hostPlatform) system;
@@ -42,17 +50,23 @@ in
 lib.mkIf cfg.bash.enable {
   programs.bash = {
     enable = true;
-    initExtra = readFile (path { path = ../../../default/bashrc; }) + interactiveShellInit;
+    initExtra =
+      readFile (path {
+        path = ../../../default/bashrc;
+      })
+      + interactiveShellInit;
   };
 
   home.packages = map (name: p.${name}) (filter (name: cfg.bash.${name}) optionalPkgs);
 
-  xdg.dataFile = listToAttrs (
-    map (name: {
-      name = "omarchy/default/bash/${name}";
-      value.source = path { path = ../../../default/bash + "/${name}"; };
-    }) bashFiles
-  ) // {
-    "omarchy/default/bash/fns".source = path { path = ../../../default/bash/fns; };
-  };
+  xdg.dataFile =
+    listToAttrs (
+      map (name: {
+        name = "omarchy/default/bash/${name}";
+        value.source = path { path = ../../../default/bash + "/${name}"; };
+      }) bashFiles
+    )
+    // {
+      "omarchy/default/bash/fns".source = path { path = ../../../default/bash/fns; };
+    };
 }

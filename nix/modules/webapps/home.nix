@@ -7,7 +7,16 @@ with builtins;
 let
   cfg = config.omarchy;
   wcfg = cfg.webapps;
-  inherit (lib) mkOption mkEnableOption types toLower mapAttrs' nameValuePair filterAttrs optionalString;
+  inherit (lib)
+    mkOption
+    mkEnableOption
+    types
+    toLower
+    mapAttrs'
+    nameValuePair
+    filterAttrs
+    optionalString
+    ;
 
   makeDesktopFile =
     appName: appExec: iconPath: mimeTypes:
@@ -26,11 +35,14 @@ let
 
   desktopFile = appName: "${config.xdg.dataHome}/applications/${toLower appName}.desktop";
 
-  makeLauncher = appName: appUrl: iconPath: mimeTypes:
+  makeLauncher =
+    appName: appUrl: iconPath: mimeTypes:
     makeDesktopFile appName "omarchy-launch-webapp ${appUrl}" iconPath mimeTypes;
 
-  makeSingleton = appName: appUrl: iconPath: mimeTypes:
-    makeDesktopFile appName ''omarchy-launch-or-focus-webapp "${appName}" ${appUrl}'' iconPath mimeTypes;
+  makeSingleton =
+    appName: appUrl: iconPath: mimeTypes:
+    makeDesktopFile appName ''omarchy-launch-or-focus-webapp "${appName}" ${appUrl}'' iconPath
+      mimeTypes;
 
   webappType = types.submodule {
     options = {
@@ -74,17 +86,50 @@ let
       defaultEnabled ? true,
     }:
     {
-      inherit name url singleton exec mimeTypes defaultEnabled;
+      inherit
+        name
+        url
+        singleton
+        exec
+        mimeTypes
+        defaultEnabled
+        ;
       icon = path { path = ./icons/${icon}; };
     };
 
   builtinDefs = {
-    basecamp = mkWebapp { name = "Basecamp"; url = "https://launchpad.37signals.com"; icon = "basecamp.svg"; };
-    chatgpt = mkWebapp { name = "ChatGPT"; url = "https://chatgpt.com/"; icon = "chatgpt.svg"; singleton = false; };
-    discord = mkWebapp { name = "Discord"; url = "https://discord.com/channels/@me"; icon = "discord.svg"; };
-    figma = mkWebapp { name = "Figma"; url = "https://figma.com/"; icon = "figma.svg"; singleton = false; };
-    fizzy = mkWebapp { name = "Fizzy"; url = "https://app.fizzy.do/"; icon = "fizzy.svg"; };
-    github = mkWebapp { name = "GitHub"; url = "https://github.com/"; icon = "github.svg"; };
+    basecamp = mkWebapp {
+      name = "Basecamp";
+      url = "https://launchpad.37signals.com";
+      icon = "basecamp.svg";
+    };
+    chatgpt = mkWebapp {
+      name = "ChatGPT";
+      url = "https://chatgpt.com/";
+      icon = "chatgpt.svg";
+      singleton = false;
+    };
+    discord = mkWebapp {
+      name = "Discord";
+      url = "https://discord.com/channels/@me";
+      icon = "discord.svg";
+    };
+    figma = mkWebapp {
+      name = "Figma";
+      url = "https://figma.com/";
+      icon = "figma.svg";
+      singleton = false;
+    };
+    fizzy = mkWebapp {
+      name = "Fizzy";
+      url = "https://app.fizzy.do/";
+      icon = "fizzy.svg";
+    };
+    github = mkWebapp {
+      name = "GitHub";
+      url = "https://github.com/";
+      icon = "github.svg";
+    };
     gmail = mkWebapp {
       name = "Gmail";
       url = "https://mail.google.com";
@@ -92,18 +137,72 @@ let
       exec = "omarchy-webapp-handler-gmail %u";
       mimeTypes = "x-scheme-handler/mailto";
     };
-    google-calendar = mkWebapp { name = "Google Calendar"; url = "https://calendar.google.com"; icon = "google-calendar.svg"; };
-    google-contacts = mkWebapp { name = "Google Contacts"; url = "https://contacts.google.com/"; icon = "google-contacts.svg"; };
-    google-drive = mkWebapp { name = "Google Drive"; url = "https://drive.google.com"; icon = "google-drive.svg"; };
-    google-gemini = mkWebapp { name = "Google Gemini"; url = "https://gemini.google.com/app"; icon = "google-gemini.svg"; singleton = false; };
-    google-maps = mkWebapp { name = "Google Maps"; url = "https://maps.google.com"; icon = "google-maps.svg"; singleton = false; };
-    google-messages = mkWebapp { name = "Google Messages"; url = "https://messages.google.com/web/conversations"; icon = "google-messages.svg"; };
-    google-photos = mkWebapp { name = "Google Photos"; url = "https://photos.google.com/"; icon = "google-photos.svg"; };
-    plex = mkWebapp { name = "Plex"; url = "https://app.plex.tv/desktop"; icon = "plex.svg"; defaultEnabled = false; };
-    whatsapp = mkWebapp { name = "WhatsApp"; url = "https://web.whatsapp.com/"; icon = "whatsapp.svg"; };
-    x = mkWebapp { name = "X"; url = "https://x.com/"; icon = "x.svg"; singleton = false; };
-    youtube = mkWebapp { name = "YouTube"; url = "https://youtube.com/"; icon = "youtube.svg"; singleton = false; };
-    youtube-music = mkWebapp { name = "YouTube Music"; url = "https://music.youtube.com/"; icon = "youtube-music.svg"; defaultEnabled = false; };
+    google-calendar = mkWebapp {
+      name = "Google Calendar";
+      url = "https://calendar.google.com";
+      icon = "google-calendar.svg";
+    };
+    google-contacts = mkWebapp {
+      name = "Google Contacts";
+      url = "https://contacts.google.com/";
+      icon = "google-contacts.svg";
+    };
+    google-drive = mkWebapp {
+      name = "Google Drive";
+      url = "https://drive.google.com";
+      icon = "google-drive.svg";
+    };
+    google-gemini = mkWebapp {
+      name = "Google Gemini";
+      url = "https://gemini.google.com/app";
+      icon = "google-gemini.svg";
+      singleton = false;
+    };
+    google-maps = mkWebapp {
+      name = "Google Maps";
+      url = "https://maps.google.com";
+      icon = "google-maps.svg";
+      singleton = false;
+    };
+    google-messages = mkWebapp {
+      name = "Google Messages";
+      url = "https://messages.google.com/web/conversations";
+      icon = "google-messages.svg";
+    };
+    google-photos = mkWebapp {
+      name = "Google Photos";
+      url = "https://photos.google.com/";
+      icon = "google-photos.svg";
+    };
+    plex = mkWebapp {
+      name = "Plex";
+      url = "https://app.plex.tv/desktop";
+      icon = "plex.svg";
+      defaultEnabled = false;
+    };
+    whatsapp = mkWebapp {
+      name = "WhatsApp";
+      url = "https://web.whatsapp.com/";
+      icon = "whatsapp.svg";
+    };
+    x = mkWebapp {
+      name = "X";
+      url = "https://x.com/";
+      icon = "x.svg";
+      singleton = false;
+    };
+    youtube = mkWebapp {
+      name = "YouTube";
+      url = "https://youtube.com/";
+      icon = "youtube.svg";
+      singleton = false;
+    };
+    youtube-music = mkWebapp {
+      name = "YouTube Music";
+      url = "https://music.youtube.com/";
+      icon = "youtube-music.svg";
+      defaultEnabled = false;
+    };
     zoom = mkWebapp {
       name = "Zoom";
       url = "https://app.zoom.us/wc/home";
@@ -141,32 +240,33 @@ let
     }
   ) allWebapps;
 
-  mkBuiltinOption = key: def:
+  mkBuiltinOption =
+    key: def:
     mkOption {
       type = types.submodule {
-        options.enable = mkEnableOption "${def.name} webapp" // { default = def.defaultEnabled; };
+        options.enable = mkEnableOption "${def.name} webapp" // {
+          default = def.defaultEnabled;
+        };
       };
       default = { };
       description = "Enable the ${def.name} webapp launcher";
     };
 in
 {
-  options.omarchy.webapps =
-    (mapAttrs mkBuiltinOption builtinDefs)
-    // {
-      custom = mkOption {
-        type = types.attrsOf webappType;
-        default = { };
-        description = "Custom web applications to create desktop launchers for";
-        example = {
-          Plex = {
-            url = "https://app.plex.tv/desktop";
-            icon = ./icons/plex.svg;
-            singleton = true;
-          };
+  options.omarchy.webapps = (mapAttrs mkBuiltinOption builtinDefs) // {
+    custom = mkOption {
+      type = types.attrsOf webappType;
+      default = { };
+      description = "Custom web applications to create desktop launchers for";
+      example = {
+        Plex = {
+          url = "https://app.plex.tv/desktop";
+          icon = ./icons/plex.svg;
+          singleton = true;
         };
       };
     };
+  };
 
   config = lib.mkIf (cfg.hyprland.enable && allWebapps != { }) {
     home.file = webappFiles;

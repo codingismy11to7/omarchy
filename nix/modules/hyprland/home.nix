@@ -66,9 +66,7 @@ let
         attrValues (mapAttrs (k: v: ''hl.env("${k}", "${v}")'') hyprCfg.envs)
       );
     in
-    envsLines
-    + (if envsLines != "" && hyprCfg.envsExtra != "" then "\n" else "")
-    + hyprCfg.envsExtra;
+    envsLines + (if envsLines != "" && hyprCfg.envsExtra != "" then "\n" else "") + hyprCfg.envsExtra;
 
   # Option-substituted overlays for the shared OMARCHY_PATH defaults tree.
   # Everything else in the tree ships as-is from the repo.
@@ -131,7 +129,9 @@ let
       chmod -R u+w $out
       patchShebangs $out
     ''
-    + concatStringsSep "\n" (attrValues (mapAttrs (rel: file: "cp ${file} $out/${rel}") defaultOverlays))
+    + concatStringsSep "\n" (
+      attrValues (mapAttrs (rel: file: "cp ${file} $out/${rel}") defaultOverlays)
+    )
   );
 
   # User-editable config values. These options take Hyprland Lua snippets now
@@ -145,11 +145,10 @@ let
     bindingsLines + (if bindingsLines != "" && extra != "" then "\n" else "") + extra;
 
   gapsSize =
-    if !hyprCfg.widerWindowGaps then
-      ""
-    else
-      "hl.config({ general = { gaps_in = 10, gaps_out = 20 } })";
-  rounding = "hl.config({ decoration = { rounding = ${if hyprCfg.roundWindowCorners then "8" else "0"} } })";
+    if !hyprCfg.widerWindowGaps then "" else "hl.config({ general = { gaps_in = 10, gaps_out = 20 } })";
+  rounding = "hl.config({ decoration = { rounding = ${
+    if hyprCfg.roundWindowCorners then "8" else "0"
+  } } })";
 
   screensaver = {
     activationSeconds = toString cfg.screensaver.activationSeconds;
@@ -176,32 +175,28 @@ mkIf cfg.hyprland.enable {
   # Ordered before reloadSystemd: boot-time activation (nh os boot + reboot)
   # has no user D-Bus, so reloadSystemd aborts the run there — seeding is pure
   # filesystem work and must land regardless.
-  home.activation.seedOmarchyToggles = lib.hm.dag.entryBetween [ "reloadSystemd" ] [ "writeBoundary" ] ''
-    OMARCHY_PATH=${omarchyPath} ${p.bash}/bin/bash ${omarchyPath}/install/config/toggles.sh
-    OMARCHY_PATH=${omarchyPath} ${p.bash}/bin/bash ${omarchyPath}/install/config/omarchy-toggles.sh || true
-    chmod -R u+w "$HOME/.local/state/omarchy/toggles" 2>/dev/null || true
-  '';
+  home.activation.seedOmarchyToggles =
+    lib.hm.dag.entryBetween [ "reloadSystemd" ] [ "writeBoundary" ]
+      ''
+        OMARCHY_PATH=${omarchyPath} ${p.bash}/bin/bash ${omarchyPath}/install/config/toggles.sh
+        OMARCHY_PATH=${omarchyPath} ${p.bash}/bin/bash ${omarchyPath}/install/config/omarchy-toggles.sh || true
+        chmod -R u+w "$HOME/.local/state/omarchy/toggles" 2>/dev/null || true
+      '';
 
   xdg.configFile = {
-    "hypr/hyprland.lua".source =
-      pkgs.replaceVars (path { path = ../../../config/hypr/hyprland.lua; })
-        {
-          inherit omarchyPath;
-        };
+    "hypr/hyprland.lua".source = pkgs.replaceVars (path { path = ../../../config/hypr/hyprland.lua; }) {
+      inherit omarchyPath;
+    };
     "hypr/.luarc.json".source = path { path = ../../../config/hypr/.luarc.json; };
     "hypr/autostart.lua".source = path { path = ../../../config/hypr/autostart.lua; };
     "hypr/input.lua".source = path { path = ../../../config/hypr/input.lua; };
-    "hypr/monitors.lua".source =
-      pkgs.replaceVars (path { path = ../../../config/hypr/monitors.lua; })
-        {
-          inherit monitorConfig;
-        };
-    "hypr/bindings.lua".source =
-      pkgs.replaceVars (path { path = ../../../config/hypr/bindings.lua; })
-        {
-          inherit (cfg) passwordManager;
-          inherit bindingsExtra;
-        };
+    "hypr/monitors.lua".source = pkgs.replaceVars (path { path = ../../../config/hypr/monitors.lua; }) {
+      inherit monitorConfig;
+    };
+    "hypr/bindings.lua".source = pkgs.replaceVars (path { path = ../../../config/hypr/bindings.lua; }) {
+      inherit (cfg) passwordManager;
+      inherit bindingsExtra;
+    };
     "hypr/looknfeel.lua".source =
       pkgs.replaceVars (path { path = ../../../config/hypr/looknfeel.lua; })
         {

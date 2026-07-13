@@ -1,5 +1,19 @@
 {
   "enabledPlugins": {
     "serena@claude-plugins-official": true
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "{ f=$(grep -oE '\"file_path\"[[:space:]]*:[[:space:]]*\"[^\"]*\"' | head -1 | sed -E 's/.*\"file_path\"[[:space:]]*:[[:space:]]*\"([^\"]*)\".*/\\1/'); case \"$f\" in *.nix) d=$(dirname \"$f\"); while [ \"$d\" != / ] && [ ! -e \"$d/flake.nix\" ]; do d=$(dirname \"$d\"); done; [ -e \"$d/flake.nix\" ] && (cd \"$d\" && nix fmt \"$f\"); esac; } 2>/dev/null || true",
+            "statusMessage": "nix fmt"
+          }
+        ]
+      }
+    ]
   }
 }
