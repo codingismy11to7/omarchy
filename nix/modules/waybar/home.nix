@@ -34,6 +34,7 @@ lib.mkIf cfg.hyprland.enable {
         alacritty = lib.getExe p.alacritty;
         pamixer = lib.getExe p.pamixer;
         xdg-terminal-exec = lib.getExe p.xdg-terminal-exec;
+        notify-send = lib.getExe p.libnotify;
       };
       onChange = "${cfg.scripts.omarchy-restart-waybar}/bin/omarchy-restart-waybar";
     };
