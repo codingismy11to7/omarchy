@@ -173,6 +173,7 @@
   "custom/idle-indicator": {
     "on-click": "omarchy-toggle-idle",
     "exec": "$OMARCHY_PATH/default/waybar/indicators/idle.sh",
+    "interval": 5,
     "signal": 9,
     "return-type": "json"
   },
