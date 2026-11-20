@@ -28,6 +28,7 @@ in
 {
   imports = [
     ./bash/core.nix
+    ./browser/core.nix
     ./gaming/core.nix
     ./qt/core.nix
     ./sddm/core.nix

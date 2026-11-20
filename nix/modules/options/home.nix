@@ -131,6 +131,7 @@ in
                 brave
                 chromium
                 google-chrome
+                microsoft-edge
 
                 # Theming
                 yaru-theme
@@ -194,6 +195,11 @@ in
               type = types.package;
               readOnly = true;
               description = "Google Chrome browser wrapped with omarchy extensions";
+            };
+            microsoft-edge = mkOption {
+              type = types.package;
+              readOnly = true;
+              description = "Microsoft Edge browser wrapped with omarchy extensions";
             };
           };
         };
